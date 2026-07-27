@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Smooth As Velvet Music — original contemporary jazz, late-night grooves, radio, and music licensing." />
+  <title>Smooth As Velvet Music</title>
+  <style>
+    :root {
+      --cream: #f7f1e5;
+      --cream-2: #efe4d0;
+      --ink: #13231f;
+      --gold: #b88a3b;
+      --gold-light: #d8b56e;
+      --muted: #6e6b64;
+      --white: #fffdf8;
+      --shadow: 0 20px 50px rgba(24, 35, 30, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247, 241, 229, 0.96);
+      border-bottom: 1px solid rgba(184, 138, 59, 0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 265px;
+    }
+
+    .logo-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--gold-light);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 30px;
+      letter-spacing: 1px;
+      border: 1px solid rgba(216, 181, 110, 0.5);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 22px;
+      letter-spacing: 0.8px;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 4px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    nav a { padding: 8px 0; border-bottom: 2px solid transparent; }
+    nav a:hover { color: var(--gold); border-color: var(--gold); }
+
+    .hero {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 82px 24px 58px;
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 720px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -2.8px;
+    }
+
+    .hero p {
+      max-width: 660px;
+      margin: 26px 0 0;
+      color: #4f554f;
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 1px solid var(--gold);
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(19, 35, 31, 0.14); }
+    .btn-primary { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .btn-secondary { background: transparent; color: var(--gold); }
+
+    .featured-card {
+      overflow: hidden;
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(184, 138, 59, 0.28);
+      background: var(--white);
+    }
+
+    .featured-visual {
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 38px;
+      color: var(--gold-light);
+      background:
+        radial-gradient(circle at 68% 30%, rgba(184, 138, 59, 0.28), transparent 32%),
+        linear-gradient(140deg, #09120f, #18342d 65%, #0d1915);
+    }
+
+    .featured-visual .monogram {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 82px;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .featured-visual h2 {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 30px;
+      letter-spacing: 2px;
+    }
+
+    .featured-visual p {
+      margin: 10px 0 0;
+      color: var(--gold-light);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .featured-meta {
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--white);
+    }
+
+    .featured-meta small {
+      color: var(--gold);
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .featured-meta h3 {
+      margin: 6px 0 3px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 25px;
+    }
+
+    .featured-meta span { color: var(--muted); }
+
+    .play {
+      flex: 0 0 auto;
+      width: 54px;
+      height: 54px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--white);
+      cursor: pointer;
+      font-size: 19px;
+    }
+
+    .feature-band {
+      background: var(--cream-2);
+      border-top: 1px solid rgba(184, 138, 59, 0.25);
+      border-bottom: 1px solid rgba(184, 138, 59, 0.25);
+    }
+
+    .features {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 34px 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      background: rgba(255, 253, 248, 0.75);
+      border: 1px solid rgba(184, 138, 59, 0.26);
+      border-radius: 18px;
+      padding: 25px;
+      min-height: 150px;
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .feature:hover { transform: translateY(-3px); background: var(--white); }
+    .icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #e5d2aa;
+      font-size: 22px;
+    }
+
+    .feature h3 { margin: 0 0 8px; font-size: 15px; letter-spacing: 0.7px; }
+    .feature p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 14px; }
+    .arrow { color: var(--gold); font-size: 24px; }
+
+    .about {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 74px 24px;
+      text-align: center;
+    }
+
+    .about h2 {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(36px, 5vw, 58px);
+    }
+
+    .about p {
+      max-width: 760px;
+      margin: 20px auto 0;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    footer {
+      color: var(--white);
+      background: var(--ink);
+      border-top: 3px solid var(--gold);
+    }
+
+    .footer-wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 42px 24px 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 24px;
+      color: var(--gold-light);
+    }
+
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; }
+    .copyright {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px 28px;
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .nav-wrap { align-items: flex-start; }
+      nav { display: none; }
+      .hero { grid-template-columns: 1fr; padding-top: 54px; gap: 42px; }
+      .features { grid-template-columns: 1fr; }
+      .footer-wrap { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .brand-copy strong { font-size: 17px; }
+      .brand-copy span { letter-spacing: 2px; }
+      .logo-box { width: 58px; height: 58px; font-size: 24px; }
+      h1 { font-size: 50px; letter-spacing: -1.5px; }
+      .hero p { font-size: 17px; }
+      .featured-visual { min-height: 280px; }
+      .featured-visual .monogram { font-size: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#home" aria-label="Smooth As Velvet Music home">
+        <div class="logo-box">S&V</div>
+        <div class="brand-copy">
+          <strong>SMOOTH AS VELVET</strong>
+          <span>MUSIC</span>
+        </div>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#listen">Listen</a>
+        <a href="#midnight">Midnight Sessions</a>
+        <a href="#radio">Radio</a>
+        <a href="#licensing">Licensing</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Original Music • Radio • Licensing</div>
+        <h1>Music for moments that deserve to linger.</h1>
+        <p>
+          Original contemporary jazz, late-night grooves, and cinematic instrumentals
+          from Smooth As Velvet Music.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#listen">▶ Listen Now</a>
+          <a class="btn btn-secondary" href="#radio">◉ Play the Radio</a>
+        </div>
+      </div>
+
+      <article class="featured-card" id="listen">
+        <div class="featured-visual">
+          <div>
+            <div class="monogram">S&V</div>
+            <h2>SMOOTH AS VELVET</h2>
+            <p>Licensing • Music • Radio</p>
+          </div>
+        </div>
+        <div class="featured-meta">
+          <div>
+            <small>Featured Track</small>
+            <h3>Midtown After Dark</h3>
+            <span>Smooth As Velvet</span>
+          </div>
+          <button class="play" aria-label="Play featured track" onclick="alert('Connect this button to your audio or YouTube link.')">▶</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="feature-band">
+      <div class="features">
+        <a class="feature" href="#listen">
+          <div class="icon">♪</div>
+          <div>
+            <h3>ORIGINAL CATALOG</h3>
+            <p>Listen on demand to original tracks and curated collections.</p>
+          </div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="feature" id="radio" href="#radio">
+          <div class="icon">◉</div>
+          <div>
+            <h3>24/7 RADIO</h3>
+            <p>Keep the music playing all day and all night.</p>
+          </div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="feature" id="licensing" href="mailto:rpdrl730@gmail.com?subject=Smooth%20As%20Velvet%20Licensing">
+          <div class="icon">▣</div>
+          <div>
+            <h3>LICENSING</h3>
+            <p>Professional music licensing for your project or business.</p>
+          </div>
+          <div class="arrow">›</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="about" id="midnight">
+      <div class="eyebrow">Smooth As Velvet Music Presents</div>
+      <h2>Midnight Sessions</h2>
+      <p>
+        Late-night contemporary smooth jazz built around musical conversations:
+        concert flute leads, baby-grand piano answers, and soprano sax adds tasteful replies.
+      </p>
+    </section>
+
+    <section class="about" id="about">
+      <div class="eyebrow">About the Music</div>
+      <h2>Warm grooves. Memorable melodies. A signature sound.</h2>
+      <p>
+        Smooth As Velvet Music creates polished instrumental music for listeners,
+        radio programming, visual media, and licensing opportunities.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-wrap">
+      <div class="footer-brand">S&V — Smooth As Velvet Music</div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#listen">Listen</a>
+        <a href="#licensing">Licensing</a>
+        <a href="mailto:rpdrl730@gmail.com">Contact</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 Smooth As Velvet Music. All Rights Reserved.</div>
+  </footer>
+</body>
+</html>
