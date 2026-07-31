@@ -143,6 +143,31 @@
       gap: 14px;
     }
 
+    .live-player {
+      max-width: 660px;
+      margin-top: 28px;
+      padding: 20px 22px;
+      border: 1px solid rgba(184, 138, 59, 0.38);
+      border-radius: 18px;
+      background: rgba(255, 253, 248, 0.78);
+      box-shadow: 0 12px 30px rgba(24, 35, 30, 0.08);
+    }
+
+    .live-player label {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .live-player audio {
+      display: block;
+      width: 100%;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -389,6 +414,13 @@
           <a class="btn btn-primary" href="#listen">▶ Listen Now</a>
           <a class="btn btn-secondary" href="#radio">◉ Play the Radio</a>
         </div>
+        <div class="live-player" id="radio">
+          <label for="live-radio">Listen Live</label>
+          <audio id="live-radio" controls preload="none">
+            <source src="https://icy.cloudrad.io/f6844eec" type="audio/mpeg" />
+            Your browser does not support the audio player.
+          </audio>
+        </div>
       </div>
 
       <article class="featured-card" id="listen">
@@ -421,7 +453,7 @@
           <div class="arrow">›</div>
         </a>
 
-        <a class="feature" id="radio" href="#radio">
+        <a class="feature" href="#radio">
           <div class="icon">◉</div>
           <div>
             <h3>24/7 RADIO</h3>
