@@ -4,21 +4,15 @@ backend:
 media_folder: "media"
 public_folder: "/media"
 collections:
-  - name: "catalog"
-    label: "Catalog"
-    files:
-      - name: "tracks"
-        label: "Tracks"
-        file: "tracks.json"
-        format: "json"
-        fields:
-          - name: "tracks"
-            label: "Tracks"
-            label_singular: "Track"
-            widget: "list"
-            fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Length", name: "length", widget: "string", default: "30s preview"}
-              - {label: "Mood / Description", name: "mood", widget: "text"}
-              - {label: "Tags", name: "tags", widget: "list", default: []}
-              - {label: "Audio File", name: "audio", widget: "file", required: false}
+  - name: "tracks"
+    label: "Tracks"
+    folder: "tracks"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Length", name: "length", widget: "string", default: "30s preview"}
+      - {label: "Mood / Description", name: "mood", widget: "text"}
+      - {label: "Tags", name: "tags", widget: "list", default: []}
+      - {label: "Audio File", name: "audio", widget: "file"}
+
