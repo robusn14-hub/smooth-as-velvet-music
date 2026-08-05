@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Smooth As Velvet Music - original contemporary jazz, late-night grooves, 24/7 radio, and music licensing for hotels, spas, restaurants, podcasts, and media." />
+<title>Smooth As Velvet Music</title>
+<style>
+:root {
+--navy: #0d1b2a;
+--navy-deep: #0a1420;
+--navy-panel: #12263b;
+--gold: #d4af37;
+--gold-soft: #e8cf83;
+--warm-white: #f5f2ea;
+--muted: #b9c4d0;
+--shadow: 0 20px 50px rgba(5,12,20,0.45);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--warm-white); background: var(--navy); font-family: Arial, Helvetica, sans-serif; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+.site-header { position: sticky; top: 0; z-index: 20; color: var(--warm-white); background: rgba(10,20,32,0.97); border-bottom: 1px solid var(--gold); backdrop-filter: blur(10px); }
+.nav-wrap { max-width: 1220px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 14px; min-width: 265px; }
+.logo-box { width: 72px; height: 72px; border-radius: 12px; background: var(--navy-deep); color: var(--gold); display: grid; place-items: center; box-shadow: var(--shadow); font-family: Georgia, 'Times New Roman', serif; font-size: 30px; letter-spacing: 1px; border: 1px solid var(--gold); }
+.brand-copy strong { display: block; font-family: Georgia, 'Times New Roman', serif; font-size: 22px; letter-spacing: 0.8px; }
+.brand-copy span { display: block; margin-top: 3px; color: var(--gold); font-size: 12px; letter-spacing: 4px; }
+nav { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: flex-end; font-size: 13px; font-weight: 700; letter-spacing: 0.7px; text-transform: uppercase; }
+nav a { padding: 8px 0; border-bottom: 2px solid transparent; }
+nav a:hover { color: var(--gold); border-color: var(--gold); }
+.nav-upload-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; background: var(--gold); color: var(--navy-deep); border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-bottom: none !important; transition: background 0.2s, transform 0.2s; }
+.nav-upload-btn:hover { background: var(--gold-soft); color: var(--navy-deep); transform: translateY(-1px); border-color: transparent !important; }
+.hero { max-width: 1220px; margin: 0 auto; padding: 82px 24px 58px; display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 64px; align-items: center; }
+.eyebrow { color: var(--gold); font-weight: 800; letter-spacing: 2px; font-size: 13px; text-transform: uppercase; margin-bottom: 18px; }
+h1 { margin: 0; max-width: 720px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(52px,7vw,88px); line-height: 0.98; letter-spacing: -2.8px; }
+.hero p { max-width: 660px; margin: 26px 0 0; color: var(--muted); font-size: 19px; line-height: 1.7; }
+.actions { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; }
+.live-player { max-width: 660px; margin-top: 28px; padding: 20px 22px; border: 1px solid var(--gold); border-radius: 18px; background: var(--navy-panel); box-shadow: 0 12px 30px rgba(5,12,20,0.3); }
+.live-player label { display: block; margin-bottom: 12px; color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; }
+.live-player audio { display: block; width: 100%; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border-radius: 999px; border: 1px solid var(--gold); font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; font-size: 13px; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(5,12,20,0.4); }
+.btn-primary { background: var(--gold); color: var(--navy-deep); }
+.btn-primary:hover { background: var(--gold-soft); }
+.btn-secondary { background: transparent; color: var(--warm-white); }
+.btn-secondary:hover { background: var(--gold); color: var(--navy-deep); }
+.featured-card { overflow: hidden; border-radius: 26px; box-shadow: var(--shadow); border: 1px solid var(--gold); background: var(--navy-panel); }
+.featured-visual { min-height: 360px; display: grid; place-items: center; text-align: center; padding: 38px; color: var(--gold); background: radial-gradient(circle at 68% 30%, rgba(212,175,55,0.22), transparent 32%), var(--navy-deep); }
+.featured-visual .monogram { font-family: Georgia, 'Times New Roman', serif; font-size: 82px; line-height: 1; margin-bottom: 14px; }
+.featured-visual h2 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 30px; letter-spacing: 2px; }
+.featured-visual p { margin: 10px 0 0; color: var(--gold); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
+.featured-meta { padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: var(--navy-panel); }
+.featured-meta small { color: var(--gold); font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; }
+.featured-meta h3 { margin: 6px 0 3px; font-family: Georgia, 'Times New Roman', serif; font-size: 25px; }
+.featured-meta span { color: var(--muted); }
+.section { max-width: 1220px; margin: 0 auto; padding: 64px 24px; }
+.section-head { text-align: center; margin-bottom: 38px; }
+.section-head h2 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(34px,5vw,54px); }
+.section-head p { max-width: 720px; margin: 16px auto 0; color: var(--muted); font-size: 18px; line-height: 1.7; }
+.catalog-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+.track { background: var(--navy-panel); border: 1px solid rgba(212,175,55,0.4); border-radius: 18px; padding: 22px 24px; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+.track:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 14px 30px rgba(5,12,20,0.4); }
+.track-top { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+.track h3 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 22px; color: var(--warm-white); }
+.track .len { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; }
+.track .mood { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.tags { margin: 14px 0 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(212,175,55,0.5); border-radius: 999px; padding: 4px 11px; }
+.track audio { width: 100%; margin-top: 6px; }
+.license-row { margin-top: 14px; }
+.license-row a { font-size: 12px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--gold); }
+.catalog-empty { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 30px; }
+.about-band { background: var(--navy-deep); border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
+.about { max-width: 1000px; margin: 0 auto; padding: 74px 24px; text-align: center; }
+.about h2 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(36px,5vw,58px); }
+.about p { max-width: 760px; margin: 20px auto 0; font-size: 18px; line-height: 1.75; color: var(--muted); }
+.contact-box { max-width: 640px; margin: 44px auto 0; padding: 30px; text-align: center; background: var(--navy-panel); border: 1px solid var(--gold); border-radius: 18px; }
+.contact-box h3 { margin: 0 0 10px; font-family: Georgia, 'Times New Roman', serif; font-size: 26px; }
+.contact-box p { margin: 0 0 18px; color: var(--muted); }
+footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px solid var(--gold); }
+.footer-wrap { max-width: 1220px; margin: 0 auto; padding: 42px 24px 28px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+.footer-brand { font-family: Georgia, 'Times New Roman', serif; font-size: 24px; color: var(--gold); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; }
+.footer-links a:hover { color: var(--gold); }
+.copyright { max-width: 1220px; margin: 0 auto; padding: 0 24px 28px; color: var(--muted); font-size: 13px; }
+@media (max-width: 900px) {
+nav { display: none; }
+.hero { grid-template-columns: 1fr; padding-top: 54px; gap: 42px; }
+.catalog-grid { grid-template-columns: 1fr; }
+.footer-wrap { grid-template-columns: 1fr; }
+}
+.float-upload { position: fixed; bottom: 28px; right: 28px; z-index: 999; display: inline-flex; align-items: center; gap: 9px; padding: 14px 22px; background: var(--gold); color: var(--navy-deep); border-radius: 999px; font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 8px 28px rgba(5,12,20,0.55); text-decoration: none; transition: background 0.2s, transform 0.2s; }
+.float-upload:hover { background: var(--gold-soft); transform: translateY(-3px); }
+</style>
+</head>
+<body id="home">
+<header class="site-header">
+<div class="nav-wrap">
+<a class="brand" href="#home" aria-label="Smooth As Velvet Music home">
+<div class="logo-box">S&amp;V</div>
+<div class="brand-copy">
+<strong>SMOOTH AS VELVET</strong>
+<span>MUSIC</span>
+</div>
+</a>
+<nav aria-label="Main navigation">
+<a href="#home">Home</a>
+<a href="#catalog">Catalog</a>
+<a href="#midnight">Midnight Sessions</a>
+<a href="#radio">Radio</a>
+<a href="#licensing">Licensing</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<a class="nav-upload-btn" href="upload.html">&#127925; Upload Track</a>
+</nav>
+</div>
+</header>
+<main>
+<section class="hero">
+<div>
+<div class="eyebrow">Original Music - 24/7 Radio - Licensing</div>
+<h1>Music for moments that deserve to linger.</h1>
+<p>Curated smooth jazz for refined spaces, thoughtful brands, and cinematic storytelling - original instrumentals crafted for hospitality, media, and brand storytelling.</p>
+<div class="actions">
+<a class="btn btn-primary" href="#catalog">Listen to the Catalog</a>
+<a class="btn btn-secondary" href="#radio">Play the Radio</a>
+<a class="btn btn-primary" href="upload.html">&#127925; Upload Track</a>
+</div>
+<div class="live-player">
+<label for="live-radio">Listen Live</label>
+<audio id="live-radio" controls preload="none">
+<source src="https://icy.cloudrad.io/f6844eec" type="audio/mpeg" />
+Your browser does not support the audio player.
+</audio>
+</div>
+</div>
+<article class="featured-card">
+<div class="featured-visual">
+<div>
+<div class="monogram">S&amp;V</div>
+<h2>SMOOTH AS VELVET</h2>
+<p>Licensing - Music - Radio</p>
+</div>
+</div>
+<div class="featured-meta">
+<div>
+<small>Featured Track</small>
+<h3>Midnight Birmingham</h3>
+<span>Midnight Sessions, Album 1</span>
+</div>
+</div>
+</article>
+</section>
+<section class="section" id="catalog">
+<div class="section-head">
+<h2>Catalog</h2>
+<p>An open library - browse every track and choose what fits your project. Preview each piece, then reach out to license. Mood and use tags are guidance only, never restrictions.</p>
+</div>
+<div class="catalog-grid" id="catalog-grid">
+<div class="catalog-empty">Loading catalog...</div>
+</div>
+</section>
+<section class="about-band">
+<div class="about" id="midnight">
+<div class="eyebrow">Smooth As Velvet Music Presents</div>
+<h2>Midnight Sessions</h2>
+<p>Late-night contemporary smooth jazz built around musical conversations: concert flute leads, baby-grand piano answers, and soprano sax adds tasteful replies.</p>
+</div>
+</section>
+<section class="section" id="radio">
+<div class="section-head">
+<h2>24/7 Radio</h2>
+<p>The always-on Smooth As Velvet stream - press play and let the music run all day and all night.</p>
+</div>
+<div class="live-player" style="margin:0 auto;">
+<label for="radio-stream">Listen Live</label>
+<audio id="radio-stream" controls preload="none">
+<source src="https://icy.cloudrad.io/f6844eec" type="audio/mpeg" />
+Your browser does not support the audio player.
+</audio>
+</div>
+</section>
+<section class="about" id="about">
+<div class="eyebrow">About the Music</div>
+<h2>Warm grooves. Memorable melodies. A signature sound.</h2>
+<p>Smooth As Velvet Music creates polished, 100% original instrumental music for listeners, radio programming, visual media, and licensing opportunities - with no copyright worries for your project.</p>
+</section>
+<section class="section" id="contact">
+<div class="contact-box" id="licensing">
+<h3>Licensing &amp; Contact</h3>
+<p>Tell us about your project - hotel, spa, restaurant, podcast, or media - and we will help you find the right track.</p>
+<a class="btn btn-primary" href="mailto:licensing@smoothasvelvetmusic.com?subject=Smooth%20As%20Velvet%20Licensing">Email Licensing</a>
+</div>
+</section>
+</main>
+<footer>
+<div class="footer-wrap">
+<div class="footer-brand">S&amp;V - Smooth As Velvet Music</div>
+<div class="footer-links">
+<a href="#home">Home</a>
+<a href="#catalog">Catalog</a>
+<a href="#radio">Radio</a>
+<a href="#licensing">Licensing</a>
+<a href="mailto:licensing@smoothasvelvetmusic.com">Contact</a>
+<a href="upload.html">Upload Track</a>
+</div>
+</div>
+<div class="copyright">&copy; 2026 Smooth As Velvet Music. All Rights Reserved.</div>
+</footer>
+<script>
+var amp = String.fromCharCode(38), lt = String.fromCharCode(60), gt = String.fromCharCode(62), quot = String.fromCharCode(34);
+function esc(s) {
+return String(s == null ? '' : s).split(amp).join(amp + 'amp;').split(lt).join(amp + 'lt;').split(gt).join(amp + 'gt;').split(quot).join(amp + 'quot;');
+}
+function trackCard(t) {
+var title = esc(t.title);
+var mood = esc(t.mood);
+var len = esc(t.length || '30s preview');
+var audio = esc(t.audio || t.file || '');
+var tags = (t.tags || []).map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join('');
+var mailSubject = encodeURIComponent('License: ' + (t.title || ''));
+var html = '';
+html += '<div class="track">';
+html += '<div class="track-top"><h3>' + title + '</h3><span class="len">' + len + '</span></div>';
+html += '<p class="mood">' + mood + '</p>';
+html += '<div class="tags">' + tags + '</div>';
+if (audio) {
+html += '<audio controls preload="none"><source src="' + audio + '" type="audio/mpeg" />Preview coming soon.</audio>';
+}
+html += '<div class="license-row"><a href="mailto:licensing@smoothasvelvetmusic.com?subject=' + mailSubject + '">License this track</a></div>';
+html += '</div>';
+return html;
+}
+function renderCatalog(tracks) {
+var grid = document.getElementById('catalog-grid');
+if (!grid) return;
+if (!tracks || !tracks.length) {
+grid.innerHTML = '<div class="catalog-empty">No tracks yet. Add your first track from the Upload page.</div>';
+return;
+}
+grid.innerHTML = tracks.map(trackCard).join('');
+}
+fetch('tracks.json', { cache: 'no-store' })
+.then(function (r) { if (!r.ok) throw new Error('load failed'); return r.json(); })
+.then(function (data) { var tracks = Array.isArray(data) ? data : (data.tracks || []); renderCatalog(tracks); })
+.catch(function () { var grid = document.getElementById('catalog-grid'); if (grid) grid.innerHTML = '<div class="catalog-empty">Catalog could not be loaded.</div>'; });
+</script>
+<a class="float-upload" href="upload.html">🎵 Upload Track</a>
+</body>
+</html>
