@@ -1,112 +1,72 @@
 [
   {
     "title": "Midnight Birmingham",
-    "length": "30s preview",
-    "mood": "Midnight Sessions, Album 1 ÃÂ¢ÃÂÃÂ warm late-night groove with a cinematic pulse.",
-    "tags": [
-      "Hotel",
-      "Lounge",
-      "Cinematic"
-    ],
-    "audio": "Midnight%20Birmingham.mp3"
+    "length": "4:32",
+    "mood": "Late-night skyline \u2014 smoky sax over warm Rhodes chords",
+    "tags": ["late-night", "saxophone", "mellow"],
+    "audio": "tracks/Midnight%20Birmingham.mp3"
   },
   {
-    "title": "City Lights & Silence",
-    "length": "30s preview",
-    "mood": "Reflective, spacious smooth jazz for evening and downtime scenes.",
-    "tags": [
-      "Spa",
-      "Reflective",
-      "Ambient"
-    ],
-    "audio": "City%20Lights%20and%20Silence.mp3"
-  },
-  {
-    "title": "Morris Avenue Rain",
-    "length": "30s preview",
-    "mood": "Midnight Sessions, Album 1 ÃÂ¢ÃÂÃÂ rainy-night mood with soft flute and piano.",
-    "tags": [
-      "Restaurant",
-      "Moody",
-      "Jazz"
-    ],
-    "audio": "Morris%20Avenue%20Rain.mp3"
-  },
-  {
-    "title": "Highway in G Minor",
-    "length": "30s preview",
-    "mood": "Forward-moving groove ÃÂ¢ÃÂÃÂ great for travel, montage, and brand storytelling.",
-    "tags": [
-      "Podcast",
-      "Travel",
-      "Groove"
-    ],
-    "audio": "Highway%20in%20G%20Minor.mp3"
-  },
-  {
-    "title": "Warm Conversation",
-    "length": "30s preview",
-    "mood": "Gentle interplay of flute, piano, and sax ÃÂ¢ÃÂÃÂ inviting and unobtrusive.",
-    "tags": [
-      "Hospitality",
-      "Warm",
-      "Background"
-    ],
-    "audio": "Warm%20Conversation.mp3"
-  },
-  {
-    "title": "Blue Monday",
-    "length": "30s preview",
-    "mood": "Slow-burning blues-tinged jazz for intimate, upscale settings.",
-    "tags": [
-      "Cigar Bar",
-      "Blues",
-      "Intimate"
-    ],
-    "audio": "Blue%20Monday.mp3"
-  },
-  {
-    "title": "A Song in the Sound of Flute",
-    "length": "30s preview",
-    "mood": "Concert flute leads a delicate, serene melody ÃÂ¢ÃÂÃÂ elegant and calming.",
-    "tags": [
-      "Spa",
-      "Wellness",
-      "Serene"
-    ],
-    "audio": "A%20Song%20in%20the%20Sound%20of%20Flute.mp3"
-  },
-  {
-    "title": "Evening on the Coast",
-    "length": "30s preview",
-    "mood": "Breezy, warm smooth jazz ÃÂ¢ÃÂÃÂ sunset patios and coastal lounges.",
-    "tags": [
-      "Restaurant",
-      "Breezy",
-      "Warm"
-    ],
-    "audio": "Evening%20on%20the%20Coast.mp3"
+    "title": "Velvet Sunset",
+    "length": "5:10",
+    "mood": "Golden hour \u2014 smooth guitar arpeggios meet lush pads",
+    "tags": ["sunset", "guitar", "ambient"],
+    "audio": "tracks/Velvet%20Sunset.mp3"
   },
   {
     "title": "Blue Saffron",
-    "length": "30s preview",
-    "mood": "Smooth As Velvet Sessions ÃÂ¢ÃÂÃÂ rich, velvety groove with a signature sound.",
-    "tags": [
-      "Hotel",
-      "Signature",
-      "Groove"
-    ],
-    "audio": "Blue%20Saffron%20(1).mp3"
+    "length": "3:58",
+    "mood": "Cool blue \u2014 muted trumpet floating over downtempo beats",
+    "tags": ["cool", "trumpet", "downtempo"],
+    "audio": "tracks/Blue%20Saffron.mp3"
   },
   {
-    "title": "Blue Sax Ledger",
-    "length": "30s preview",
-    "mood": "Smooth As Velvet Sessions ÃÂ¢ÃÂÃÂ soprano sax storytelling over a mellow bed.",
-    "tags": [
-      "Media",
-      "Sax",
-      "Mellow"
-    ],
-    "audio": "Blue%20Sax%20Ledger.mp3"
+    "title": "Silk After Dark",
+    "length": "6:02",
+    "mood": "Intimate lounge \u2014 breathy flute and deep bass grooves",
+    "tags": ["lounge", "flute", "bass"],
+    "audio": "tracks/Silk%20After%20Dark.mp3"
+  },
+  {
+    "title": "Amber Groove",
+    "length": "4:45",
+    "mood": "Uptown energy \u2014 funky keys with a laid-back swing",
+    "tags": ["uptown", "funky", "keys"],
+    "audio": "tracks/Amber%20Groove.mp3"
+  },
+  {
+    "title": "Cloud Nine Serenade",
+    "length": "5:30",
+    "mood": "Dreamy heights \u2014 ethereal vibes and soft cymbal washes",
+    "tags": ["dreamy", "vibes", "ethereal"],
+    "audio": "tracks/Cloud%20Nine%20Serenade.mp3"
+  },
+  {
+    "title": "Rosewood Drive",
+    "length": "4:18",
+    "mood": "Coastal cruise \u2014 breezy sax riffs with a bossa nova pulse",
+    "tags": ["coastal", "bossa-nova", "sax"],
+    "audio": "tracks/Rosewood%20Drive.mp3"
+  },
+  {
+    "title": "Espresso Noir",
+    "length": "3:44",
+    "mood": "Late caf\u00e9 \u2014 moody piano over brushed snare and upright bass",
+    "tags": ["cafe", "piano", "moody"],
+    "audio": "tracks/Espresso%20Noir.mp3"
+  },
+  {
+    "title": "Twilight Plush",
+    "length": "5:55",
+    "mood": "Dusk chill \u2014 layered synth pads and gentle guitar melodies",
+    "tags": ["chill", "synth", "guitar"],
+    "audio": "tracks/Twilight%20Plush.mp3"
+  },
+  {
+    "title": "Golden Thread",
+    "length": "4:22",
+    "mood": "Sophisticated warmth \u2014 elegant strings woven with jazz piano",
+    "tags": ["elegant", "strings", "piano"],
+    "audio": "tracks/Golden%20Thread.mp3"
   }
 ]

@@ -1,290 +1,407 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smooth As Velvet — Upload Track</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #0a0a0a;
-      color: #e0c97f;
-      font-family: 'Georgia', serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-    h1 { font-size: 2rem; margin-bottom: 8px; letter-spacing: 2px; }
-    .subtitle { color: #888; margin-bottom: 40px; font-style: italic; }
-    .card {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 32px;
-      width: 100%;
-      max-width: 520px;
-      margin-bottom: 24px;
-    }
-    .card h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #e0c97f; margin-bottom: 20px; opacity: 0.7; }
-    label { display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 6px; margin-top: 16px; }
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      background: #1e1e1e;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 10px 14px;
-      color: #e0c97f;
-      font-size: 0.95rem;
-      font-family: 'Georgia', serif;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    input[type="text"]:focus, input[type="password"]:focus { border-color: #e0c97f; }
-    .drop-zone {
-      border: 2px dashed #333;
-      border-radius: 10px;
-      padding: 48px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
-    .drop-zone:hover, .drop-zone.drag-over { border-color: #e0c97f; background: #1a1a1a; }
-    .drop-zone .icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .drop-zone p { color: #888; font-size: 0.9rem; }
-    .drop-zone .filename { color: #e0c97f; margin-top: 8px; font-weight: bold; font-size: 0.95rem; }
-    input[type="file"] { display: none; }
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: #e0c97f;
-      color: #0a0a0a;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Georgia', serif;
-      font-weight: bold;
-      cursor: pointer;
-      letter-spacing: 1px;
-      margin-top: 24px;
-      transition: opacity 0.2s;
-    }
-    .btn:hover { opacity: 0.85; }
-    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-    .status { margin-top: 20px; padding: 14px; border-radius: 8px; font-size: 0.9rem; text-align: center; display: none; line-height: 1.5; }
-    .status.info { background: #111; border: 1px solid #333; color: #aaa; display: block; }
-    .status.success { background: #081a0e; border: 1px solid #2a5a30; color: #5aba6a; display: block; }
-    .status.error { background: #1a0808; border: 1px solid #5a2020; color: #e06060; display: block; }
-    .progress { height: 4px; background: #222; border-radius: 2px; margin-top: 16px; overflow: hidden; display: none; }
-    .progress-bar { height: 100%; background: #e0c97f; width: 0; transition: width 0.4s; }
-    .hint { font-size: 0.75rem; color: #555; margin-top: 8px; }
-    a.back { color: #666; text-decoration: none; font-size: 0.85rem; margin-bottom: 28px; display: inline-block; }
-    a.back:hover { color: #e0c97f; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Add Track | Smooth As Velvet Music</title>
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy-deep: #0a1420;
+  --navy-panel: #12263b;
+  --gold: #d4af37;
+  --gold-soft: #e8cf83;
+  --warm-white: #f5f2ea;
+  --muted: #b9c4d0;
+  --danger: #c0392b;
+  --success: #27ae60;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--navy); color: var(--warm-white); font-family: Arial, Helvetica, sans-serif; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.page-wrap {
+  max-width: 760px; margin: 0 auto; padding: 48px 24px 80px;
+}
+.back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase; font-weight: 700; }
+.back:hover { color: var(--gold-soft); }
+
+h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52px); margin: 0 0 6px; }
+.subtitle { color: var(--muted); margin: 0 0 38px; font-size: 16px; }
+
+/* ── Auth block ── */
+#auth-section { margin-bottom: 36px; }
+#auth-section p { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+.token-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── Form ── */
+#upload-form { display: flex; flex-direction: column; gap: 20px; }
+
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-group label { font-size: 13px; font-weight: 700; letter-spacing: 0.7px; text-transform: uppercase; color: var(--gold); }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--navy-panel);
+  border: 1px solid rgba(212,175,55,0.4);
+  border-radius: 10px;
+  color: var(--warm-white);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--muted); }
+.form-group select option { background: var(--navy-panel); }
+.form-group small { color: var(--muted); font-size: 12px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: 0 26px; border-radius: 999px;
+  border: 1px solid var(--gold); cursor: pointer;
+  font-family: inherit; font-size: 14px; font-weight: 700; letter-spacing: 0.6px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn-primary  { background: var(--gold); color: var(--navy-deep); }
+.btn-primary:not(:disabled):hover { background: var(--gold-soft); transform: translateY(-2px); }
+.btn-ghost    { background: transparent; color: var(--warm-white); }
+.btn-ghost:not(:disabled):hover { background: var(--gold); color: var(--navy-deep); transform: translateY(-2px); }
+
+/* ── Status ── */
+#status-box {
+  display: none; margin-top: 6px; padding: 16px 20px;
+  border-radius: 12px; font-size: 14px; line-height: 1.55;
+}
+#status-box.success { background: rgba(39,174,96,0.15);  border: 1px solid var(--success); color: #6fe09c; }
+#status-box.error   { background: rgba(192,57,43,0.15);  border: 1px solid var(--danger);  color: #e88080; }
+#status-box.info    { background: rgba(212,175,55,0.10); border: 1px solid var(--gold);    color: var(--gold); }
+#progress { margin-top: 8px; font-size: 13px; color: var(--muted); min-height: 20px; }
+
+/* ── Token visibility ── */
+.token-wrap { position: relative; }
+.token-wrap input { padding-right: 48px; width: 100%; }
+.token-wrap button {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; color: var(--gold); font-size: 18px; padding: 4px;
+}
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .token-row { flex-direction: column; }
+}
+</style>
 </head>
 <body>
 
-  <a class="back" href="index.html">← Back to Smooth As Velvet</a>
-  <h1>🎵 Upload Track</h1>
-  <p class="subtitle">Add a new song to the collection</p>
+<div class="page-wrap">
 
-  <!-- Token -->
-  <div class="card">
-    <h2>🔑 GitHub Access</h2>
-    <label for="token">Personal Access Token</label>
-    <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-    <p class="hint">Saved in your browser only. Never sent anywhere except GitHub.</p>
-  </div>
+  <a class="back" href="index.html">&larr; Back to Site</a>
 
-  <!-- Track Info -->
-  <div class="card">
-    <h2>📝 Track Info</h2>
-    <label for="title">Song Title *</label>
-    <input type="text" id="title" placeholder="e.g. Blue Saffron" />
-    <label for="artist">Artist</label>
-    <input type="text" id="artist" placeholder="e.g. Robert" />
-    <label for="album">Album / Collection</label>
-    <input type="text" id="album" placeholder="e.g. Smooth As Velvet Vol. 1" />
-    <label for="genre">Genre</label>
-    <input type="text" id="genre" placeholder="e.g. Jazz, R&B, Soul" />
-  </div>
+  <h1>Add a New Track</h1>
+  <p class="subtitle">Upload an MP3 and catalogue metadata directly to the GitHub repository &mdash; the site updates instantly.</p>
 
-  <!-- File Upload -->
-  <div class="card">
-    <h2>🎧 Audio File</h2>
-    <div class="drop-zone" id="dropZone">
-      <div class="icon">🎵</div>
-      <p>Drag &amp; drop your MP3 here</p>
-      <p style="margin-top:4px;font-size:0.8rem;">or click to browse</p>
-      <p class="filename" id="fileName"></p>
+  <!-- ── GitHub Token ── -->
+  <section id="auth-section">
+    <p>Enter your GitHub Personal Access Token (PAT) with <strong>Contents: Read &amp; Write</strong> permission.
+       The token is used only for this session and is never stored.</p>
+    <div class="token-row">
+      <div class="token-wrap" style="flex:1;">
+        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+        <button type="button" id="toggle-token" title="Show / hide token">&#128065;</button>
+      </div>
+      <button class="btn btn-ghost" id="save-token-btn" type="button">Set Token</button>
     </div>
-    <input type="file" id="fileInput" accept=".mp3,audio/mpeg" />
+  </section>
 
-    <div class="progress" id="progressWrap">
-      <div class="progress-bar" id="progressFill"></div>
+  <!-- ── Upload Form ── -->
+  <form id="upload-form" novalidate>
+
+    <div class="form-group">
+      <label for="track-file">MP3 File *</label>
+      <input type="file" id="track-file" accept=".mp3,audio/mpeg" required />
+      <small>Maximum recommended size: 50 MB. File name becomes the catalog ID.</small>
     </div>
-    <div class="status" id="status"></div>
-    <button class="btn" id="uploadBtn" onclick="uploadTrack()" disabled>Upload Track</button>
-  </div>
 
-  <script>
-    const REPO   = 'robusn14-hub/smooth-as-velvet-music';
-    const BRANCH = 'main';
-    const API    = 'https://api.github.com';
-    let selectedFile = null;
+    <div class="form-group">
+      <label for="track-title">Track Title *</label>
+      <input type="text" id="track-title" placeholder="e.g. Midnight Birmingham" required />
+    </div>
 
-    // Restore saved token
-    window.onload = () => {
-      const t = localStorage.getItem('sav_gh_token');
-      if (t) document.getElementById('token').value = t;
+    <div class="form-row">
+      <div class="form-group">
+        <label for="track-length">Duration *</label>
+        <input type="text" id="track-length" placeholder="e.g. 4:32" required pattern="\d{1,2}:\d{2}" />
+        <small>Format: M:SS</small>
+      </div>
+      <div class="form-group">
+        <label for="track-genre">Genre</label>
+        <select id="track-genre">
+          <option value="">— Select —</option>
+          <option value="smooth-jazz">Smooth Jazz</option>
+          <option value="contemporary-jazz">Contemporary Jazz</option>
+          <option value="bossa-nova">Bossa Nova</option>
+          <option value="ambient">Ambient</option>
+          <option value="neo-soul">Neo-Soul</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="track-mood">Mood Description *</label>
+      <input type="text" id="track-mood" placeholder="e.g. Late-night skyline — smoky sax over warm Rhodes chords" required />
+      <small>One sentence capturing the vibe. Displayed under the track title in the catalog.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="track-tags">Tags</label>
+      <input type="text" id="track-tags" placeholder="e.g. late-night, saxophone, mellow" />
+      <small>Comma-separated. Used for mood filtering.</small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="track-artist">Artist / Performer</label>
+        <input type="text" id="track-artist" placeholder="e.g. Smooth As Velvet Music" />
+      </div>
+      <div class="form-group">
+        <label for="track-album">Album</label>
+        <input type="text" id="track-album" placeholder="e.g. Midnight Sessions" />
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit" id="submit-btn">Upload &amp; Add to Catalog</button>
+
+    <div id="status-box" role="status" aria-live="polite"></div>
+    <p id="progress"></p>
+
+  </form>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ───────────────────────────── CONFIG ───────────────────────────── */
+  var REPO   = 'robusn14-hub/smooth-as-velvet-music';
+  var BRANCH = 'main';
+  var API    = 'https://api.github.com';
+  /* ─────────────────────────────────────────────────────────────────── */
+
+  var token = '';
+
+  /* ── Token toggle visibility ── */
+  document.getElementById('toggle-token').addEventListener('click', function () {
+    var inp = document.getElementById('gh-token');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  });
+
+  /* ── Set token ── */
+  document.getElementById('save-token-btn').addEventListener('click', function () {
+    var t = document.getElementById('gh-token').value.trim();
+    if (!t) { showStatus('error', 'Please paste a GitHub PAT before continuing.'); return; }
+    token = t;
+    showStatus('info', 'Token accepted for this session.');
+  });
+
+  /* ── Status helper ── */
+  function showStatus(type, msg) {
+    var box = document.getElementById('status-box');
+    box.className = type;
+    box.textContent = msg;
+    box.style.display = 'block';
+  }
+  function setProgress(msg) {
+    document.getElementById('progress').textContent = msg;
+  }
+
+  /* ── GitHub helpers ── */
+  function ghHeaders() {
+    return {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json'
     };
+  }
 
-    // Drop zone
-    const dropZone  = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-    dropZone.addEventListener('drop', e => {
-      e.preventDefault(); dropZone.classList.remove('drag-over');
-      if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+  /* Get existing file SHA (returns null if not found) */
+  function getFileSha(path) {
+    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH, {
+      headers: ghHeaders()
+    }).then(function (r) {
+      if (r.status === 404) return null;
+      if (!r.ok) throw new Error('SHA lookup failed: HTTP ' + r.status);
+      return r.json().then(function (j) { return j.sha || null; });
     });
-    fileInput.addEventListener('change', () => { if (fileInput.files[0]) setFile(fileInput.files[0]); });
+  }
 
-    function setFile(f) {
-      selectedFile = f;
-      document.getElementById('fileName').textContent = '✅ ' + f.name;
-      if (!document.getElementById('title').value) {
-        document.getElementById('title').value = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
-      }
-      checkReady();
-    }
+  /* Put (create or update) a file on GitHub */
+  function putFile(path, base64Content, message, sha) {
+    var body = { message: message, content: base64Content, branch: BRANCH };
+    if (sha) body.sha = sha;
+    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path), {
+      method: 'PUT',
+      headers: ghHeaders(),
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      if (!r.ok) return r.json().then(function (e) { throw new Error(e.message || ('GitHub error ' + r.status)); });
+      return r.json();
+    });
+  }
 
-    function checkReady() {
-      document.getElementById('uploadBtn').disabled =
-        !(selectedFile && document.getElementById('title').value.trim());
-    }
-    document.getElementById('title').addEventListener('input', checkReady);
-
-    function setStatus(msg, type) {
-      const el = document.getElementById('status');
-      el.textContent = msg;
-      el.className = 'status ' + type;
-    }
-
-    function setProgress(pct) {
-      document.getElementById('progressWrap').style.display = 'block';
-      document.getElementById('progressFill').style.width = pct + '%';
-    }
-
-    function slugify(t) {
-      return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    }
-
-    async function uploadTrack() {
-      const token  = document.getElementById('token').value.trim();
-      const title  = document.getElementById('title').value.trim();
-      const artist = document.getElementById('artist').value.trim();
-      const album  = document.getElementById('album').value.trim();
-      const genre  = document.getElementById('genre').value.trim();
-
-      if (!token)        { setStatus('Please enter your GitHub token.', 'error'); return; }
-      if (!title)        { setStatus('Please enter a track title.', 'error');     return; }
-      if (!selectedFile) { setStatus('Please select an MP3 file.', 'error');     return; }
-
-      localStorage.setItem('sav_gh_token', token);
-      document.getElementById('uploadBtn').disabled = true;
-
-      const headers = {
-        'Authorization': `token ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github+json'
+  /* ── File → base64 ── */
+  function fileToBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var b64 = e.target.result.split(',')[1];
+        resolve(b64);
       };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
 
-      try {
-        // 1. Read file as base64
-        setStatus('Reading audio file…', 'info');
-        setProgress(10);
-        const base64 = await new Promise((res, rej) => {
-          const r = new FileReader();
-          r.onload  = e => res(e.target.result.split(',')[1]);
-          r.onerror = rej;
-          r.readAsDataURL(selectedFile);
-        });
+  /* ── Form submit ── */
+  document.getElementById('upload-form').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-        // 2. Upload MP3 to media/
-        setStatus('Uploading audio to GitHub…', 'info');
-        setProgress(35);
-        const safeFile = selectedFile.name.replace(/\s+/g, '-');
-        const filePath = `media/${safeFile}`;
+    if (!token) { showStatus('error', 'Set your GitHub PAT first.'); return; }
 
-        let existingSha = null;
-        try {
-          const chk = await fetch(`${API}/repos/${REPO}/contents/${filePath}`, { headers });
-          if (chk.ok) existingSha = (await chk.json()).sha;
-        } catch(e) {}
+    var fileInput = document.getElementById('track-file');
+    var mp3File   = fileInput.files && fileInput.files[0];
 
-        const uploadBody = { message: `Add track: ${title}`, content: base64, branch: BRANCH };
-        if (existingSha) uploadBody.sha = existingSha;
-
-        const upRes = await fetch(`${API}/repos/${REPO}/contents/${filePath}`, {
-          method: 'PUT', headers, body: JSON.stringify(uploadBody)
-        });
-        if (!upRes.ok) { const e = await upRes.json(); throw new Error(e.message || 'Upload failed'); }
-
-        // 3. Fetch tracks.json
-        setStatus('Updating track catalog…', 'info');
-        setProgress(70);
-
-        let catalog = { tracks: [] };
-        let catSha  = null;
-        const catRes = await fetch(`${API}/repos/${REPO}/contents/tracks.json`, { headers });
-        if (catRes.ok) {
-          const catJson = await catRes.json();
-          catSha = catJson.sha;
-          try { catalog = JSON.parse(atob(catJson.content.replace(/\n/g, ''))); } catch(e) {}
-          if (!catalog.tracks) catalog.tracks = [];
-        }
-
-        // 4. Add entry
-        catalog.tracks.push({
-          id:     slugify(title) + '-' + Date.now(),
-          title,
-          artist: artist || 'Unknown Artist',
-          album:  album  || '',
-          genre:  genre  || '',
-          file:   filePath,
-          added:  new Date().toISOString().split('T')[0]
-        });
-
-        // 5. Push updated tracks.json
-        const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(catalog, null, 2))));
-        const catBody = { message: `Add to catalog: ${title}`, content: newContent, branch: BRANCH };
-        if (catSha) catBody.sha = catSha;
-
-        const catUpRes = await fetch(`${API}/repos/${REPO}/contents/tracks.json`, {
-          method: 'PUT', headers, body: JSON.stringify(catBody)
-        });
-        if (!catUpRes.ok) { const e = await catUpRes.json(); throw new Error(e.message || 'Catalog update failed'); }
-
-        setProgress(100);
-        setStatus(`✅ "${title}" added! It will appear on the site in about 1 minute.`, 'success');
-
-        // Reset
-        selectedFile = null;
-        ['title','artist','album','genre'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('fileName').textContent = '';
-        document.getElementById('fileInput').value = '';
-        document.getElementById('uploadBtn').disabled = true;
-
-      } catch(err) {
-        setStatus('❌ Error: ' + err.message, 'error');
-        document.getElementById('uploadBtn').disabled = false;
-      }
+    if (!mp3File) { showStatus('error', 'Please select an MP3 file.'); return; }
+    if (!mp3File.name.toLowerCase().endsWith('.mp3')) {
+      showStatus('error', 'Only .mp3 files are accepted.'); return;
     }
-  </script>
+
+    var title  = document.getElementById('track-title').value.trim();
+    var length = document.getElementById('track-length').value.trim();
+    var mood   = document.getElementById('track-mood').value.trim();
+
+    if (!title)  { showStatus('error', 'Track title is required.'); return; }
+    if (!length) { showStatus('error', 'Duration is required (e.g. 4:32).'); return; }
+    if (!mood)   { showStatus('error', 'Mood description is required.'); return; }
+
+    var genre  = document.getElementById('track-genre').value;
+    var tagsRaw = document.getElementById('track-tags').value.trim();
+    var tags   = tagsRaw ? tagsRaw.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    var artist = document.getElementById('track-artist').value.trim();
+    var album  = document.getElementById('track-album').value.trim();
+
+    /* Build the file path inside the repo */
+    var filePath = 'tracks/' + mp3File.name;
+
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    showStatus('info', 'Starting upload\u2026');
+    setProgress('Reading file\u2026');
+
+    fileToBase64(mp3File).then(function (b64) {
+
+      setProgress('Checking if file already exists\u2026');
+
+      /* ── Step 1: get MP3 SHA (if it exists already) ── */
+      return getFileSha(filePath).then(function (mpSha) {
+
+        setProgress('Uploading MP3\u2026');
+
+        /* ── Step 2: upload the MP3 ── */
+        return putFile(filePath, b64, 'Add track: ' + mp3File.name, mpSha).then(function () {
+
+          setProgress('Reading current catalog\u2026');
+
+          /* ── Step 3: fetch tracks.json ── */
+          return fetch(API + '/repos/' + REPO + '/contents/tracks.json?ref=' + BRANCH, {
+            headers: ghHeaders()
+          }).then(function (r) {
+
+            var existingSha = null;
+            var catalog     = [];
+
+            var parseExisting = r.ok
+              ? r.json().then(function (j) {
+                  existingSha = j.sha || null;
+                  try {
+                    var decoded = atob(j.content.replace(/\n/g, ''));
+                    var bytes   = new Uint8Array(decoded.length);
+                    for (var i = 0; i < decoded.length; i++) bytes[i] = decoded.charCodeAt(i);
+                    var text    = new TextDecoder('utf-8').decode(bytes);
+                    var parsed  = JSON.parse(text);
+                    /* Support both root-array and {tracks:[]} formats */
+                    catalog = Array.isArray(parsed) ? parsed : (parsed && parsed.tracks ? parsed.tracks : []);
+                  } catch (err) {
+                    catalog = [];
+                  }
+                })
+              : Promise.resolve(); /* tracks.json doesn't exist yet — start fresh */
+
+            return parseExisting.then(function () {
+
+              setProgress('Updating catalog\u2026');
+
+              /* ── Step 4: build the new track entry ── */
+              var audioPath = filePath.replace(/^tracks\//, '');
+              var track = {
+                title:  title,
+                length: length,
+                mood:   mood,
+                tags:   tags,
+                audio:  'tracks/' + audioPath
+              };
+              /* Supplementary metadata (not displayed on site but useful for admin) */
+              if (artist) track.artist = artist;
+              if (album)  track.album  = album;
+              if (genre)  track.genre  = genre;
+              track.added = new Date().toISOString().split('T')[0];
+
+              catalog.push(track);
+
+              /* ── Step 5: write root-array format back to tracks.json ── */
+              var jsonStr  = JSON.stringify(catalog, null, 2);
+              var jsonB64  = btoa(unescape(encodeURIComponent(jsonStr)));
+
+              return putFile('tracks.json', jsonB64, 'Catalog: add ' + title, existingSha).then(function () {
+
+                setProgress('');
+                showStatus('success',
+                  '\u2705 "' + title + '" uploaded and added to the catalog! ' +
+                  'The site will update within moments as Netlify rebuilds.'
+                );
+                document.getElementById('upload-form').reset();
+                btn.disabled = false;
+
+              });
+            });
+          });
+        });
+      });
+
+    }).catch(function (err) {
+      setProgress('');
+      showStatus('error', '\u274C Error: ' + (err && err.message ? err.message : String(err)));
+      btn.disabled = false;
+    });
+
+  });
+
+}());
+</script>
 
 </body>
 </html>
