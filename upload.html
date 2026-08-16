@@ -239,9 +239,16 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   }
 
   /* Get existing file SHA (returns null if not found) */
+  /* NOTE: GitHub's Contents API caches responses. We add a cache-buster query
+     param AND a no-cache header so consecutive uploads don't get stale SHAs. */
   function getFileSha(path) {
-    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH, {
-      headers: ghHeaders()
+    var bust = '&_t=' + Date.now();
+    var hdrs = ghHeaders();
+    hdrs['Cache-Control'] = 'no-cache';
+    hdrs['If-None-Match'] = '';
+    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH + bust, {
+      headers: hdrs,
+      cache: 'no-store'
     }).then(function (r) {
       if (r.status === 404) return null;
       if (!r.ok) throw new Error('SHA lookup failed: HTTP ' + r.status);
@@ -249,8 +256,10 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     });
   }
 
-  /* Put (create or update) a file on GitHub */
-  function putFile(path, base64Content, message, sha) {
+  /* Put (create or update) a file on GitHub, with automatic retry on 409/422
+     SHA-conflict errors caused by the Contents API returning a stale SHA. */
+  function putFile(path, base64Content, message, sha, retryCount) {
+    retryCount = retryCount || 0;
     var body = { message: message, content: base64Content, branch: BRANCH };
     if (sha) body.sha = sha;
     return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path), {
@@ -258,8 +267,19 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       headers: ghHeaders(),
       body: JSON.stringify(body)
     }).then(function (r) {
-      if (!r.ok) return r.json().then(function (e) { throw new Error(e.message || ('GitHub error ' + r.status)); });
-      return r.json();
+      if (r.ok) return r.json();
+
+      /* On SHA conflict (409/422), re-fetch the current SHA and retry once. */
+      if ((r.status === 409 || r.status === 422) && retryCount < 2) {
+        setProgress('SHA conflict on ' + path + ' \u2014 retrying with fresh SHA (attempt ' + (retryCount + 2) + ')\u2026');
+        return new Promise(function (resolve) { setTimeout(resolve, 1500); })
+          .then(function () { return getFileSha(path); })
+          .then(function (freshSha) {
+            return putFile(path, base64Content, message, freshSha, retryCount + 1);
+          });
+      }
+
+      return r.json().then(function (e) { throw new Error(e.message || ('GitHub error ' + r.status)); });
     });
   }
 
@@ -326,9 +346,12 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
           setProgress('Reading current catalog\u2026');
 
-          /* ── Step 3: fetch tracks.json ── */
-          return fetch(API + '/repos/' + REPO + '/contents/tracks.json?ref=' + BRANCH, {
-            headers: ghHeaders()
+          /* ── Step 3: fetch tracks.json (with cache-buster) ── */
+          var catalogHdrs = ghHeaders();
+          catalogHdrs['Cache-Control'] = 'no-cache';
+          return fetch(API + '/repos/' + REPO + '/contents/tracks.json?ref=' + BRANCH + '&_t=' + Date.now(), {
+            headers: catalogHdrs,
+            cache: 'no-store'
           }).then(function (r) {
 
             var existingSha = null;
@@ -380,8 +403,10 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
                 setProgress('');
                 showStatus('success',
-                  '\u2705 "' + title + '" uploaded and added to the catalog! ' +
-                  'The site will update within moments as Netlify rebuilds.'
+                  '\u2705 "' + title + '" uploaded and added to the catalog. ' +
+                  'Catalog now has ' + catalog.length + ' track' + (catalog.length === 1 ? '' : 's') + '. ' +
+                  'The site will update within moments as Netlify rebuilds. ' +
+                  'Ready for the next upload \u2014 no need to reload.'
                 );
                 document.getElementById('upload-form').reset();
                 btn.disabled = false;
