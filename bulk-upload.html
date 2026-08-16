@@ -182,15 +182,16 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   </div>
 
   <section id="auth-section">
-    <p><strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository.
+    <p id="auth-blurb"><strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository.
        Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>.
-       Token is used only for this session and never stored.</p>
+       Paste once and this browser will remember it.</p>
     <div class="token-row">
       <div class="token-wrap">
         <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
         <button type="button" id="toggle-token" title="Show / hide token">&#128065;</button>
       </div>
-      <button class="btn btn-ghost" id="save-token-btn" type="button">Set Token</button>
+      <button class="btn btn-primary" id="save-token-btn" type="button">Save &amp; Remember</button>
+      <button class="btn btn-ghost" id="forget-token-btn" type="button" style="display:none;">Forget Token</button>
     </div>
   </section>
 
@@ -241,6 +242,7 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   var MAX_FILES = 25;
   var MAX_FILE_BYTES = 50 * 1024 * 1024;
 
+  var TOKEN_STORAGE_KEY = 'svm_gh_pat_v1';
   var token = '';
   var files = [];
   var uploading = false;
@@ -248,6 +250,8 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   var $tokenInput = document.getElementById('gh-token');
   var $toggleTokenBtn = document.getElementById('toggle-token');
   var $saveTokenBtn = document.getElementById('save-token-btn');
+  var $forgetTokenBtn = document.getElementById('forget-token-btn');
+  var $authBlurb = document.getElementById('auth-blurb');
   var $dropZone = document.getElementById('drop-zone');
   var $fileInput = document.getElementById('file-input');
   var $fileList = document.getElementById('file-list');
@@ -265,11 +269,64 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     $tokenInput.type = $tokenInput.type === 'password' ? 'text' : 'password';
   });
 
+  function setRememberedUI(hasStored) {
+    if (hasStored) {
+      $authBlurb.innerHTML = '<strong>&#10003; GitHub token remembered on this browser.</strong> ' +
+        'You can upload right away &mdash; just drag in your MP3s below. ' +
+        'Click <em>Forget Token</em> if you switch computers or want to paste a new one.';
+      $saveTokenBtn.textContent = 'Update Token';
+      $forgetTokenBtn.style.display = '';
+      $tokenInput.placeholder = 'Token remembered &mdash; paste a new one only if you want to replace it';
+    } else {
+      $authBlurb.innerHTML = '<strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository. ' +
+        'Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>. ' +
+        'Paste once and this browser will remember it.';
+      $saveTokenBtn.textContent = 'Save & Remember';
+      $forgetTokenBtn.style.display = 'none';
+      $tokenInput.placeholder = 'ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+    }
+  }
+
+  try {
+    var stored = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (stored) {
+      token = stored;
+      setRememberedUI(true);
+    } else {
+      setRememberedUI(false);
+    }
+  } catch (e) {
+    setRememberedUI(false);
+  }
+
   $saveTokenBtn.addEventListener('click', function () {
     var t = $tokenInput.value.trim();
-    if (!t) { showStatus('error', 'Please paste a GitHub PAT before continuing.'); return; }
+    if (!t) {
+      if (token) {
+        showStatus('info', 'Token already remembered. Paste a new value only if you want to replace it.');
+      } else {
+        showStatus('error', 'Please paste a GitHub PAT before continuing.');
+      }
+      return;
+    }
     token = t;
-    showStatus('info', 'Token accepted for this session. Now drag in your MP3 files.');
+    try {
+      localStorage.setItem(TOKEN_STORAGE_KEY, t);
+      setRememberedUI(true);
+      $tokenInput.value = '';
+      showStatus('success', 'Token saved. This browser will remember it next time. Now drag in your MP3 files.');
+    } catch (e) {
+      showStatus('info', 'Token accepted for this session (browser storage blocked, so it won\'t persist).');
+    }
+  });
+
+  $forgetTokenBtn.addEventListener('click', function () {
+    if (!confirm('Forget the saved GitHub token on this browser? You will need to paste it again next time.')) return;
+    token = '';
+    try { localStorage.removeItem(TOKEN_STORAGE_KEY); } catch (e) {}
+    $tokenInput.value = '';
+    setRememberedUI(false);
+    showStatus('info', 'Token forgotten. Paste a new one to upload again.');
   });
 
   function showStatus(type, msg) {
