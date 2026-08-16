@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Admin — Bulk Upload Tracks | Smooth As Velvet Music</title>
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy-deep: #0a1420;
+  --navy-panel: #12263b;
+  --navy-panel-2: #1a3050;
+  --gold: #d4af37;
+  --gold-soft: #e8cf83;
+  --warm-white: #f5f2ea;
+  --muted: #b9c4d0;
+  --danger: #c0392b;
+  --success: #27ae60;
+  --info: #3498db;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--navy); color: var(--warm-white); font-family: Arial, Helvetica, sans-serif; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.page-wrap {
+  max-width: 960px; margin: 0 auto; padding: 48px 24px 80px;
+}
+.back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase; font-weight: 700; }
+.back:hover { color: var(--gold-soft); }
+
+h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52px); margin: 0 0 6px; }
+.subtitle { color: var(--muted); margin: 0 0 24px; font-size: 16px; }
+
+.link-row { margin-bottom: 32px; font-size: 13px; letter-spacing: 0.5px; }
+.link-row a { text-transform: uppercase; font-weight: 700; margin-right: 20px; }
+
+/* Auth block */
+#auth-section { margin-bottom: 28px; padding: 20px; background: var(--navy-panel); border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); }
+#auth-section p { color: var(--muted); font-size: 13px; margin: 0 0 12px; line-height: 1.55; }
+.token-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.token-wrap { position: relative; flex: 1; min-width: 260px; }
+.token-wrap input { padding-right: 48px; width: 100%; background: var(--navy-deep); border: 1px solid rgba(212,175,55,0.4); border-radius: 8px; color: var(--warm-white); font-family: inherit; font-size: 14px; padding: 10px 12px; padding-right: 42px; }
+.token-wrap button {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; color: var(--gold); font-size: 18px; padding: 4px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 40px; padding: 0 20px; border-radius: 999px;
+  border: 1px solid var(--gold); cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.6px;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  text-transform: uppercase;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary  { background: var(--gold); color: var(--navy-deep); }
+.btn-primary:not(:disabled):hover { background: var(--gold-soft); transform: translateY(-1px); }
+.btn-ghost    { background: transparent; color: var(--warm-white); }
+.btn-ghost:not(:disabled):hover { background: var(--gold); color: var(--navy-deep); }
+.btn-danger   { background: transparent; color: #e88080; border-color: var(--danger); min-height: 32px; padding: 0 14px; font-size: 12px; }
+.btn-danger:not(:disabled):hover { background: var(--danger); color: white; }
+.btn-big { min-height: 56px; padding: 0 36px; font-size: 15px; }
+
+/* Drop zone */
+#drop-zone {
+  border: 2px dashed rgba(212,175,55,0.5);
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--navy-panel);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 24px;
+}
+#drop-zone.hover {
+  border-color: var(--gold);
+  background: var(--navy-panel-2);
+  transform: scale(1.005);
+}
+#drop-zone p { margin: 0; color: var(--muted); }
+#drop-zone .dz-title { color: var(--gold); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+#drop-zone .dz-hint { font-size: 13px; margin-top: 12px; }
+#drop-zone input[type="file"] { display: none; }
+
+/* File list */
+#file-list {
+  display: none;
+  background: var(--navy-panel);
+  border-radius: 12px;
+  padding: 4px 0;
+  margin-bottom: 24px;
+  border: 1px solid rgba(212,175,55,0.15);
+}
+.file-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(212,175,55,0.15);
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.file-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 90px 100px 40px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(212,175,55,0.08);
+  font-size: 14px;
+}
+.file-row:last-child { border-bottom: none; }
+.file-row .fr-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-row .fr-size { color: var(--muted); font-size: 12px; text-align: right; }
+.file-row .fr-duration { color: var(--muted); font-size: 12px; text-align: right; }
+.file-row .fr-status { font-size: 12px; text-align: right; }
+.file-row .fr-status.pending { color: var(--muted); }
+.file-row .fr-status.uploading { color: var(--info); }
+.file-row .fr-status.success { color: var(--success); }
+.file-row .fr-status.error { color: #e88080; }
+.file-row .fr-status.skipped { color: var(--gold-soft); }
+.file-row button.fr-remove {
+  background: none; border: none; color: #e88080; font-size: 18px; cursor: pointer; padding: 4px 8px;
+}
+.file-row button.fr-remove:hover { color: var(--danger); }
+.file-row button.fr-remove:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Action bar */
+#action-bar {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--navy-panel-2);
+  border-radius: 12px;
+  border: 1px solid rgba(212,175,55,0.3);
+}
+#file-count { color: var(--gold); font-weight: 700; font-size: 15px; }
+#file-count .catalog-current { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 12px; }
+
+/* Status */
+#global-status {
+  display: none; margin-top: 16px; padding: 16px 20px;
+  border-radius: 12px; font-size: 14px; line-height: 1.55;
+}
+#global-status.success { background: rgba(39,174,96,0.15);  border: 1px solid var(--success); color: #6fe09c; }
+#global-status.error   { background: rgba(192,57,43,0.15);  border: 1px solid var(--danger);  color: #e88080; }
+#global-status.info    { background: rgba(52,152,219,0.15); border: 1px solid var(--info);    color: #7ec3e8; }
+
+/* Progress bar */
+#overall-progress {
+  display: none;
+  height: 8px;
+  background: var(--navy-deep);
+  border-radius: 999px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+#overall-progress .bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  width: 0%;
+  transition: width 0.3s;
+}
+
+@media (max-width: 600px) {
+  .file-row { grid-template-columns: 1fr 60px 40px; }
+  .file-row .fr-size, .file-row .fr-status { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <a class="back" href="index.html">&larr; Back to Site</a>
+
+  <h1>Bulk Track Upload</h1>
+  <p class="subtitle">Drag and drop multiple MP3s to upload up to 25 tracks at once. Metadata gets smart defaults you can edit later.</p>
+
+  <div class="link-row">
+    <a href="upload.html">Single upload with full metadata &rarr;</a>
+  </div>
+
+  <!-- GitHub Token -->
+  <section id="auth-section">
+    <p><strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository.
+       Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>.
+       Token is used only for this session and never stored.</p>
+    <div class="token-row">
+      <div class="token-wrap">
+        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+        <button type="button" id="toggle-token" title="Show / hide token">&#128065;</button>
+      </div>
+      <button class="btn btn-ghost" id="save-token-btn" type="button">Set Token</button>
+    </div>
+  </section>
+
+  <!-- Drop zone -->
+  <label for="file-input" id="drop-zone">
+    <div class="dz-title">Drag &amp; drop MP3 files here</div>
+    <p>&mdash; or click to browse &mdash;</p>
+    <p class="dz-hint">Up to 25 files per batch &middot; 50 MB max per file &middot; .mp3 only</p>
+    <input type="file" id="file-input" accept=".mp3,audio/mpeg" multiple />
+  </label>
+
+  <!-- Action bar -->
+  <div id="action-bar">
+    <div id="file-count">
+      <span id="fc-selected">0 files selected</span>
+      <span class="catalog-current" id="fc-catalog"></span>
+    </div>
+    <div>
+      <button class="btn btn-ghost" id="clear-btn" type="button">Clear List</button>
+      <button class="btn btn-primary btn-big" id="upload-all-btn" type="button">Upload All</button>
+    </div>
+  </div>
+
+  <!-- File list -->
+  <div id="file-list">
+    <div class="file-list-header">
+      <span>Track</span>
+      <span>Size &middot; Duration &middot; Status</span>
+    </div>
+    <div id="file-rows"></div>
+  </div>
+
+  <div id="overall-progress"><div class="bar" id="progress-bar"></div></div>
+  <div id="global-status" role="status" aria-live="polite"></div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ───────────────────────── CONFIG ───────────────────────── */
+  var REPO    = 'robusn14-hub/smooth-as-velvet-music';
+  var BRANCH  = 'main';
+  var API     = 'https://api.github.com';
+  var MAX_FILES = 25;
+  var MAX_FILE_BYTES = 50 * 1024 * 1024;
+  /* ────────────────────────────────────────────────────────── */
+
+  var token = '';
+  var files = [];             /* [{ file, id, status, statusMsg, durationSec }] */
+  var uploading = false;
+
+  /* ── DOM refs ── */
+  var $tokenInput = document.getElementById('gh-token');
+  var $toggleTokenBtn = document.getElementById('toggle-token');
+  var $saveTokenBtn = document.getElementById('save-token-btn');
+  var $dropZone = document.getElementById('drop-zone');
+  var $fileInput = document.getElementById('file-input');
+  var $fileList = document.getElementById('file-list');
+  var $fileRows = document.getElementById('file-rows');
+  var $actionBar = document.getElementById('action-bar');
+  var $fcSelected = document.getElementById('fc-selected');
+  var $fcCatalog = document.getElementById('fc-catalog');
+  var $clearBtn = document.getElementById('clear-btn');
+  var $uploadAllBtn = document.getElementById('upload-all-btn');
+  var $globalStatus = document.getElementById('global-status');
+  var $overallProgress = document.getElementById('overall-progress');
+  var $progressBar = document.getElementById('progress-bar');
+
+  /* ── Token handling ── */
+  $toggleTokenBtn.addEventListener('click', function () {
+    $tokenInput.type = $tokenInput.type === 'password' ? 'text' : 'password';
+  });
+
+  $saveTokenBtn.addEventListener('click', function () {
+    var t = $tokenInput.value.trim();
+    if (!t) { showStatus('error', 'Please paste a GitHub PAT before continuing.'); return; }
+    token = t;
+    showStatus('info', 'Token accepted for this session. Now drag in your MP3 files.');
+  });
+
+  /* ── Status helpers ── */
+  function showStatus(type, msg) {
+    $globalStatus.className = type;
+    $globalStatus.textContent = msg;
+    $globalStatus.style.display = 'block';
+  }
+  function hideStatus() { $globalStatus.style.display = 'none'; }
+  function setOverallProgress(pct) {
+    $overallProgress.style.display = pct > 0 && pct < 100 ? 'block' : 'none';
+    $progressBar.style.width = pct + '%';
+  }
+
+  /* ── Drop zone handlers ── */
+  ['dragenter','dragover'].forEach(function (ev) {
+    $dropZone.addEventListener(ev, function (e) {
+      e.preventDefault(); e.stopPropagation();
+      $dropZone.classList.add('hover');
+    });
+  });
+  ['dragleave','drop'].forEach(function (ev) {
+    $dropZone.addEventListener(ev, function (e) {
+      e.preventDefault(); e.stopPropagation();
+      $dropZone.classList.remove('hover');
+    });
+  });
+  $dropZone.addEventListener('drop', function (e) {
+    var dropped = Array.from(e.dataTransfer.files || []);
+    addFiles(dropped);
+  });
+  $fileInput.addEventListener('change', function (e) {
+    var chosen = Array.from(e.target.files || []);
+    addFiles(chosen);
+    $fileInput.value = '';
+  });
+
+  /* ── File management ── */
+  function addFiles(incoming) {
+    if (uploading) { showStatus('error', 'Please wait for the current upload to finish before adding more files.'); return; }
+
+    var accepted = 0, rejected = 0;
+
+    incoming.forEach(function (f) {
+      if (files.length >= MAX_FILES) { rejected++; return; }
+      if (!f.name.toLowerCase().endsWith('.mp3')) { rejected++; return; }
+      if (f.size > MAX_FILE_BYTES) { rejected++; return; }
+
+      /* Skip duplicates by name+size */
+      var isDup = files.some(function (x) { return x.file.name === f.name && x.file.size === f.size; });
+      if (isDup) { rejected++; return; }
+
+      files.push({
+        file: f,
+        id: 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+        status: 'pending',
+        statusMsg: 'Pending',
+        durationSec: null
+      });
+      accepted++;
+    });
+
+    renderFileList();
+
+    if (accepted > 0 && rejected === 0) {
+      showStatus('info', accepted + ' file' + (accepted === 1 ? '' : 's') + ' added. Ready to upload.');
+    } else if (accepted > 0 && rejected > 0) {
+      showStatus('info', accepted + ' added, ' + rejected + ' skipped (duplicates, non-mp3, over 50MB, or over ' + MAX_FILES + '-file limit).');
+    } else if (rejected > 0) {
+      showStatus('error', 'All ' + rejected + ' files were rejected (duplicates, non-mp3, over 50MB, or over ' + MAX_FILES + '-file limit).');
+    }
+
+    /* Async duration detection for each new file */
+    files.filter(function (x) { return x.durationSec === null; }).forEach(detectDuration);
+  }
+
+  function detectDuration(entry) {
+    var audio = document.createElement('audio');
+    audio.preload = 'metadata';
+    audio.onloadedmetadata = function () {
+      entry.durationSec = audio.duration;
+      URL.revokeObjectURL(audio.src);
+      renderFileList();
+    };
+    audio.onerror = function () {
+      entry.durationSec = 0; /* unknown */
+      URL.revokeObjectURL(audio.src);
+      renderFileList();
+    };
+    audio.src = URL.createObjectURL(entry.file);
+  }
+
+  function removeFile(id) {
+    if (uploading) return;
+    files = files.filter(function (x) { return x.id !== id; });
+    renderFileList();
+  }
+
+  function clearAll() {
+    if (uploading) return;
+    files = [];
+    renderFileList();
+    hideStatus();
+    setOverallProgress(0);
+  }
+
+  $clearBtn.addEventListener('click', clearAll);
+
+  function renderFileList() {
+    if (files.length === 0) {
+      $fileList.style.display = 'none';
+      $actionBar.style.display = 'none';
+      return;
+    }
+    $fileList.style.display = 'block';
+    $actionBar.style.display = 'flex';
+    $fcSelected.textContent = files.length + ' file' + (files.length === 1 ? '' : 's') + ' selected';
+
+    $fileRows.innerHTML = '';
+    files.forEach(function (entry) {
+      var row = document.createElement('div');
+      row.className = 'file-row';
+      row.dataset.id = entry.id;
+
+      var name = document.createElement('div');
+      name.className = 'fr-name';
+      name.title = entry.file.name;
+      name.textContent = entry.file.name;
+
+      var size = document.createElement('div');
+      size.className = 'fr-size';
+      size.textContent = (entry.file.size / (1024 * 1024)).toFixed(1) + ' MB';
+
+      var duration = document.createElement('div');
+      duration.className = 'fr-duration';
+      duration.textContent = entry.durationSec === null ? '…' : (entry.durationSec > 0 ? formatDuration(entry.durationSec) : '?:??');
+
+      var status = document.createElement('div');
+      status.className = 'fr-status ' + entry.status;
+      status.textContent = entry.statusMsg;
+
+      var remove = document.createElement('button');
+      remove.className = 'fr-remove';
+      remove.type = 'button';
+      remove.innerHTML = '&times;';
+      remove.title = 'Remove from list';
+      remove.disabled = uploading;
+      remove.addEventListener('click', function () { removeFile(entry.id); });
+
+      row.appendChild(name);
+      row.appendChild(size);
+      row.appendChild(duration);
+      row.appendChild(status);
+      row.appendChild(remove);
+      $fileRows.appendChild(row);
+    });
+  }
+
+  function formatDuration(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' + s : s);
+  }
+
+  function updateFileStatus(entry, status, msg) {
+    entry.status = status;
+    entry.statusMsg = msg;
+    /* Targeted DOM update instead of full re-render for speed */
+    var row = $fileRows.querySelector('[data-id="' + entry.id + '"]');
+    if (row) {
+      var st = row.querySelector('.fr-status');
+      st.className = 'fr-status ' + status;
+      st.textContent = msg;
+    }
+  }
+
+  /* ── Metadata defaults ── */
+  function titleFromFilename(name) {
+    var base = name.replace(/\.mp3$/i, '');
+    base = base.replace(/[-_]+/g, ' ');
+    base = base.replace(/\s+/g, ' ').trim();
+    /* Title-case each word */
+    return base.split(' ').map(function (w) {
+      return w.length ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w;
+    }).join(' ');
+  }
+
+  function buildTrackEntry(entry) {
+    var title = titleFromFilename(entry.file.name);
+    var lengthStr = entry.durationSec && entry.durationSec > 0 ? formatDuration(entry.durationSec) : '';
+    return {
+      title:  title,
+      length: lengthStr,
+      mood:   'Smooth jazz instrumental — description pending',
+      tags:   ['smooth-jazz', 'instrumental'],
+      audio:  'tracks/' + entry.file.name,
+      added:  new Date().toISOString().split('T')[0]
+    };
+  }
+
+  /* ── GitHub helpers (same cache-bust + retry pattern as upload.html) ── */
+  function ghHeaders() {
+    return {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache'
+    };
+  }
+
+  function getFileSha(path) {
+    var bust = '&_t=' + Date.now();
+    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH + bust, {
+      headers: ghHeaders(),
+      cache: 'no-store'
+    }).then(function (r) {
+      if (r.status === 404) return null;
+      if (!r.ok) throw new Error('SHA lookup failed: HTTP ' + r.status);
+      return r.json().then(function (j) { return j.sha || null; });
+    });
+  }
+
+  function putFile(path, base64Content, message, sha, retryCount) {
+    retryCount = retryCount || 0;
+    var body = { message: message, content: base64Content, branch: BRANCH };
+    if (sha) body.sha = sha;
+    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path), {
+      method: 'PUT',
+      headers: ghHeaders(),
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      if (r.ok) return r.json();
+
+      /* Retry on stale-SHA conflict (409/422) with a fresh SHA lookup */
+      if ((r.status === 409 || r.status === 422) && retryCount < 2) {
+        return new Promise(function (resolve) { setTimeout(resolve, 1500); })
+          .then(function () { return getFileSha(path); })
+          .then(function (freshSha) {
+            return putFile(path, base64Content, message, freshSha, retryCount + 1);
+          });
+      }
+
+      /* Retry on rate limit (429/403 with rate-limit body) with an exponential backoff */
+      if ((r.status === 429 || r.status === 403) && retryCount < 3) {
+        var backoff = Math.pow(2, retryCount) * 3000; /* 3s, 6s, 12s */
+        return new Promise(function (resolve) { setTimeout(resolve, backoff); })
+          .then(function () { return putFile(path, base64Content, message, sha, retryCount + 1); });
+      }
+
+      return r.json().then(function (e) { throw new Error(e.message || ('GitHub error ' + r.status)); });
+    });
+  }
+
+  function fileToBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var b64 = e.target.result.split(',')[1];
+        resolve(b64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function fetchCatalog() {
+    var bust = '&_t=' + Date.now();
+    return fetch(API + '/repos/' + REPO + '/contents/tracks.json?ref=' + BRANCH + bust, {
+      headers: ghHeaders(),
+      cache: 'no-store'
+    }).then(function (r) {
+      if (r.status === 404) return { catalog: [], sha: null };
+      if (!r.ok) throw new Error('Catalog fetch failed: HTTP ' + r.status);
+      return r.json().then(function (j) {
+        var decoded = atob(j.content.replace(/\n/g, ''));
+        var bytes = new Uint8Array(decoded.length);
+        for (var i = 0; i < decoded.length; i++) bytes[i] = decoded.charCodeAt(i);
+        var text = new TextDecoder('utf-8').decode(bytes);
+        var parsed;
+        try { parsed = JSON.parse(text); } catch (e) { parsed = []; }
+        var catalog = Array.isArray(parsed) ? parsed : (parsed && parsed.tracks ? parsed.tracks : []);
+        return { catalog: catalog, sha: j.sha || null };
+      });
+    });
+  }
+
+  function writeCatalog(catalog, sha) {
+    var jsonStr = JSON.stringify(catalog, null, 2);
+    var jsonB64 = btoa(unescape(encodeURIComponent(jsonStr)));
+    return putFile('tracks.json', jsonB64, 'Catalog: bulk update (' + catalog.length + ' tracks)', sha);
+  }
+
+  /* ── Bulk upload orchestration ── */
+  $uploadAllBtn.addEventListener('click', function () {
+    if (uploading) return;
+    if (!token) { showStatus('error', 'Set your GitHub PAT first.'); return; }
+    if (files.length === 0) { showStatus('error', 'No files to upload.'); return; }
+    startBulkUpload();
+  });
+
+  function startBulkUpload() {
+    uploading = true;
+    $uploadAllBtn.disabled = true;
+    $clearBtn.disabled = true;
+    renderFileList(); /* refresh to disable remove buttons */
+    hideStatus();
+    setOverallProgress(0);
+    showStatus('info', 'Starting bulk upload of ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '…');
+
+    /* Load current catalog once. We'll update it in memory and write once at the end. */
+    fetchCatalog().then(function (initial) {
+      var catalog = initial.catalog;
+      var catalogSha = initial.sha;
+      $fcCatalog.textContent = ' · catalog currently: ' + catalog.length + ' tracks';
+
+      var succeeded = 0, failed = 0, skipped = 0;
+      var pending = files.slice();
+
+      /* Sequentially upload each MP3, updating the in-memory catalog as we go. */
+      function next() {
+        if (pending.length === 0) return finish();
+
+        var entry = pending.shift();
+        var doneCount = files.length - pending.length - 1;
+        setOverallProgress(Math.round((doneCount / files.length) * 100));
+
+        updateFileStatus(entry, 'uploading', 'Uploading…');
+
+        var filePath = 'tracks/' + entry.file.name;
+
+        fileToBase64(entry.file).then(function (b64) {
+          return getFileSha(filePath).then(function (existingSha) {
+            /* If the MP3 already exists in the repo AND the catalog, skip. */
+            var alreadyInCatalog = catalog.some(function (t) {
+              return t && t.audio && t.audio.replace(/^tracks\//, '') === entry.file.name;
+            });
+            if (existingSha && alreadyInCatalog) {
+              updateFileStatus(entry, 'skipped', 'Already in catalog');
+              skipped++;
+              return next();
+            }
+
+            return putFile(filePath, b64, 'Bulk add: ' + entry.file.name, existingSha).then(function () {
+              /* Only add to catalog if not already there */
+              if (!alreadyInCatalog) {
+                catalog.push(buildTrackEntry(entry));
+              }
+              updateFileStatus(entry, 'success', '✓ Uploaded');
+              succeeded++;
+              /* Small pause to be polite to GitHub API */
+              setTimeout(next, 400);
+            });
+          });
+        }).catch(function (err) {
+          updateFileStatus(entry, 'error', '✗ ' + (err.message || 'Failed'));
+          failed++;
+          setTimeout(next, 400);
+        });
+      }
+
+      function finish() {
+        setOverallProgress(100);
+
+        if (succeeded === 0 && failed === 0 && skipped > 0) {
+          showStatus('info', 'All ' + skipped + ' file' + (skipped === 1 ? '' : 's') + ' were already in the catalog. Nothing to do.');
+          uploading = false;
+          $uploadAllBtn.disabled = false;
+          $clearBtn.disabled = false;
+          renderFileList();
+          setTimeout(function () { setOverallProgress(0); }, 1500);
+          return;
+        }
+
+        /* Write the final catalog once with all new tracks. */
+        if (succeeded > 0) {
+          showStatus('info', 'Uploaded ' + succeeded + ' MP3' + (succeeded === 1 ? '' : 's') + '. Writing catalog…');
+
+          writeCatalog(catalog, catalogSha).then(function () {
+            var msg = '✅ Bulk upload complete: ' + succeeded + ' new track' + (succeeded === 1 ? '' : 's') + ' added.';
+            if (skipped) msg += ' ' + skipped + ' skipped as duplicates.';
+            if (failed) msg += ' ' + failed + ' failed — see per-row status above.';
+            msg += ' Catalog now has ' + catalog.length + ' total tracks. Netlify will rebuild the site in ~1-2 minutes.';
+            showStatus(failed > 0 ? 'error' : 'success', msg);
+            $fcCatalog.textContent = ' · catalog now: ' + catalog.length + ' tracks';
+            finalize();
+          }).catch(function (err) {
+            showStatus('error', 'MP3s uploaded but catalog write failed: ' + err.message + '. Files are in the repo but not listed on the site yet. Try refreshing and running Upload All again — duplicates will be skipped.');
+            finalize();
+          });
+        } else {
+          var errMsg = 'All uploads failed. ';
+          if (failed) errMsg += failed + ' error' + (failed === 1 ? '' : 's') + ' — check per-row status.';
+          showStatus('error', errMsg);
+          finalize();
+        }
+
+        function finalize() {
+          uploading = false;
+          $uploadAllBtn.disabled = false;
+          $clearBtn.disabled = false;
+          renderFileList();
+          setTimeout(function () { setOverallProgress(0); }, 3000);
+        }
+      }
+
+      next();
+
+    }).catch(function (err) {
+      showStatus('error', 'Failed to load current catalog: ' + err.message + '. Check your PAT permissions.');
+      uploading = false;
+      $uploadAllBtn.disabled = false;
+      $clearBtn.disabled = false;
+      renderFileList();
+    });
+  }
+
+}());
+</script>
+
+</body>
+</html>
