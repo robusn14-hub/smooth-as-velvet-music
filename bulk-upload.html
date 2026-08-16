@@ -24,19 +24,16 @@ body { margin: 0; background: var(--navy); color: var(--warm-white); font-family
 a { color: var(--gold); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-.page-wrap {
-  max-width: 960px; margin: 0 auto; padding: 48px 24px 80px;
-}
+.page-wrap { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px; }
 .back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase; font-weight: 700; }
 .back:hover { color: var(--gold-soft); }
 
 h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52px); margin: 0 0 6px; }
-.subtitle { color: var(--muted); margin: 0 0 24px; font-size: 16px; }
+.subtitle { color: var(--muted); margin: 0 0 24px; font-size: 16px; line-height: 1.55; }
 
 .link-row { margin-bottom: 32px; font-size: 13px; letter-spacing: 0.5px; }
 .link-row a { text-transform: uppercase; font-weight: 700; margin-right: 20px; }
 
-/* Auth block */
 #auth-section { margin-bottom: 28px; padding: 20px; background: var(--navy-panel); border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); }
 #auth-section p { color: var(--muted); font-size: 13px; margin: 0 0 12px; line-height: 1.55; }
 .token-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
@@ -47,7 +44,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   background: none; border: none; cursor: pointer; color: var(--gold); font-size: 18px; padding: 4px;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 40px; padding: 0 20px; border-radius: 999px;
@@ -61,11 +57,8 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 .btn-primary:not(:disabled):hover { background: var(--gold-soft); transform: translateY(-1px); }
 .btn-ghost    { background: transparent; color: var(--warm-white); }
 .btn-ghost:not(:disabled):hover { background: var(--gold); color: var(--navy-deep); }
-.btn-danger   { background: transparent; color: #e88080; border-color: var(--danger); min-height: 32px; padding: 0 14px; font-size: 12px; }
-.btn-danger:not(:disabled):hover { background: var(--danger); color: white; }
 .btn-big { min-height: 56px; padding: 0 36px; font-size: 15px; }
 
-/* Drop zone */
 #drop-zone {
   border: 2px dashed rgba(212,175,55,0.5);
   border-radius: 16px;
@@ -76,17 +69,12 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   transition: all 0.2s;
   margin-bottom: 24px;
 }
-#drop-zone.hover {
-  border-color: var(--gold);
-  background: var(--navy-panel-2);
-  transform: scale(1.005);
-}
+#drop-zone.hover { border-color: var(--gold); background: var(--navy-panel-2); transform: scale(1.005); }
 #drop-zone p { margin: 0; color: var(--muted); }
 #drop-zone .dz-title { color: var(--gold); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
 #drop-zone .dz-hint { font-size: 13px; margin-top: 12px; }
 #drop-zone input[type="file"] { display: none; }
 
-/* File list */
 #file-list {
   display: none;
   background: var(--navy-panel);
@@ -96,43 +84,44 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   border: 1px solid rgba(212,175,55,0.15);
 }
 .file-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 70px 55px 55px 55px 90px 30px;
+  gap: 10px;
   padding: 12px 20px;
   border-bottom: 1px solid rgba(212,175,55,0.15);
-  font-size: 13px;
+  font-size: 11px;
   color: var(--gold);
   letter-spacing: 0.6px;
   text-transform: uppercase;
   font-weight: 700;
 }
+.file-list-header span:not(:first-child) { text-align: center; }
+
 .file-row {
   display: grid;
-  grid-template-columns: 1fr 90px 90px 100px 40px;
+  grid-template-columns: 1fr 70px 55px 55px 55px 90px 30px;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 12px 20px;
   border-bottom: 1px solid rgba(212,175,55,0.08);
-  font-size: 14px;
+  font-size: 13px;
 }
 .file-row:last-child { border-bottom: none; }
 .file-row .fr-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.file-row .fr-size { color: var(--muted); font-size: 12px; text-align: right; }
-.file-row .fr-duration { color: var(--muted); font-size: 12px; text-align: right; }
-.file-row .fr-status { font-size: 12px; text-align: right; }
+.file-row .fr-size, .file-row .fr-duration { color: var(--muted); font-size: 11px; text-align: center; }
+.file-row .fr-bpm, .file-row .fr-key { font-size: 12px; text-align: center; font-weight: 700; color: var(--gold-soft); }
+.file-row .fr-bpm.analyzing, .file-row .fr-key.analyzing { color: var(--info); font-weight: 400; }
+.file-row .fr-bpm.pending, .file-row .fr-key.pending { color: var(--muted); font-weight: 400; }
+.file-row .fr-status { font-size: 11px; text-align: center; }
 .file-row .fr-status.pending { color: var(--muted); }
 .file-row .fr-status.uploading { color: var(--info); }
 .file-row .fr-status.success { color: var(--success); }
 .file-row .fr-status.error { color: #e88080; }
 .file-row .fr-status.skipped { color: var(--gold-soft); }
-.file-row button.fr-remove {
-  background: none; border: none; color: #e88080; font-size: 18px; cursor: pointer; padding: 4px 8px;
-}
+.file-row button.fr-remove { background: none; border: none; color: #e88080; font-size: 18px; cursor: pointer; padding: 4px 8px; }
 .file-row button.fr-remove:hover { color: var(--danger); }
 .file-row button.fr-remove:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* Action bar */
 #action-bar {
   display: none;
   justify-content: space-between;
@@ -148,7 +137,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 #file-count { color: var(--gold); font-weight: 700; font-size: 15px; }
 #file-count .catalog-current { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 12px; }
 
-/* Status */
 #global-status {
   display: none; margin-top: 16px; padding: 16px 20px;
   border-radius: 12px; font-size: 14px; line-height: 1.55;
@@ -157,7 +145,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 #global-status.error   { background: rgba(192,57,43,0.15);  border: 1px solid var(--danger);  color: #e88080; }
 #global-status.info    { background: rgba(52,152,219,0.15); border: 1px solid var(--info);    color: #7ec3e8; }
 
-/* Progress bar */
 #overall-progress {
   display: none;
   height: 8px;
@@ -173,8 +160,10 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   transition: width 0.3s;
 }
 
-@media (max-width: 600px) {
-  .file-row { grid-template-columns: 1fr 60px 40px; }
+@media (max-width: 700px) {
+  .file-list-header { grid-template-columns: 1fr 55px 40px 40px 30px; }
+  .file-list-header span.hide-mobile { display: none; }
+  .file-row { grid-template-columns: 1fr 55px 40px 40px 30px; }
   .file-row .fr-size, .file-row .fr-status { display: none; }
 }
 </style>
@@ -186,13 +175,12 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   <a class="back" href="index.html">&larr; Back to Site</a>
 
   <h1>Bulk Track Upload</h1>
-  <p class="subtitle">Drag and drop multiple MP3s to upload up to 25 tracks at once. Metadata gets smart defaults you can edit later.</p>
+  <p class="subtitle">Drag and drop multiple MP3s to upload up to 25 tracks at once. Metadata is auto-extracted from your files &mdash; title, duration, BPM, and key are all detected automatically.</p>
 
   <div class="link-row">
     <a href="upload.html">Single upload with full metadata &rarr;</a>
   </div>
 
-  <!-- GitHub Token -->
   <section id="auth-section">
     <p><strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository.
        Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>.
@@ -206,15 +194,13 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     </div>
   </section>
 
-  <!-- Drop zone -->
   <label for="file-input" id="drop-zone">
     <div class="dz-title">Drag &amp; drop MP3 files here</div>
     <p>&mdash; or click to browse &mdash;</p>
-    <p class="dz-hint">Up to 25 files per batch &middot; 50 MB max per file &middot; .mp3 only</p>
+    <p class="dz-hint">Up to 25 files per batch &middot; 50 MB max per file &middot; .mp3 only &middot; BPM/key auto-detected</p>
     <input type="file" id="file-input" accept=".mp3,audio/mpeg" multiple />
   </label>
 
-  <!-- Action bar -->
   <div id="action-bar">
     <div id="file-count">
       <span id="fc-selected">0 files selected</span>
@@ -226,11 +212,15 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     </div>
   </div>
 
-  <!-- File list -->
   <div id="file-list">
     <div class="file-list-header">
       <span>Track</span>
-      <span>Size &middot; Duration &middot; Status</span>
+      <span class="hide-mobile">Size</span>
+      <span>Dur</span>
+      <span>BPM</span>
+      <span>Key</span>
+      <span class="hide-mobile">Status</span>
+      <span></span>
     </div>
     <div id="file-rows"></div>
   </div>
@@ -240,23 +230,21 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
 <script>
 (function () {
   'use strict';
 
-  /* ───────────────────────── CONFIG ───────────────────────── */
   var REPO    = 'robusn14-hub/smooth-as-velvet-music';
   var BRANCH  = 'main';
   var API     = 'https://api.github.com';
   var MAX_FILES = 25;
   var MAX_FILE_BYTES = 50 * 1024 * 1024;
-  /* ────────────────────────────────────────────────────────── */
 
   var token = '';
-  var files = [];             /* [{ file, id, status, statusMsg, durationSec }] */
+  var files = [];
   var uploading = false;
 
-  /* ── DOM refs ── */
   var $tokenInput = document.getElementById('gh-token');
   var $toggleTokenBtn = document.getElementById('toggle-token');
   var $saveTokenBtn = document.getElementById('save-token-btn');
@@ -273,7 +261,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   var $overallProgress = document.getElementById('overall-progress');
   var $progressBar = document.getElementById('progress-bar');
 
-  /* ── Token handling ── */
   $toggleTokenBtn.addEventListener('click', function () {
     $tokenInput.type = $tokenInput.type === 'password' ? 'text' : 'password';
   });
@@ -285,7 +272,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     showStatus('info', 'Token accepted for this session. Now drag in your MP3 files.');
   });
 
-  /* ── Status helpers ── */
   function showStatus(type, msg) {
     $globalStatus.className = type;
     $globalStatus.textContent = msg;
@@ -297,7 +283,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     $progressBar.style.width = pct + '%';
   }
 
-  /* ── Drop zone handlers ── */
   ['dragenter','dragover'].forEach(function (ev) {
     $dropZone.addEventListener(ev, function (e) {
       e.preventDefault(); e.stopPropagation();
@@ -320,7 +305,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     $fileInput.value = '';
   });
 
-  /* ── File management ── */
   function addFiles(incoming) {
     if (uploading) { showStatus('error', 'Please wait for the current upload to finish before adding more files.'); return; }
 
@@ -331,7 +315,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       if (!f.name.toLowerCase().endsWith('.mp3')) { rejected++; return; }
       if (f.size > MAX_FILE_BYTES) { rejected++; return; }
 
-      /* Skip duplicates by name+size */
       var isDup = files.some(function (x) { return x.file.name === f.name && x.file.size === f.size; });
       if (isDup) { rejected++; return; }
 
@@ -340,7 +323,13 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
         id: 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
         status: 'pending',
         statusMsg: 'Pending',
-        durationSec: null
+        durationSec: null,
+        id3Title: null,
+        id3Artist: null,
+        sunoId: null,
+        bpm: null,
+        keySig: null,
+        analysisState: 'queued'
       });
       accepted++;
     });
@@ -348,15 +337,18 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     renderFileList();
 
     if (accepted > 0 && rejected === 0) {
-      showStatus('info', accepted + ' file' + (accepted === 1 ? '' : 's') + ' added. Ready to upload.');
+      showStatus('info', accepted + ' file' + (accepted === 1 ? '' : 's') + ' added. Analyzing metadata... BPM/key detection takes a few seconds per file.');
     } else if (accepted > 0 && rejected > 0) {
-      showStatus('info', accepted + ' added, ' + rejected + ' skipped (duplicates, non-mp3, over 50MB, or over ' + MAX_FILES + '-file limit).');
+      showStatus('info', accepted + ' added, ' + rejected + ' skipped. Analyzing metadata...');
     } else if (rejected > 0) {
       showStatus('error', 'All ' + rejected + ' files were rejected (duplicates, non-mp3, over 50MB, or over ' + MAX_FILES + '-file limit).');
     }
 
-    /* Async duration detection for each new file */
-    files.filter(function (x) { return x.durationSec === null; }).forEach(detectDuration);
+    files.filter(function (x) { return x.durationSec === null; }).forEach(function (entry) {
+      detectDuration(entry);
+      readID3Tags(entry);
+      analyzeBpmAndKey(entry);
+    });
   }
 
   function detectDuration(entry) {
@@ -368,11 +360,243 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       renderFileList();
     };
     audio.onerror = function () {
-      entry.durationSec = 0; /* unknown */
+      entry.durationSec = 0;
       URL.revokeObjectURL(audio.src);
       renderFileList();
     };
     audio.src = URL.createObjectURL(entry.file);
+  }
+
+  function readID3Tags(entry) {
+    if (!window.jsmediatags) return;
+    window.jsmediatags.read(entry.file, {
+      onSuccess: function (tag) {
+        var t = tag.tags || {};
+        if (t.title) entry.id3Title = String(t.title).trim();
+        if (t.artist) entry.id3Artist = String(t.artist).trim();
+        var comment = t.comment && t.comment.text ? String(t.comment.text) : '';
+        var m = comment.match(/id=([a-f0-9-]{20,})/i);
+        if (m) entry.sunoId = m[1];
+        renderFileList();
+      },
+      onError: function () { /* silent - fall back to filename */ }
+    });
+  }
+
+  var KRUMHANSL_MAJOR = [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88];
+  var KRUMHANSL_MINOR = [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17];
+  var NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+  function analyzeBpmAndKey(entry) {
+    entry.analysisState = 'analyzing';
+    renderFileList();
+
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) {
+      entry.analysisState = 'failed';
+      renderFileList();
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var ctx = new AudioContext();
+      ctx.decodeAudioData(e.target.result.slice(0)).then(function (buffer) {
+        var keyResult = null;
+        try { keyResult = detectKey(buffer); } catch (err) { keyResult = null; }
+
+        return detectBPM(buffer).then(function (bpmResult) {
+          entry.bpm = bpmResult || null;
+          entry.keySig = keyResult || null;
+          entry.analysisState = (entry.bpm || entry.keySig) ? 'done' : 'failed';
+          if (ctx.close) ctx.close();
+          renderFileList();
+        });
+      }).catch(function () {
+        entry.analysisState = 'failed';
+        if (ctx.close) ctx.close();
+        renderFileList();
+      });
+    };
+    reader.onerror = function () {
+      entry.analysisState = 'failed';
+      renderFileList();
+    };
+    reader.readAsArrayBuffer(entry.file);
+  }
+
+  function detectBPM(buffer) {
+    var offline = new OfflineAudioContext(1, buffer.length, buffer.sampleRate);
+    var source = offline.createBufferSource();
+    source.buffer = buffer;
+
+    var lowpass = offline.createBiquadFilter();
+    lowpass.type = 'lowpass';
+    lowpass.frequency.value = 150;
+    lowpass.Q.value = 1;
+
+    var highpass = offline.createBiquadFilter();
+    highpass.type = 'highpass';
+    highpass.frequency.value = 40;
+    highpass.Q.value = 1;
+
+    source.connect(lowpass);
+    lowpass.connect(highpass);
+    highpass.connect(offline.destination);
+    source.start(0);
+
+    return offline.startRendering().then(function (rendered) {
+      return computeBPMFromPCM(rendered.getChannelData(0), rendered.sampleRate);
+    });
+  }
+
+  function computeBPMFromPCM(data, sampleRate) {
+    var peaks = [];
+    var threshold = 0.9;
+    var minPeakSpacing = sampleRate * 0.2;
+
+    while (peaks.length < 30 && threshold > 0.1) {
+      peaks = [];
+      var lastPeakPos = -minPeakSpacing;
+      for (var i = 0; i < data.length; i++) {
+        if (Math.abs(data[i]) > threshold && (i - lastPeakPos) > minPeakSpacing) {
+          peaks.push(i);
+          lastPeakPos = i;
+        }
+      }
+      threshold -= 0.05;
+    }
+
+    if (peaks.length < 4) return 0;
+
+    var intervalGroups = {};
+    for (var j = 0; j < peaks.length - 1; j++) {
+      for (var k = j + 1; k < Math.min(j + 10, peaks.length); k++) {
+        var interval = peaks[k] - peaks[j];
+        var bpm = 60 / (interval / sampleRate);
+        while (bpm < 60) bpm *= 2;
+        while (bpm > 180) bpm /= 2;
+        var bpmRounded = Math.round(bpm);
+        intervalGroups[bpmRounded] = (intervalGroups[bpmRounded] || 0) + 1;
+      }
+    }
+
+    var bestBpm = 0, bestCount = 0;
+    for (var b in intervalGroups) {
+      if (intervalGroups[b] > bestCount) {
+        bestCount = intervalGroups[b];
+        bestBpm = parseInt(b, 10);
+      }
+    }
+    return bestBpm;
+  }
+
+  function detectKey(buffer) {
+    var chroma = computeChromagram(buffer.getChannelData(0), buffer.sampleRate);
+    var bestKey = null;
+    var bestCorr = -Infinity;
+    for (var i = 0; i < 12; i++) {
+      var majCorr = pearsonCorrelation(chroma, rotate(KRUMHANSL_MAJOR, i));
+      var minCorr = pearsonCorrelation(chroma, rotate(KRUMHANSL_MINOR, i));
+      if (majCorr > bestCorr) { bestCorr = majCorr; bestKey = NOTE_NAMES[i] + ' maj'; }
+      if (minCorr > bestCorr) { bestCorr = minCorr; bestKey = NOTE_NAMES[i] + ' min'; }
+    }
+    return bestKey;
+  }
+
+  function computeChromagram(data, sampleRate) {
+    var chroma = new Array(12).fill(0);
+    var fftSize = 4096;
+    var hopSize = Math.floor(sampleRate * 2);
+    var maxSamples = Math.min(data.length, sampleRate * 120);
+
+    for (var offset = 0; offset + fftSize < maxSamples; offset += hopSize) {
+      var windowed = new Float32Array(fftSize);
+      for (var i = 0; i < fftSize; i++) {
+        var w = 0.5 * (1 - Math.cos(2 * Math.PI * i / (fftSize - 1)));
+        windowed[i] = data[offset + i] * w;
+      }
+      var spectrum = simpleFFTMag(windowed);
+      for (var bin = 1; bin < spectrum.length; bin++) {
+        var freq = bin * sampleRate / fftSize;
+        if (freq < 65 || freq > 2100) continue;
+        var midi = 69 + 12 * Math.log2(freq / 440);
+        var pitchClass = Math.round(midi) % 12;
+        if (pitchClass < 0) pitchClass += 12;
+        chroma[pitchClass] += spectrum[bin];
+      }
+    }
+
+    var sum = chroma.reduce(function (a, b) { return a + b; }, 0);
+    if (sum > 0) for (var c = 0; c < 12; c++) chroma[c] /= sum;
+    return chroma;
+  }
+
+  function simpleFFTMag(input) {
+    var n = input.length;
+    var real = new Float32Array(n);
+    var imag = new Float32Array(n);
+    for (var i = 0; i < n; i++) real[i] = input[i];
+
+    var j = 0;
+    for (var ii = 1; ii < n; ii++) {
+      var bit = n >> 1;
+      for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit;
+      if (ii < j) {
+        var tr = real[ii]; real[ii] = real[j]; real[j] = tr;
+        var ti = imag[ii]; imag[ii] = imag[j]; imag[j] = ti;
+      }
+    }
+
+    for (var len = 2; len <= n; len <<= 1) {
+      var ang = -2 * Math.PI / len;
+      var wlenReal = Math.cos(ang);
+      var wlenImag = Math.sin(ang);
+      for (var s = 0; s < n; s += len) {
+        var wr = 1, wi = 0;
+        for (var k2 = 0; k2 < len / 2; k2++) {
+          var uReal = real[s + k2];
+          var uImag = imag[s + k2];
+          var vReal = real[s + k2 + len / 2] * wr - imag[s + k2 + len / 2] * wi;
+          var vImag = real[s + k2 + len / 2] * wi + imag[s + k2 + len / 2] * wr;
+          real[s + k2] = uReal + vReal;
+          imag[s + k2] = uImag + vImag;
+          real[s + k2 + len / 2] = uReal - vReal;
+          imag[s + k2 + len / 2] = uImag - vImag;
+          var nwr = wr * wlenReal - wi * wlenImag;
+          wi = wr * wlenImag + wi * wlenReal;
+          wr = nwr;
+        }
+      }
+    }
+
+    var mag = new Float32Array(n / 2);
+    for (var m = 0; m < n / 2; m++) {
+      mag[m] = Math.sqrt(real[m] * real[m] + imag[m] * imag[m]);
+    }
+    return mag;
+  }
+
+  function rotate(arr, n) {
+    var r = new Array(arr.length);
+    for (var i = 0; i < arr.length; i++) r[i] = arr[(i + arr.length - n) % arr.length];
+    return r;
+  }
+
+  function pearsonCorrelation(x, y) {
+    var n = x.length;
+    var mx = 0, my = 0;
+    for (var i = 0; i < n; i++) { mx += x[i]; my += y[i]; }
+    mx /= n; my /= n;
+    var num = 0, dx = 0, dy = 0;
+    for (var j = 0; j < n; j++) {
+      var xd = x[j] - mx, yd = y[j] - my;
+      num += xd * yd;
+      dx += xd * xd;
+      dy += yd * yd;
+    }
+    return num / Math.sqrt(dx * dy + 1e-12);
   }
 
   function removeFile(id) {
@@ -409,19 +633,31 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
       var name = document.createElement('div');
       name.className = 'fr-name';
-      name.title = entry.file.name;
-      name.textContent = entry.file.name;
+      name.title = entry.file.name + (entry.id3Title ? '\nID3 title: ' + entry.id3Title : '');
+      name.textContent = entry.id3Title || entry.file.name;
 
       var size = document.createElement('div');
-      size.className = 'fr-size';
+      size.className = 'fr-size hide-mobile';
       size.textContent = (entry.file.size / (1024 * 1024)).toFixed(1) + ' MB';
 
       var duration = document.createElement('div');
       duration.className = 'fr-duration';
-      duration.textContent = entry.durationSec === null ? '…' : (entry.durationSec > 0 ? formatDuration(entry.durationSec) : '?:??');
+      duration.textContent = entry.durationSec === null ? '...' : (entry.durationSec > 0 ? formatDuration(entry.durationSec) : '?:??');
+
+      var bpm = document.createElement('div');
+      var bpmClass = entry.bpm === null ? (entry.analysisState === 'analyzing' ? 'analyzing' : 'pending') : '';
+      bpm.className = 'fr-bpm ' + bpmClass;
+      bpm.textContent = entry.bpm === null ? (entry.analysisState === 'analyzing' ? '...' : '-') : Math.round(entry.bpm);
+      bpm.title = 'Auto-detected tempo';
+
+      var keyEl = document.createElement('div');
+      var keyClass = entry.keySig === null ? (entry.analysisState === 'analyzing' ? 'analyzing' : 'pending') : '';
+      keyEl.className = 'fr-key ' + keyClass;
+      keyEl.textContent = entry.keySig === null ? (entry.analysisState === 'analyzing' ? '...' : '-') : entry.keySig;
+      keyEl.title = 'Auto-detected key';
 
       var status = document.createElement('div');
-      status.className = 'fr-status ' + entry.status;
+      status.className = 'fr-status hide-mobile ' + entry.status;
       status.textContent = entry.statusMsg;
 
       var remove = document.createElement('button');
@@ -435,6 +671,8 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       row.appendChild(name);
       row.appendChild(size);
       row.appendChild(duration);
+      row.appendChild(bpm);
+      row.appendChild(keyEl);
       row.appendChild(status);
       row.appendChild(remove);
       $fileRows.appendChild(row);
@@ -450,30 +688,27 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   function updateFileStatus(entry, status, msg) {
     entry.status = status;
     entry.statusMsg = msg;
-    /* Targeted DOM update instead of full re-render for speed */
     var row = $fileRows.querySelector('[data-id="' + entry.id + '"]');
     if (row) {
       var st = row.querySelector('.fr-status');
-      st.className = 'fr-status ' + status;
+      st.className = 'fr-status hide-mobile ' + status;
       st.textContent = msg;
     }
   }
 
-  /* ── Metadata defaults ── */
   function titleFromFilename(name) {
     var base = name.replace(/\.mp3$/i, '');
     base = base.replace(/[-_]+/g, ' ');
     base = base.replace(/\s+/g, ' ').trim();
-    /* Title-case each word */
     return base.split(' ').map(function (w) {
       return w.length ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w;
     }).join(' ');
   }
 
   function buildTrackEntry(entry) {
-    var title = titleFromFilename(entry.file.name);
+    var title = entry.id3Title || titleFromFilename(entry.file.name);
     var lengthStr = entry.durationSec && entry.durationSec > 0 ? formatDuration(entry.durationSec) : '';
-    return {
+    var track = {
       title:  title,
       length: lengthStr,
       mood:   'Smooth jazz instrumental — description pending',
@@ -481,9 +716,13 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       audio:  'tracks/' + entry.file.name,
       added:  new Date().toISOString().split('T')[0]
     };
+    if (entry.bpm && entry.bpm > 0) track.bpm = Math.round(entry.bpm);
+    if (entry.keySig) track.key = entry.keySig;
+    if (entry.id3Artist) track.artist = entry.id3Artist;
+    if (entry.sunoId) track.sunoId = entry.sunoId;
+    return track;
   }
 
-  /* ── GitHub helpers (same cache-bust + retry pattern as upload.html) ── */
   function ghHeaders() {
     return {
       'Authorization': 'Bearer ' + token,
@@ -517,7 +756,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     }).then(function (r) {
       if (r.ok) return r.json();
 
-      /* Retry on stale-SHA conflict (409/422) with a fresh SHA lookup */
       if ((r.status === 409 || r.status === 422) && retryCount < 2) {
         return new Promise(function (resolve) { setTimeout(resolve, 1500); })
           .then(function () { return getFileSha(path); })
@@ -526,9 +764,8 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
           });
       }
 
-      /* Retry on rate limit (429/403 with rate-limit body) with an exponential backoff */
       if ((r.status === 429 || r.status === 403) && retryCount < 3) {
-        var backoff = Math.pow(2, retryCount) * 3000; /* 3s, 6s, 12s */
+        var backoff = Math.pow(2, retryCount) * 3000;
         return new Promise(function (resolve) { setTimeout(resolve, backoff); })
           .then(function () { return putFile(path, base64Content, message, sha, retryCount + 1); });
       }
@@ -576,11 +813,15 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     return putFile('tracks.json', jsonB64, 'Catalog: bulk update (' + catalog.length + ' tracks)', sha);
   }
 
-  /* ── Bulk upload orchestration ── */
   $uploadAllBtn.addEventListener('click', function () {
     if (uploading) return;
     if (!token) { showStatus('error', 'Set your GitHub PAT first.'); return; }
     if (files.length === 0) { showStatus('error', 'No files to upload.'); return; }
+
+    var stillAnalyzing = files.filter(function (f) { return f.analysisState === 'analyzing'; }).length;
+    if (stillAnalyzing > 0) {
+      if (!confirm(stillAnalyzing + ' file' + (stillAnalyzing === 1 ? ' is' : 's are') + ' still being analyzed for BPM/key. Upload now anyway? (Those tracks will be uploaded without BPM/key metadata.)')) return;
+    }
     startBulkUpload();
   });
 
@@ -588,21 +829,19 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     uploading = true;
     $uploadAllBtn.disabled = true;
     $clearBtn.disabled = true;
-    renderFileList(); /* refresh to disable remove buttons */
+    renderFileList();
     hideStatus();
     setOverallProgress(0);
-    showStatus('info', 'Starting bulk upload of ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '…');
+    showStatus('info', 'Starting bulk upload of ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '...');
 
-    /* Load current catalog once. We'll update it in memory and write once at the end. */
     fetchCatalog().then(function (initial) {
       var catalog = initial.catalog;
       var catalogSha = initial.sha;
-      $fcCatalog.textContent = ' · catalog currently: ' + catalog.length + ' tracks';
+      $fcCatalog.textContent = ' - catalog currently: ' + catalog.length + ' tracks';
 
       var succeeded = 0, failed = 0, skipped = 0;
       var pending = files.slice();
 
-      /* Sequentially upload each MP3, updating the in-memory catalog as we go. */
       function next() {
         if (pending.length === 0) return finish();
 
@@ -610,35 +849,32 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
         var doneCount = files.length - pending.length - 1;
         setOverallProgress(Math.round((doneCount / files.length) * 100));
 
-        updateFileStatus(entry, 'uploading', 'Uploading…');
+        updateFileStatus(entry, 'uploading', 'Uploading');
 
         var filePath = 'tracks/' + entry.file.name;
 
         fileToBase64(entry.file).then(function (b64) {
           return getFileSha(filePath).then(function (existingSha) {
-            /* If the MP3 already exists in the repo AND the catalog, skip. */
             var alreadyInCatalog = catalog.some(function (t) {
               return t && t.audio && t.audio.replace(/^tracks\//, '') === entry.file.name;
             });
             if (existingSha && alreadyInCatalog) {
-              updateFileStatus(entry, 'skipped', 'Already in catalog');
+              updateFileStatus(entry, 'skipped', 'Duplicate');
               skipped++;
               return next();
             }
 
             return putFile(filePath, b64, 'Bulk add: ' + entry.file.name, existingSha).then(function () {
-              /* Only add to catalog if not already there */
               if (!alreadyInCatalog) {
                 catalog.push(buildTrackEntry(entry));
               }
-              updateFileStatus(entry, 'success', '✓ Uploaded');
+              updateFileStatus(entry, 'success', 'Uploaded');
               succeeded++;
-              /* Small pause to be polite to GitHub API */
               setTimeout(next, 400);
             });
           });
         }).catch(function (err) {
-          updateFileStatus(entry, 'error', '✗ ' + (err.message || 'Failed'));
+          updateFileStatus(entry, 'error', 'Failed');
           failed++;
           setTimeout(next, 400);
         });
@@ -649,33 +885,28 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
         if (succeeded === 0 && failed === 0 && skipped > 0) {
           showStatus('info', 'All ' + skipped + ' file' + (skipped === 1 ? '' : 's') + ' were already in the catalog. Nothing to do.');
-          uploading = false;
-          $uploadAllBtn.disabled = false;
-          $clearBtn.disabled = false;
-          renderFileList();
-          setTimeout(function () { setOverallProgress(0); }, 1500);
+          finalize();
           return;
         }
 
-        /* Write the final catalog once with all new tracks. */
         if (succeeded > 0) {
-          showStatus('info', 'Uploaded ' + succeeded + ' MP3' + (succeeded === 1 ? '' : 's') + '. Writing catalog…');
+          showStatus('info', 'Uploaded ' + succeeded + ' MP3' + (succeeded === 1 ? '' : 's') + '. Writing catalog...');
 
           writeCatalog(catalog, catalogSha).then(function () {
-            var msg = '✅ Bulk upload complete: ' + succeeded + ' new track' + (succeeded === 1 ? '' : 's') + ' added.';
+            var msg = 'Bulk upload complete: ' + succeeded + ' new track' + (succeeded === 1 ? '' : 's') + ' added.';
             if (skipped) msg += ' ' + skipped + ' skipped as duplicates.';
-            if (failed) msg += ' ' + failed + ' failed — see per-row status above.';
-            msg += ' Catalog now has ' + catalog.length + ' total tracks. Netlify will rebuild the site in ~1-2 minutes.';
+            if (failed) msg += ' ' + failed + ' failed - see per-row status above.';
+            msg += ' Catalog now has ' + catalog.length + ' total tracks. Netlify will rebuild the site in about 1-2 minutes.';
             showStatus(failed > 0 ? 'error' : 'success', msg);
-            $fcCatalog.textContent = ' · catalog now: ' + catalog.length + ' tracks';
+            $fcCatalog.textContent = ' - catalog now: ' + catalog.length + ' tracks';
             finalize();
           }).catch(function (err) {
-            showStatus('error', 'MP3s uploaded but catalog write failed: ' + err.message + '. Files are in the repo but not listed on the site yet. Try refreshing and running Upload All again — duplicates will be skipped.');
+            showStatus('error', 'MP3s uploaded but catalog write failed: ' + err.message + '. Files are in the repo but not listed on the site yet. Try Upload All again - duplicates will be skipped.');
             finalize();
           });
         } else {
           var errMsg = 'All uploads failed. ';
-          if (failed) errMsg += failed + ' error' + (failed === 1 ? '' : 's') + ' — check per-row status.';
+          if (failed) errMsg += failed + ' error' + (failed === 1 ? '' : 's') + ' - check per-row status.';
           showStatus('error', errMsg);
           finalize();
         }
