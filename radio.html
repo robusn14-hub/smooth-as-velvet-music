@@ -39,11 +39,19 @@ h1 { margin: 0; max-width: 720px; font-size: clamp(48px, 7vw, 82px); line-height
 .live-dot { width: 10px; height: 10px; border-radius: 50%; background: #67d58a; box-shadow: 0 0 0 6px rgba(103,213,138,.12); }
 .listen-card audio { display: block; width: 100%; }
 .listen-note { margin: 13px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-.station-mark { min-height: 430px; padding: 46px; display: grid; place-items: center; text-align: center; border: 1px solid var(--gold); border-radius: 28px; background: radial-gradient(circle at 50% 28%, #1e4164 0, #0a1725 68%); box-shadow: var(--shadow); }
-.station-mark .city { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; }
-.station-mark .sjb { margin: 18px 0 12px; color: var(--gold-soft); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(76px, 10vw, 116px); line-height: .8; }
-.station-mark h2 { margin: 0; font-size: 29px; letter-spacing: 1.4px; }
-.station-mark p { margin: 12px 0 0; color: var(--muted); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.track-board { padding: 26px; border: 1px solid var(--gold); border-radius: 24px; background: linear-gradient(145deg, #12263b, #091725); box-shadow: var(--shadow); }
+.track-window { padding: 22px; border: 1px solid var(--line); border-radius: 17px; background: rgba(8,19,31,.72); }
+.track-window + .track-window { margin-top: 18px; }
+.track-label { margin-bottom: 10px; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+.now-song { min-height: 34px; color: var(--white); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(23px,3vw,31px); line-height: 1.25; }
+.track-artist { margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .7px; }
+.track-license { display: inline-block; margin-top: 14px; color: var(--gold-soft); font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; border-bottom: 1px solid var(--gold); }
+.track-window h2 { margin: 0 0 14px; font-size: 25px; }
+#stream_info_songhistory { color: var(--muted); font-size: 14px; line-height: 1.5; }
+#stream_info_songhistory > * { margin: 0; padding: 11px 0; border-top: 1px solid rgba(212,175,55,.2); }
+#stream_info_songhistory img { width: 42px; height: 42px; object-fit: cover; border-radius: 7px; }
+.history-license { flex: 0 0 auto; color: var(--gold-soft); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; border-bottom: 1px solid var(--gold); }
+.history-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .band { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--navy-deep); }
 .section { max-width: 1160px; margin: 0 auto; padding: 68px 24px; }
 .section-head { max-width: 740px; margin-bottom: 34px; }
@@ -66,7 +74,6 @@ footer { padding: 34px 24px; text-align: center; border-top: 3px solid var(--gol
 footer strong { color: var(--gold-soft); }
 @media (max-width: 850px) {
   .hero, .partner-box { grid-template-columns: 1fr; }
-  .station-mark { min-height: 320px; }
   .grid { grid-template-columns: 1fr; }
   .partner-actions { justify-content: flex-start; }
 }
@@ -78,7 +85,7 @@ footer strong { color: var(--gold-soft); }
   .nav-links a:not(:last-child) { display: none; }
   .hero { padding: 52px 16px 42px; gap: 36px; }
   .section { padding: 50px 16px; }
-  .station-mark { padding: 30px 18px; }
+  .track-board { padding: 18px; }
   .partner-box { padding: 26px 22px; }
 }
 </style>
@@ -114,14 +121,20 @@ footer strong { color: var(--gold-soft); }
         <p class="listen-note">Press play to listen. Keep this page open while the music streams.</p>
       </div>
     </div>
-    <div class="station-mark" aria-label="Smooth Jazz Bham Radio">
-      <div>
-        <div class="city">From the Magic City</div>
-        <div class="sjb">SJB</div>
-        <h2>SMOOTH JAZZ BHAM</h2>
-        <p>Relax &bull; Listen &bull; Stay awhile</p>
+    <aside class="track-board" aria-label="Live track information">
+      <div class="track-window">
+        <div class="track-label">Now Playing</div>
+        <div class="now-song" id="stream_info_song">Loading the current track&hellip;</div>
+        <div class="track-artist">Robert Lamar</div>
+        <a class="track-license" id="now-license" href="mailto:licensing@smoothasvelvetmusic.com?subject=Licensing%20Inquiry%3A%20Current%20Radio%20Track">License this track</a>
       </div>
-    </div>
+      <div class="track-window">
+        <div class="track-label">Last Played</div>
+        <h2>Recently Played</h2>
+        <div id="stream_info_songhistory" data-count="5">Loading the last five tracks&hellip;</div>
+        <p class="history-note">Missed the title? Choose a recent track and mention it in your licensing inquiry.</p>
+      </div>
+    </aside>
   </section>
 
   <div class="band" id="community">
@@ -158,5 +171,42 @@ footer strong { color: var(--gold-soft); }
   <strong>Smooth Jazz Bham Radio</strong> &mdash; Birmingham, Alabama &bull; Streaming worldwide<br />
   &copy; 2026 Smooth As Velvet Music. All Rights Reserved.
 </footer>
+<script src="https://public.cloudrad.io/f6844eec/streaminfo.js"></script>
+<script>
+(function () {
+  var song = document.getElementById('stream_info_song');
+  var link = document.getElementById('now-license');
+  var history = document.getElementById('stream_info_songhistory');
+  function updateLicenseLink() {
+    var title = (song.textContent || '').trim();
+    if (!title || /loading/i.test(title)) title = 'Current Radio Track';
+    link.href = 'mailto:licensing@smoothasvelvetmusic.com?subject=' + encodeURIComponent('Licensing Inquiry: ' + title);
+  }
+  function addHistoryLinks() {
+    Array.prototype.forEach.call(history.children, function (row) {
+      if (row.querySelector('.history-license')) return;
+      var textArea = row.children[1];
+      var title = (textArea ? textArea.textContent : row.textContent || '').trim();
+      if (!title || /loading/i.test(title)) return;
+      if (textArea) {
+        var artist = document.createElement('div');
+        artist.className = 'track-artist';
+        artist.textContent = 'Robert Lamar';
+        textArea.appendChild(artist);
+      }
+      var inquiry = document.createElement('a');
+      inquiry.className = 'history-license';
+      inquiry.textContent = 'License';
+      inquiry.setAttribute('aria-label', 'Ask about licensing ' + title);
+      inquiry.href = 'mailto:licensing@smoothasvelvetmusic.com?subject=' + encodeURIComponent('Licensing Inquiry: ' + title);
+      row.appendChild(inquiry);
+    });
+  }
+  new MutationObserver(updateLicenseLink).observe(song, { childList: true, subtree: true, characterData: true });
+  new MutationObserver(addHistoryLinks).observe(history, { childList: true, subtree: true });
+  updateLicenseLink();
+  addHistoryLinks();
+}());
+</script>
 </body>
 </html>
