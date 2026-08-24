@@ -174,31 +174,31 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
   <a class="back" href="index.html">&larr; Back to Site</a>
 
-  <h1>Bulk Track Upload</h1>
-  <p class="subtitle">Drag and drop multiple MP3s to upload up to 25 tracks at once. Metadata is auto-extracted from your files &mdash; title, duration, BPM, and key are all detected automatically.</p>
+  <h1>Licensing Catalog Upload</h1>
+  <p class="subtitle">Add up to 25 MP3 listening copies or preview clips to the website licensing catalog. This does not change the Smooth Jazz Bham CloudRadio library or AutoDJ schedule. Keep your full-resolution masters private.</p>
 
   <div class="link-row">
-    <a href="upload.html">Single upload with full metadata &rarr;</a>
+    <a href="index.html">Return to the website &rarr;</a>
   </div>
 
   <section id="auth-section">
     <p id="auth-blurb"><strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository.
        Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>.
-       Paste once and this browser will remember it.</p>
+       The token is used only for the current session and is not saved.</p>
     <div class="token-row">
       <div class="token-wrap">
         <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
         <button type="button" id="toggle-token" title="Show / hide token">&#128065;</button>
       </div>
-      <button class="btn btn-primary" id="save-token-btn" type="button">Save &amp; Remember</button>
-      <button class="btn btn-ghost" id="forget-token-btn" type="button" style="display:none;">Forget Token</button>
+      <button class="btn btn-primary" id="save-token-btn" type="button">Verify Token</button>
+      <button class="btn btn-ghost" id="forget-token-btn" type="button" style="display:none;">Clear Token</button>
     </div>
   </section>
 
   <label for="file-input" id="drop-zone">
     <div class="dz-title">Drag &amp; drop MP3 files here</div>
     <p>&mdash; or click to browse &mdash;</p>
-    <p class="dz-hint">Up to 25 files per batch &middot; 50 MB max per file &middot; .mp3 only &middot; BPM/key auto-detected</p>
+    <p class="dz-hint">Up to 25 licensing listening copies per batch &middot; .mp3 only &middot; previews or lower-quality full-track copies recommended &middot; BPM/key auto-detected</p>
     <input type="file" id="file-input" accept=".mp3,audio/mpeg" multiple />
   </label>
 
@@ -242,7 +242,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   var MAX_FILES = 25;
   var MAX_FILE_BYTES = 50 * 1024 * 1024;
 
-  var TOKEN_STORAGE_KEY = 'svm_gh_pat_v1';
   var token = '';
   var files = [];
   var uploading = false;
@@ -269,64 +268,61 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     $tokenInput.type = $tokenInput.type === 'password' ? 'text' : 'password';
   });
 
-  function setRememberedUI(hasStored) {
-    if (hasStored) {
-      $authBlurb.innerHTML = '<strong>&#10003; GitHub token remembered on this browser.</strong> ' +
-        'You can upload right away &mdash; just drag in your MP3s below. ' +
-        'Click <em>Forget Token</em> if you switch computers or want to paste a new one.';
-      $saveTokenBtn.textContent = 'Update Token';
-      $forgetTokenBtn.style.display = '';
-      $tokenInput.placeholder = 'Token remembered &mdash; paste a new one only if you want to replace it';
-    } else {
-      $authBlurb.innerHTML = '<strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository. ' +
-        'Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>. ' +
-        'Paste once and this browser will remember it.';
-      $saveTokenBtn.textContent = 'Save & Remember';
-      $forgetTokenBtn.style.display = 'none';
-      $tokenInput.placeholder = 'ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-    }
+  function setTokenUI(isReady) {
+    $authBlurb.innerHTML = isReady
+      ? '<strong>&#10003; Token verified for this session.</strong> Select your MP3 files below. The token is cleared when this page closes.'
+      : '<strong>GitHub Personal Access Token</strong> &mdash; needed to publish files to your repository. ' +
+        'It must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>. ' +
+        'For safety, this page does not save the token.';
+    $saveTokenBtn.textContent = isReady ? 'Replace Token' : 'Verify Token';
+    $forgetTokenBtn.style.display = isReady ? '' : 'none';
+    $tokenInput.placeholder = isReady ? 'Token verified for this session' : 'github_pat_xxxxxxxxxxxxxxxxxxxx';
   }
 
-  try {
-    var stored = localStorage.getItem(TOKEN_STORAGE_KEY);
-    if (stored) {
-      token = stored;
-      setRememberedUI(true);
-    } else {
-      setRememberedUI(false);
-    }
-  } catch (e) {
-    setRememberedUI(false);
-  }
+  setTokenUI(false);
 
   $saveTokenBtn.addEventListener('click', function () {
     var t = $tokenInput.value.trim();
     if (!t) {
       if (token) {
-        showStatus('info', 'Token already remembered. Paste a new value only if you want to replace it.');
+        showStatus('info', 'A token is already verified for this session. Paste a new value only if you want to replace it.');
       } else {
         showStatus('error', 'Please paste a GitHub PAT before continuing.');
       }
       return;
     }
-    token = t;
-    try {
-      localStorage.setItem(TOKEN_STORAGE_KEY, t);
-      setRememberedUI(true);
+    $saveTokenBtn.disabled = true;
+    showStatus('info', 'Verifying repository access...');
+    fetch(API + '/repos/' + REPO, {
+      headers: {
+        'Authorization': 'Bearer ' + t,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      },
+      cache: 'no-store'
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status === 401 ? 'The token was not accepted.' : 'Repository access failed (HTTP ' + r.status + ').');
+      return r.json();
+    }).then(function (repo) {
+      if (repo.permissions && repo.permissions.push === false) throw new Error('This token can read the repository but cannot upload files.');
+      token = t;
       $tokenInput.value = '';
-      showStatus('success', 'Token saved. This browser will remember it next time. Now drag in your MP3 files.');
-    } catch (e) {
-      showStatus('info', 'Token accepted for this session (browser storage blocked, so it won\'t persist).');
-    }
+      setTokenUI(true);
+      showStatus('success', 'Token verified. Your batch will be published as one safe update.');
+    }).catch(function (err) {
+      token = '';
+      setTokenUI(false);
+      showStatus('error', err.message || String(err));
+    }).finally(function () {
+      $saveTokenBtn.disabled = false;
+    });
   });
 
   $forgetTokenBtn.addEventListener('click', function () {
-    if (!confirm('Forget the saved GitHub token on this browser? You will need to paste it again next time.')) return;
     token = '';
-    try { localStorage.removeItem(TOKEN_STORAGE_KEY); } catch (e) {}
     $tokenInput.value = '';
-    setRememberedUI(false);
-    showStatus('info', 'Token forgotten. Paste a new one to upload again.');
+    setTokenUI(false);
+    showStatus('info', 'Token cleared from this session.');
   });
 
   function showStatus(type, msg) {
@@ -785,49 +781,54 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       'Authorization': 'Bearer ' + token,
       'Accept': 'application/vnd.github+json',
       'X-GitHub-Api-Version': '2022-11-28',
-      
-      
+      'Content-Type': 'application/json'
     };
   }
 
-  function getFileSha(path) {
-    var bust = '&_t=' + Date.now();
-    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH + bust, {
-      headers: ghHeaders(),
-      cache: 'no-store'
-    }).then(function (r) {
-      if (r.status === 404) return null;
-      if (!r.ok) throw new Error('SHA lookup failed: HTTP ' + r.status);
-      return r.json().then(function (j) { return j.sha || null; });
+  function apiJson(path, options) {
+    options = options || {};
+    options.headers = ghHeaders();
+    return fetch(API + '/repos/' + REPO + path, options).then(function (r) {
+      if (r.ok) return r.status === 204 ? {} : r.json();
+      return r.json().catch(function () { return {}; }).then(function (e) {
+        throw new Error(e.message || ('GitHub error ' + r.status));
+      });
     });
   }
 
-  function putFile(path, base64Content, message, sha, retryCount) {
-    retryCount = retryCount || 0;
-    var body = { message: message, content: base64Content, branch: BRANCH };
-    if (sha) body.sha = sha;
-    return fetch(API + '/repos/' + REPO + '/contents/' + encodeURIComponent(path), {
-      method: 'PUT',
-      headers: ghHeaders(),
-      body: JSON.stringify(body)
-    }).then(function (r) {
-      if (r.ok) return r.json();
+  function createBlob(base64Content) {
+    return apiJson('/git/blobs', {
+      method: 'POST',
+      body: JSON.stringify({ content: base64Content, encoding: 'base64' })
+    });
+  }
 
-      if ((r.status === 409 || r.status === 422) && retryCount < 2) {
-        return new Promise(function (resolve) { setTimeout(resolve, 1500); })
-          .then(function () { return getFileSha(path); })
-          .then(function (freshSha) {
-            return putFile(path, base64Content, message, freshSha, retryCount + 1);
-          });
-      }
+  function getBranchHead() {
+    return apiJson('/git/ref/heads/' + encodeURIComponent(BRANCH)).then(function (ref) {
+      return apiJson('/git/commits/' + ref.object.sha).then(function (commit) {
+        return { commitSha: ref.object.sha, treeSha: commit.tree.sha };
+      });
+    });
+  }
 
-      if ((r.status === 429 || r.status === 403) && retryCount < 3) {
-        var backoff = Math.pow(2, retryCount) * 3000;
-        return new Promise(function (resolve) { setTimeout(resolve, backoff); })
-          .then(function () { return putFile(path, base64Content, message, sha, retryCount + 1); });
-      }
-
-      return r.json().then(function (e) { throw new Error(e.message || ('GitHub error ' + r.status)); });
+  function publishTree(head, treeEntries, totalTracks) {
+    return apiJson('/git/trees', {
+      method: 'POST',
+      body: JSON.stringify({ base_tree: head.treeSha, tree: treeEntries })
+    }).then(function (tree) {
+      return apiJson('/git/commits', {
+        method: 'POST',
+        body: JSON.stringify({
+          message: 'Catalog: atomic bulk upload (' + totalTracks + ' tracks)',
+          tree: tree.sha,
+          parents: [head.commitSha]
+        })
+      });
+    }).then(function (commit) {
+      return apiJson('/git/refs/heads/' + encodeURIComponent(BRANCH), {
+        method: 'PATCH',
+        body: JSON.stringify({ sha: commit.sha, force: false })
+      });
     });
   }
 
@@ -864,10 +865,9 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     });
   }
 
-  function writeCatalog(catalog, sha) {
+  function catalogBase64(catalog) {
     var jsonStr = JSON.stringify(catalog, null, 2);
-    var jsonB64 = btoa(unescape(encodeURIComponent(jsonStr)));
-    return putFile('tracks.json', jsonB64, 'Catalog: bulk update (' + catalog.length + ' tracks)', sha);
+    return btoa(unescape(encodeURIComponent(jsonStr)));
   }
 
   $uploadAllBtn.addEventListener('click', function () {
@@ -889,98 +889,92 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     renderFileList();
     hideStatus();
     setOverallProgress(0);
-    showStatus('info', 'Starting bulk upload of ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '...');
+    showStatus('info', 'Preparing one safe batch of ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '...');
 
-    fetchCatalog().then(function (initial) {
-      var catalog = initial.catalog;
-      var catalogSha = initial.sha;
+    Promise.all([fetchCatalog(), getBranchHead()]).then(function (initialState) {
+      var catalog = initialState[0].catalog;
+      var head = initialState[1];
+      var pending = files.slice();
+      var treeEntries = [];
+      var added = 0;
+      var skipped = 0;
+      var stopped = false;
       $fcCatalog.textContent = ' - catalog currently: ' + catalog.length + ' tracks';
 
-      var succeeded = 0, failed = 0, skipped = 0;
-      var pending = files.slice();
+      function finalize() {
+        uploading = false;
+        $uploadAllBtn.disabled = false;
+        $clearBtn.disabled = false;
+        renderFileList();
+        setTimeout(function () { setOverallProgress(0); }, 3000);
+      }
+
+      function failBatch(err) {
+        if (stopped) return;
+        stopped = true;
+        setOverallProgress(0);
+        showStatus('error', 'Nothing was published. The batch stopped safely: ' + (err.message || String(err)) + '. Correct the problem and try again.');
+        finalize();
+      }
 
       function next() {
-        if (pending.length === 0) return finish();
+        if (stopped) return;
+        if (pending.length === 0) return commitBatch();
 
         var entry = pending.shift();
         var doneCount = files.length - pending.length - 1;
-        setOverallProgress(Math.round((doneCount / files.length) * 100));
+        setOverallProgress(Math.round((doneCount / files.length) * 88));
+        updateFileStatus(entry, 'uploading', 'Preparing');
 
-        updateFileStatus(entry, 'uploading', 'Uploading');
-
-        var filePath = 'tracks/' + entry.file.name;
-
-        fileToBase64(entry.file).then(function (b64) {
-          return getFileSha(filePath).then(function (existingSha) {
-            var alreadyInCatalog = catalog.some(function (t) {
-              return t && t.audio && t.audio.replace(/^tracks\//, '') === entry.file.name;
-            });
-            if (existingSha && alreadyInCatalog) {
-              updateFileStatus(entry, 'skipped', 'Duplicate');
-              skipped++;
-              return next();
-            }
-
-            return putFile(filePath, b64, 'Bulk add: ' + entry.file.name, existingSha).then(function () {
-              if (!alreadyInCatalog) {
-                catalog.push(buildTrackEntry(entry));
-              }
-              updateFileStatus(entry, 'success', 'Uploaded');
-              succeeded++;
-              setTimeout(next, 400);
-            });
-          });
-        }).catch(function (err) {
-          updateFileStatus(entry, 'error', 'Failed');
-          failed++;
-          setTimeout(next, 400);
+        var alreadyInCatalog = catalog.some(function (t) {
+          if (!t || !t.audio) return false;
+          try { return decodeURIComponent(t.audio.replace(/^tracks\//, '')) === entry.file.name; }
+          catch (e) { return t.audio.replace(/^tracks\//, '') === entry.file.name; }
         });
+
+        if (alreadyInCatalog) {
+          updateFileStatus(entry, 'skipped', 'Duplicate');
+          skipped++;
+          next();
+          return;
+        }
+
+        fileToBase64(entry.file).then(createBlob).then(function (blob) {
+          treeEntries.push({ path: 'tracks/' + entry.file.name, mode: '100644', type: 'blob', sha: blob.sha });
+          catalog.push(buildTrackEntry(entry));
+          updateFileStatus(entry, 'success', 'Ready');
+          added++;
+          next();
+        }).catch(failBatch);
       }
 
-      function finish() {
-        setOverallProgress(100);
-
-        if (succeeded === 0 && failed === 0 && skipped > 0) {
-          showStatus('info', 'All ' + skipped + ' file' + (skipped === 1 ? '' : 's') + ' were already in the catalog. Nothing to do.');
+      function commitBatch() {
+        if (added === 0) {
+          setOverallProgress(100);
+          showStatus('info', 'All ' + skipped + ' selected file' + (skipped === 1 ? ' was' : 's were') + ' already in the catalog. Nothing was changed.');
           finalize();
           return;
         }
 
-        if (succeeded > 0) {
-          showStatus('info', 'Uploaded ' + succeeded + ' MP3' + (succeeded === 1 ? '' : 's') + '. Writing catalog...');
-
-          writeCatalog(catalog, catalogSha).then(function () {
-            var msg = 'Bulk upload complete: ' + succeeded + ' new track' + (succeeded === 1 ? '' : 's') + ' added.';
-            if (skipped) msg += ' ' + skipped + ' skipped as duplicates.';
-            if (failed) msg += ' ' + failed + ' failed - see per-row status above.';
-            msg += ' Catalog now has ' + catalog.length + ' total tracks. Netlify will rebuild the site in about 1-2 minutes.';
-            showStatus(failed > 0 ? 'error' : 'success', msg);
-            $fcCatalog.textContent = ' - catalog now: ' + catalog.length + ' tracks';
-            finalize();
-          }).catch(function (err) {
-            showStatus('error', 'MP3s uploaded but catalog write failed: ' + err.message + '. Files are in the repo but not listed on the site yet. Try Upload All again - duplicates will be skipped.');
-            finalize();
-          });
-        } else {
-          var errMsg = 'All uploads failed. ';
-          if (failed) errMsg += failed + ' error' + (failed === 1 ? '' : 's') + ' - check per-row status.';
-          showStatus('error', errMsg);
+        showStatus('info', 'Finalizing the audio files and catalog as one update...');
+        setOverallProgress(92);
+        createBlob(catalogBase64(catalog)).then(function (catalogBlob) {
+          treeEntries.push({ path: 'tracks.json', mode: '100644', type: 'blob', sha: catalogBlob.sha });
+          return publishTree(head, treeEntries, catalog.length);
+        }).then(function () {
+          setOverallProgress(100);
+          var msg = 'Bulk upload complete: ' + added + ' new track' + (added === 1 ? '' : 's') + ' added in one safe update.';
+          if (skipped) msg += ' ' + skipped + ' duplicate' + (skipped === 1 ? '' : 's') + ' skipped.';
+          msg += ' Catalog now has ' + catalog.length + ' tracks. The website will rebuild once.';
+          showStatus('success', msg);
+          $fcCatalog.textContent = ' - catalog now: ' + catalog.length + ' tracks';
           finalize();
-        }
-
-        function finalize() {
-          uploading = false;
-          $uploadAllBtn.disabled = false;
-          $clearBtn.disabled = false;
-          renderFileList();
-          setTimeout(function () { setOverallProgress(0); }, 3000);
-        }
+        }).catch(failBatch);
       }
 
       next();
-
     }).catch(function (err) {
-      showStatus('error', 'Failed to load current catalog: ' + err.message + '. Check your PAT permissions.');
+      showStatus('error', 'Could not begin the safe batch: ' + err.message + '. Check your token permissions and try again.');
       uploading = false;
       $uploadAllBtn.disabled = false;
       $clearBtn.disabled = false;

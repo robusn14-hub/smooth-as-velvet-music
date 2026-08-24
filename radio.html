@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Listen live to Smooth Jazz Bham Radio, Birmingham's independent 24/7 smooth-jazz internet station." />
+<title>Smooth Jazz Bham Radio | Listen Live</title>
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy-deep: #08131f;
+  --panel: #12263b;
+  --gold: #d4af37;
+  --gold-soft: #f0d98e;
+  --white: #f7f3e9;
+  --muted: #b9c4d0;
+  --line: rgba(212,175,55,.38);
+  --shadow: 0 24px 60px rgba(2,9,16,.48);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--navy); color: var(--white); font-family: Arial, Helvetica, sans-serif; }
+a { color: inherit; text-decoration: none; }
+.site-header { position: sticky; top: 0; z-index: 20; background: rgba(8,19,31,.96); border-bottom: 1px solid var(--gold); }
+.nav-wrap { max-width: 1160px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 13px; }
+.brand img { width: 60px; height: 60px; object-fit: contain; border-radius: 10px; }
+.brand strong { display: block; font-family: Georgia, 'Times New Roman', serif; font-size: 20px; letter-spacing: .6px; }
+.brand span { display: block; margin-top: 3px; color: var(--gold); font-size: 11px; letter-spacing: 2.8px; }
+.nav-links { display: flex; align-items: center; gap: 20px; font-size: 12px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
+.nav-links a:hover { color: var(--gold-soft); }
+.hero { max-width: 1160px; margin: 0 auto; padding: 86px 24px 64px; display: grid; grid-template-columns: 1.08fr .92fr; gap: 58px; align-items: center; }
+.eyebrow { margin-bottom: 18px; color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; }
+h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; }
+h1 { margin: 0; max-width: 720px; font-size: clamp(48px, 7vw, 82px); line-height: .99; letter-spacing: -2.4px; }
+.lead { max-width: 650px; margin: 24px 0 0; color: var(--muted); font-size: 19px; line-height: 1.7; }
+.listen-card { margin-top: 30px; padding: 22px; border: 1px solid var(--gold); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); }
+.live-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: var(--gold-soft); font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; font-size: 12px; }
+.live-dot { width: 10px; height: 10px; border-radius: 50%; background: #67d58a; box-shadow: 0 0 0 6px rgba(103,213,138,.12); }
+.listen-card audio { display: block; width: 100%; }
+.listen-note { margin: 13px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.station-mark { min-height: 430px; padding: 46px; display: grid; place-items: center; text-align: center; border: 1px solid var(--gold); border-radius: 28px; background: radial-gradient(circle at 50% 28%, #1e4164 0, #0a1725 68%); box-shadow: var(--shadow); }
+.station-mark .city { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; }
+.station-mark .sjb { margin: 18px 0 12px; color: var(--gold-soft); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(76px, 10vw, 116px); line-height: .8; }
+.station-mark h2 { margin: 0; font-size: 29px; letter-spacing: 1.4px; }
+.station-mark p { margin: 12px 0 0; color: var(--muted); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.band { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--navy-deep); }
+.section { max-width: 1160px; margin: 0 auto; padding: 68px 24px; }
+.section-head { max-width: 740px; margin-bottom: 34px; }
+.section-head h2 { margin: 0; font-size: clamp(34px, 5vw, 52px); }
+.section-head p { margin: 15px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { min-height: 210px; padding: 26px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+.card .number { color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: 2px; }
+.card h3 { margin: 15px 0 9px; font-size: 23px; }
+.card p { margin: 0; color: var(--muted); line-height: 1.65; }
+.partner-box { display: grid; grid-template-columns: 1.2fr .8fr; gap: 26px; align-items: center; padding: 34px; border: 1px solid var(--gold); border-radius: 24px; background: linear-gradient(135deg, #12263b, #0a1725); }
+.partner-box h2 { margin: 0; font-size: clamp(31px, 4vw, 46px); }
+.partner-box p { margin: 14px 0 0; color: var(--muted); line-height: 1.7; }
+.partner-actions { display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border: 1px solid var(--gold); border-radius: 999px; background: var(--gold); color: var(--navy-deep); font-size: 13px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+.btn:hover { background: var(--gold-soft); transform: translateY(-1px); }
+.btn-secondary { background: transparent; color: var(--white); }
+.btn-secondary:hover { color: var(--navy-deep); }
+footer { padding: 34px 24px; text-align: center; border-top: 3px solid var(--gold); background: var(--navy-deep); color: var(--muted); font-size: 13px; }
+footer strong { color: var(--gold-soft); }
+@media (max-width: 850px) {
+  .hero, .partner-box { grid-template-columns: 1fr; }
+  .station-mark { min-height: 320px; }
+  .grid { grid-template-columns: 1fr; }
+  .partner-actions { justify-content: flex-start; }
+}
+@media (max-width: 560px) {
+  .nav-wrap { padding: 11px 16px; }
+  .brand img { width: 48px; height: 48px; }
+  .brand strong { font-size: 16px; }
+  .brand span { letter-spacing: 1.8px; }
+  .nav-links a:not(:last-child) { display: none; }
+  .hero { padding: 52px 16px 42px; gap: 36px; }
+  .section { padding: 50px 16px; }
+  .station-mark { padding: 30px 18px; }
+  .partner-box { padding: 26px 22px; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html" aria-label="Return to Smooth As Velvet Music">
+      <img src="media/smooth%20as%20velvet%20music%20logo.png" alt="Smooth As Velvet Music" />
+      <span><strong>SMOOTH JAZZ BHAM</strong><span>INTERNET RADIO</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Radio navigation">
+      <a href="#listen">Listen</a>
+      <a href="#community">Community</a>
+      <a href="#partners">Partners</a>
+      <a href="index.html">Artist Site</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="listen">
+    <div>
+      <div class="eyebrow">Birmingham, Alabama &bull; Streaming worldwide</div>
+      <h1>Birmingham's smooth soundtrack, live 24/7.</h1>
+      <p class="lead">Independent smooth jazz for quiet mornings, evening drives, relaxed dinners, and every moment that deserves a warmer groove.</p>
+      <div class="listen-card">
+        <div class="live-row"><span class="live-dot" aria-hidden="true"></span> Smooth Jazz Bham is live</div>
+        <audio controls preload="none" aria-label="Listen live to Smooth Jazz Bham Radio">
+          <source src="https://icy.cloudrad.io/f6844eec" type="audio/mpeg" />
+          Your browser does not support the live player.
+        </audio>
+        <p class="listen-note">Press play to listen. Keep this page open while the music streams.</p>
+      </div>
+    </div>
+    <div class="station-mark" aria-label="Smooth Jazz Bham Radio">
+      <div>
+        <div class="city">From the Magic City</div>
+        <div class="sjb">SJB</div>
+        <h2>SMOOTH JAZZ BHAM</h2>
+        <p>Relax &bull; Listen &bull; Stay awhile</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="band" id="community">
+    <section class="section">
+      <div class="section-head">
+        <div class="eyebrow">A simple way to listen</div>
+        <h2>Make Smooth Jazz Bham part of your day.</h2>
+        <p>The station is new, independent, and growing one listener at a time in Birmingham and beyond.</p>
+      </div>
+      <div class="grid">
+        <article class="card"><div class="number">01</div><h3>Press play</h3><p>Use the live player above whenever you want a continuous mix of smooth jazz.</p></article>
+        <article class="card"><div class="number">02</div><h3>Save the page</h3><p>Bookmark this page on your phone or computer so the station is always one tap away.</p></article>
+        <article class="card"><div class="number">03</div><h3>Share Birmingham's sound</h3><p>Send the station to a friend, business, or gathering that could use a smoother atmosphere.</p></article>
+      </div>
+    </section>
+  </div>
+
+  <section class="section" id="partners">
+    <div class="partner-box">
+      <div>
+        <div class="eyebrow">From listening to licensing</div>
+        <h2>License a track you hear on the station.</h2>
+        <p>The music on Smooth Jazz Bham is original music by Robert Lamar. Browse the licensing catalog to identify a track, preview it, and ask about using it in hospitality, podcasts, videos, advertising, or other media. Local businesses can also ask about becoming founding station partners.</p>
+      </div>
+      <div class="partner-actions">
+        <a class="btn btn-secondary" href="index.html#catalog">Browse the catalog</a>
+        <a class="btn" href="mailto:licensing@smoothasvelvetmusic.com?subject=Smooth%20Jazz%20Bham%20Founding%20Partner">Ask about partnering</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <strong>Smooth Jazz Bham Radio</strong> &mdash; Birmingham, Alabama &bull; Streaming worldwide<br />
+  &copy; 2026 Smooth As Velvet Music. All Rights Reserved.
+</footer>
+</body>
+</html>

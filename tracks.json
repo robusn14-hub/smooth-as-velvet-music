@@ -1,129 +1,4 @@
-[
-  {
-    "title": "Midnight Birmingham",
-    "length": "4:32",
-    "mood": "Late-night skyline — smoky sax over warm Rhodes chords",
-    "tags": [
-      "late-night",
-      "saxophone",
-      "mellow"
-    ],
-    "audio": "tracks/Midnight%20Birmingham.mp3"
-  },
-  {
-    "title": "Velvet Sunset",
-    "length": "5:10",
-    "mood": "Golden hour — smooth guitar arpeggios meet lush pads",
-    "tags": [
-      "sunset",
-      "guitar",
-      "ambient"
-    ],
-    "audio": "tracks/Velvet%20Sunset.mp3"
-  },
-  {
-    "title": "Blue Saffron",
-    "length": "3:58",
-    "mood": "Cool blue — muted trumpet floating over downtempo beats",
-    "tags": [
-      "cool",
-      "trumpet",
-      "downtempo"
-    ],
-    "audio": "tracks/Blue%20Saffron.mp3"
-  },
-  {
-    "title": "Silk After Dark",
-    "length": "6:02",
-    "mood": "Intimate lounge — breathy flute and deep bass grooves",
-    "tags": [
-      "lounge",
-      "flute",
-      "bass"
-    ],
-    "audio": "tracks/Silk%20After%20Dark.mp3"
-  },
-  {
-    "title": "Amber Groove",
-    "length": "4:45",
-    "mood": "Uptown energy — funky keys with a laid-back swing",
-    "tags": [
-      "uptown",
-      "funky",
-      "keys"
-    ],
-    "audio": "tracks/Amber%20Groove.mp3"
-  },
-  {
-    "title": "Cloud Nine Serenade",
-    "length": "5:30",
-    "mood": "Dreamy heights — ethereal vibes and soft cymbal washes",
-    "tags": [
-      "dreamy",
-      "vibes",
-      "ethereal"
-    ],
-    "audio": "tracks/Cloud%20Nine%20Serenade.mp3"
-  },
-  {
-    "title": "Rosewood Drive",
-    "length": "4:18",
-    "mood": "Coastal cruise — breezy sax riffs with a bossa nova pulse",
-    "tags": [
-      "coastal",
-      "bossa-nova",
-      "sax"
-    ],
-    "audio": "tracks/Rosewood%20Drive.mp3"
-  },
-  {
-    "title": "Espresso Noir",
-    "length": "3:44",
-    "mood": "Late café — moody piano over brushed snare and upright bass",
-    "tags": [
-      "cafe",
-      "piano",
-      "moody"
-    ],
-    "audio": "tracks/Espresso%20Noir.mp3"
-  },
-  {
-    "title": "Twilight Plush",
-    "length": "5:55",
-    "mood": "Dusk chill — layered synth pads and gentle guitar melodies",
-    "tags": [
-      "chill",
-      "synth",
-      "guitar"
-    ],
-    "audio": "tracks/Twilight%20Plush.mp3"
-  },
-  {
-    "title": "Golden Thread",
-    "length": "4:22",
-    "mood": "Sophisticated warmth — elegant strings woven with jazz piano",
-    "tags": [
-      "elegant",
-      "strings",
-      "piano"
-    ],
-    "audio": "tracks/Golden%20Thread.mp3"
-  },
-  {
-    "title": "Warm Conversation",
-    "length": "3:09",
-    "mood": "Smooth jazz instrumental — description pending",
-    "tags": [
-      "smooth-jazz",
-      "instrumental"
-    ],
-    "audio": "tracks/Warm Conversation.mp3",
-    "added": "2026-08-16",
-    "bpm": 84,
-    "key": "E min",
-    "artist": "rpdrl730",
-    "sunoId": "5b45a19b-2b36-4a0e-b6f1-ef845c728abb"
-  },
+[ 
   {
     "title": "Midnight Conversation",
     "length": "3:14",
@@ -134,6 +9,12 @@
     ],
     "audio": "tracks/Midnight Conversation.mp3",
     "added": "2026-08-16",
+    "releaseDate": "2026-09-06",
+    "releaseStatus": "Upcoming single",
+    "releaseChannels": [
+      "DistroKid",
+      "Bandcamp"
+    ],
     "bpm": 86,
     "key": "E maj",
     "artist": "rpdrl730",

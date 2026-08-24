@@ -56,8 +56,7 @@ nav a:hover { color: var(--gold); border-color: var(--gold); }
 
 /* ── Hero ── */
 .hero {
-  max-width: 1220px; margin: 0 auto; padding: 82px 24px 58px;
-  display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 64px; align-items: center;
+  max-width: 900px; margin: 0 auto; padding: 82px 24px 58px;
 }
 .eyebrow { color: var(--gold); font-weight: 800; letter-spacing: 2px; font-size: 13px; text-transform: uppercase; margin-bottom: 18px; }
 h1 {
@@ -94,34 +93,36 @@ h1 {
 .btn-secondary { background: transparent; color: var(--warm-white); }
 .btn-secondary:hover { background: var(--gold); color: var(--navy-deep); }
 
-/* ── Featured card ── */
-.featured-card {
-  overflow: hidden; border-radius: 26px;
-  box-shadow: var(--shadow); border: 1px solid var(--gold); background: var(--navy-panel);
-}
-.featured-visual {
-  min-height: 360px; display: grid; place-items: center;
-  text-align: center; padding: 38px; color: var(--gold);
-  background: radial-gradient(circle at 50% 40%, #12263b 0%, #0a1420 100%);
-}
-.featured-visual .monogram { font-family: Georgia,'Times New Roman',serif; font-size: 82px; line-height: 1; margin-bottom: 14px; }
-.featured-visual h2 { margin: 0; font-family: Georgia,'Times New Roman',serif; font-size: 30px; letter-spacing: 2px; }
-.featured-visual p { margin: 10px 0 0; color: var(--gold); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
-.featured-meta {
-  padding: 22px 24px; display: flex; align-items: center;
-  justify-content: space-between; gap: 20px; background: var(--navy-panel);
-}
-.featured-meta small { color: var(--gold); font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; }
-.featured-meta h3 { margin: 6px 0 3px; font-family: Georgia,'Times New Roman',serif; font-size: 25px; }
-.featured-meta span { color: var(--muted); }
-
 /* ── Sections ── */
 .section { max-width: 1220px; margin: 0 auto; padding: 64px 24px; }
 .section-head { text-align: center; margin-bottom: 38px; }
 .section-head h2 { margin: 0; font-family: Georgia,'Times New Roman',serif; font-size: clamp(34px,5vw,54px); }
 .section-head p  { max-width: 720px; margin: 16px auto 0; color: var(--muted); font-size: 18px; line-height: 1.7; }
 
+/* ── Bandcamp release ── */
+.bandcamp-release {
+  max-width: 900px; margin: 0 auto; padding: 28px;
+  display: grid; grid-template-columns: minmax(280px,340px) minmax(0,1fr); gap: 28px; align-items: center;
+  background: var(--navy-panel); border: 1px solid var(--gold); border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+.bandcamp-release h3 { margin: 0; font-family: Georgia,'Times New Roman',serif; font-size: 30px; }
+.bandcamp-release p { margin: 8px 0 18px; color: var(--muted); line-height: 1.6; }
+.bandcamp-player { width: 100%; height: 120px; border: 0; }
+.bandcamp-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
 /* ── Catalog grid ── */
+.catalog-tools {
+  margin: 0 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 16px 18px; background: var(--navy-panel); border: 1px solid rgba(212,175,55,0.4); border-radius: 16px;
+}
+.catalog-tools label { flex: 1; }
+.catalog-tools input {
+  width: 100%; min-height: 46px; padding: 0 15px; color: var(--warm-white); background: var(--navy-deep);
+  border: 1px solid rgba(212,175,55,.5); border-radius: 10px; font: inherit;
+}
+.catalog-tools input:focus { outline: 2px solid var(--gold); outline-offset: 2px; }
+.catalog-count { color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
 .catalog-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
 .track {
   background: var(--navy-panel); border: 1px solid rgba(212,175,55,0.4);
@@ -167,10 +168,12 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
 .copyright { max-width: 1220px; margin: 0 auto; padding: 0 24px 28px; color: var(--muted); font-size: 13px; }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
+  @media (max-width: 900px) {
   nav { display: none; }
-  .hero { grid-template-columns: 1fr; padding-top: 54px; gap: 42px; }
+  .hero { padding-top: 54px; }
   .catalog-grid { grid-template-columns: 1fr; }
+  .catalog-tools { align-items: stretch; flex-direction: column; }
+  .bandcamp-release { grid-template-columns: 1fr; }
   .footer-wrap { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
@@ -197,9 +200,9 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
     </a>
     <nav aria-label="Main navigation">
       <a href="#home">Home</a>
+      <a href="#bandcamp">Bandcamp</a>
       <a href="#catalog">Catalog</a>
-      <a href="#midnight">Midnight Sessions</a>
-      <a href="#radio">Radio</a>
+      <a href="radio.html">Smooth Jazz Bham Radio</a>
       <a href="#licensing">Licensing</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -217,29 +220,35 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
       <p>Curated smooth jazz for refined spaces, thoughtful brands, and cinematic storytelling &mdash; original instrumentals crafted for hospitality, media, and brand storytelling.</p>
       <div class="actions">
         <a class="btn btn-primary"   href="#catalog">Listen to the Catalog</a>
-        <a class="btn btn-secondary" href="#radio">Play the Radio</a>
+        <a class="btn btn-secondary" href="radio.html">Visit Smooth Jazz Bham Radio</a>
       </div>
       <div class="live-player" style="margin-top:28px;">
-        <label for="live-radio">&#9654; Listen Live — Smooth As Velvet Radio</label>
+        <label for="live-radio">&#9654; Listen Live — Smooth Jazz Bham Radio</label>
         <audio id="live-radio" controls preload="none">
           <source src="https://icy.cloudrad.io/f6844eec" type="audio/mpeg" />
           Your browser does not support the audio player.
         </audio>
       </div>
     </div>
-    <article class="featured-card" aria-label="Featured track">
-      <div class="featured-visual">
-        <div>
-          <div class="monogram">S&amp;V</div>
-          <h2>SMOOTH AS VELVET</h2>
-          <p>Licensing &mdash; Music &mdash; Radio</p>
-        </div>
+  </section>
+
+  <!-- ── Bandcamp release ── -->
+  <section class="section" id="bandcamp">
+    <div class="section-head">
+      <div class="eyebrow">New on Bandcamp</div>
+      <h2>On the One</h2>
+      <p>A new release by Langston Hinton, the alternate artist identity behind this original music.</p>
+    </div>
+    <article class="bandcamp-release">
+      <div>
+        <iframe class="bandcamp-player" title="On the One by Langston Hinton on Bandcamp" src="https://bandcamp.com/EmbeddedPlayer/track=3854078697/size=large/bgcol=12263b/linkcol=d4af37/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://langstonhinton.bandcamp.com/track/on-the-one">On the One by Langston Hinton</a></iframe>
       </div>
-      <div class="featured-meta">
-        <div>
-          <small>Featured Track</small>
-          <h3>Midnight Birmingham</h3>
-          <span>Midnight Sessions, Album 1</span>
+      <div>
+        <h3>Langston Hinton</h3>
+        <p>Released August 21, 2026. Listen here, purchase on Bandcamp, or ask about licensing it for your project.</p>
+        <div class="bandcamp-actions">
+          <a class="btn btn-primary" href="https://langstonhinton.bandcamp.com/track/on-the-one" target="_blank" rel="noopener">Buy on Bandcamp</a>
+          <a class="btn btn-secondary" href="mailto:licensing@smoothasvelvetmusic.com?subject=Licensing%20Inquiry%3A%20On%20the%20One%20by%20Langston%20Hinton">License This Track</a>
         </div>
       </div>
     </article>
@@ -249,34 +258,32 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
   <section class="section" id="catalog">
     <div class="section-head">
       <h2>Catalog</h2>
-      <p>An open library &mdash; browse every track and choose what fits your project. Preview each piece, then reach out to license. Mood and use tags are guidance only, never restrictions.</p>
+      <p>Hear something you like on Smooth Jazz Bham Radio? Search the original-music catalog, listen on the storefront, then ask about licensing the track for your project.</p>
+    </div>
+    <div class="catalog-tools">
+      <label><span style="position:absolute;left:-9999px;">Search the licensing catalog</span><input id="catalog-search" type="search" placeholder="Search title, mood, tag, album, or artist" autocomplete="off" /></label>
+      <span class="catalog-count" id="catalog-count">Loading tracks</span>
     </div>
     <div class="catalog-grid" id="catalog-grid">
       <div class="catalog-empty">Loading catalog&hellip;</div>
     </div>
   </section>
 
-  <!-- ── Midnight Sessions ── -->
-  <section class="about-band">
-    <div class="about" id="midnight">
-      <div class="eyebrow">Smooth As Velvet Music Presents</div>
-      <h2>Midnight Sessions</h2>
-      <p>Late-night contemporary smooth jazz built around musical conversations: concert flute leads, baby-grand piano answers, and soprano sax adds tasteful replies. Every track is a journey through texture and mood.</p>
-    </div>
-  </section>
-
   <!-- ── Radio ── -->
   <section class="section" id="radio">
     <div class="section-head">
-      <h2>24/7 Radio</h2>
-      <p>The always-on Smooth As Velvet stream &mdash; press play and let the music run all day and all night.</p>
+      <h2>Smooth Jazz Bham Radio</h2>
+      <p>The always-on Birmingham-based smooth-jazz stream &mdash; press play here or visit the dedicated station page.</p>
     </div>
     <div class="live-player" style="max-width:700px; margin:0 auto;">
-      <label for="radio-stream">&#9654; Smooth As Velvet — Live Stream</label>
+      <label for="radio-stream">&#9654; Smooth Jazz Bham — Live Stream</label>
       <audio id="radio-stream" controls preload="none">
         <source src="https://icy.cloudrad.io/f6844eec" type="audio/mpeg" />
         Your browser does not support the audio player.
       </audio>
+      <div style="margin-top:18px;text-align:center;">
+        <a class="btn btn-primary" href="radio.html">Open the Radio Page</a>
+      </div>
     </div>
   </section>
 
@@ -294,7 +301,6 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
       <p>Tell us about your project &mdash; hotel, spa, restaurant, podcast, or media &mdash; and we will help you find the right track.</p>
       <a class="btn btn-primary" href="mailto:licensing@smoothasvelvetmusic.com?subject=Smooth%20As%20Velvet%20Licensing%20Inquiry">Email Licensing</a>
       <br />
-      <a class="admin-link" href="/upload.html">&#9881; Admin: Add Tracks</a>
     </div>
   </section>
 
@@ -305,29 +311,15 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
     <div class="footer-brand">S&amp;V &mdash; Smooth As Velvet Music</div>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="#home">Home</a>
+      <a href="#bandcamp">Bandcamp</a>
       <a href="#catalog">Catalog</a>
-      <a href="#radio">Radio</a>
+      <a href="radio.html">Smooth Jazz Bham Radio</a>
       <a href="#licensing">Licensing</a>
       <a href="mailto:licensing@smoothasvelvetmusic.com">Contact</a>
     </nav>
   </div>
   <p class="copyright">&copy; 2026 Smooth As Velvet Music. All Rights Reserved.</p>
 </footer>
-
-<!-- Floating Upload Button -->
-<a href="upload.html"
-   aria-label="Add new track"
-   style="position:fixed;bottom:28px;right:28px;z-index:999;
-          display:inline-flex;align-items:center;gap:9px;
-          padding:14px 22px;
-          background:#d4af37;color:#0a1420;
-          border-radius:999px;
-          font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
-          box-shadow:0 8px 28px rgba(5,12,20,.55);
-          text-decoration:none;
-          transition:transform .2s,box-shadow .2s;">
-  &#9836; Add Track
-</a>
 
 <script>
 (function () {
@@ -348,17 +340,25 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
     var mood    = esc(t.mood    || '');
     var len     = esc(t.length  || '');
     var audio   = esc(t.audio   || '');
+    var release = esc(t.releaseDate || '');
+    var channels = esc(Array.isArray(t.releaseChannels) ? t.releaseChannels.join(' and ') : '');
+    var search  = esc([
+      t.title, t.mood, t.artist, t.album, t.genre,
+      (Array.isArray(t.tags) ? t.tags.join(' ') : '')
+    ].filter(Boolean).join(' ').toLowerCase());
     var tags    = (Array.isArray(t.tags) ? t.tags : [])
                     .map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; })
                     .join('');
     var mailSub = encodeURIComponent('License: ' + (t.title || ''));
 
-    var html = '<div class="track">';
+    var html = '<div class="track" data-search="' + search + '">';
     html += '<div class="track-top">';
     html += '<h3>' + title + '</h3>';
     if (len) html += '<span class="len">' + len + '</span>';
     html += '</div>';
     if (mood) html += '<p class="mood">' + mood + '</p>';
+    if (release) html += '<p class="mood"><strong style="color:var(--gold);">Release date:</strong> ' + release + '</p>';
+    if (channels) html += '<p class="mood"><strong style="color:var(--gold);">Release:</strong> ' + channels + '</p>';
     if (tags) html += '<div class="tags">' + tags + '</div>';
     if (audio) {
       html += '<audio controls preload="none">'
@@ -368,7 +368,7 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
     }
     html += '<div class="license-row">'
           +   '<a href="mailto:licensing@smoothasvelvetmusic.com?subject=' + mailSub + '">'
-          +     'License this track'
+          +     'License or inquire about this track'
           +   '</a>'
           + '</div>';
     html += '</div>';
@@ -378,12 +378,29 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
   /* ── Render catalog ── */
   function renderCatalog(tracks) {
     var grid = document.getElementById('catalog-grid');
+    var count = document.getElementById('catalog-count');
     if (!grid) return;
     if (!tracks || !tracks.length) {
-      grid.innerHTML = '<div class="catalog-empty">No tracks yet — add your first track from the Admin panel.</div>';
+      grid.innerHTML = '<div class="catalog-empty">No matching tracks. Try a different search.</div>';
+      if (count) count.textContent = '0 tracks';
       return;
     }
     grid.innerHTML = tracks.map(trackCard).join('');
+    if (count) count.textContent = tracks.length + ' track' + (tracks.length === 1 ? '' : 's');
+  }
+
+  var completeCatalog = [];
+  var searchInput = document.getElementById('catalog-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      var query = searchInput.value.trim().toLowerCase();
+      renderCatalog(!query ? completeCatalog : completeCatalog.filter(function (track) {
+        var haystack = [track.title, track.mood, track.artist, track.album, track.genre]
+          .concat(Array.isArray(track.tags) ? track.tags : [])
+          .filter(Boolean).join(' ').toLowerCase();
+        return haystack.indexOf(query) !== -1;
+      }));
+    });
   }
 
   /* ── Fetch tracks.json (supports both root-array and {tracks:[]} formats) ── */
@@ -394,7 +411,8 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
     })
     .then(function (data) {
       var tracks = Array.isArray(data) ? data : (data && data.tracks ? data.tracks : []);
-      renderCatalog(tracks);
+      completeCatalog = tracks;
+      renderCatalog(completeCatalog);
     })
     .catch(function () {
       var grid = document.getElementById('catalog-grid');
