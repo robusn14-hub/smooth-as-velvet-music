@@ -125,7 +125,7 @@ footer strong { color: var(--gold-soft); }
       <div class="track-window">
         <div class="track-label">Now Playing</div>
         <div class="now-song" id="stream_info_song">Loading the current track&hellip;</div>
-        <div class="track-artist">RL14 / Langston Hinton</div>
+        <div class="track-artist" id="stream-track-artist">Langston Hinton</div>
         <a class="track-license" id="now-license" href="mailto:licensing@smoothasvelvetmusic.com?subject=Licensing%20Inquiry%3A%20Current%20Radio%20Track">License this track</a>
       </div>
       <div class="track-window">
@@ -177,9 +177,41 @@ footer strong { color: var(--gold-soft); }
   var song = document.getElementById('stream_info_song');
   var link = document.getElementById('now-license');
   var history = document.getElementById('stream_info_songhistory');
+  var currentArtist = document.getElementById('stream-track-artist');
+  var rl14Titles = [
+    'Skyline Highball',
+    'Rooftop Velvet',
+    'One Way Love',
+    'Sunset Velvet Drive',
+    'Velvet Keys',
+    'To Be With You',
+    'Smooth Summer Days',
+    'Rooftop Groove 101',
+    'Ride With Me',
+    'My Passion',
+    'Love of My Life (0.79x)',
+    'Magic City After Dark (Remix) Slower',
+    'Highway Mood',
+    'Highway Lights',
+    'Dreaming of You (0.79x)',
+    'Cityside Velvet',
+    'Southern City Funk',
+    'Romance After Hours',
+    'Midnight Lover`s Run',
+    'Silk Ride',
+    'Magic City After Dark (Remix) Slower (Remastered)',
+    'Lovely Day',
+    'Highway Lights (Remastered)',
+    'City Country City',
+    'Canal Street (slower version)'
+  ].map(function (title) { return title.toLowerCase(); });
+  function artistFor(title) {
+    return rl14Titles.indexOf(String(title || '').trim().toLowerCase()) !== -1 ? 'RL14' : 'Langston Hinton';
+  }
   function updateLicenseLink() {
     var title = (song.textContent || '').trim();
     if (!title || /loading/i.test(title)) title = 'Current Radio Track';
+    currentArtist.textContent = artistFor(title);
     link.href = 'mailto:licensing@smoothasvelvetmusic.com?subject=' + encodeURIComponent('Licensing Inquiry: ' + title);
   }
   function addHistoryLinks() {
@@ -191,7 +223,7 @@ footer strong { color: var(--gold-soft); }
       if (textArea) {
         var artist = document.createElement('div');
         artist.className = 'track-artist';
-        artist.textContent = 'RL14 / Langston Hinton';
+        artist.textContent = artistFor(title);
         textArea.appendChild(artist);
       }
       var inquiry = document.createElement('a');
