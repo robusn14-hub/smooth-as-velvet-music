@@ -34,15 +34,8 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 .link-row { margin-bottom: 32px; font-size: 13px; letter-spacing: 0.5px; }
 .link-row a { text-transform: uppercase; font-weight: 700; margin-right: 20px; }
 
-#auth-section { margin-bottom: 28px; padding: 20px; background: var(--navy-panel); border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); }
-#auth-section p { color: var(--muted); font-size: 13px; margin: 0 0 12px; line-height: 1.55; }
-.token-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-.token-wrap { position: relative; flex: 1; min-width: 260px; }
-.token-wrap input { padding-right: 48px; width: 100%; background: var(--navy-deep); border: 1px solid rgba(212,175,55,0.4); border-radius: 8px; color: var(--warm-white); font-family: inherit; font-size: 14px; padding: 10px 12px; padding-right: 42px; }
-.token-wrap button {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer; color: var(--gold); font-size: 18px; padding: 4px;
-}
+#status-banner { margin-bottom: 28px; padding: 16px 20px; background: var(--navy-panel); border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); font-size: 13px; color: var(--muted); line-height: 1.55; }
+#status-banner strong { color: var(--gold-soft); }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -181,24 +174,12 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     <a href="index.html">Return to the website &rarr;</a>
   </div>
 
-  <section id="auth-section">
-    <p id="auth-blurb"><strong>GitHub Personal Access Token</strong> &mdash; needed to push files to your repository.
-       Must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>.
-       The token is used only for the current session and is not saved.</p>
-    <div class="token-row">
-      <div class="token-wrap">
-        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
-        <button type="button" id="toggle-token" title="Show / hide token">&#128065;</button>
-      </div>
-      <button class="btn btn-primary" id="save-token-btn" type="button">Verify Token</button>
-      <button class="btn btn-ghost" id="forget-token-btn" type="button" style="display:none;">Clear Token</button>
-    </div>
-  </section>
+  <div id="status-banner"><strong>Just drag your files in below and click Upload All.</strong> Saving to the catalog happens automatically in the background — no token or password needed on this page.</div>
 
   <label for="file-input" id="drop-zone">
     <div class="dz-title">Drag &amp; drop MP3 files here</div>
     <p>&mdash; or click to browse &mdash;</p>
-    <p class="dz-hint">Up to 25 licensing listening copies per batch &middot; .mp3 only &middot; previews or lower-quality full-track copies recommended &middot; BPM/key auto-detected</p>
+    <p class="dz-hint">Up to 25 licensing listening copies per batch &middot; .mp3 only &middot; up to 15MB each &middot; previews or lower-quality full-track copies recommended &middot; BPM/key auto-detected</p>
     <input type="file" id="file-input" accept=".mp3,audio/mpeg" multiple />
   </label>
 
@@ -236,21 +217,13 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 (function () {
   'use strict';
 
-  var REPO    = 'robusn14-hub/smooth-as-velvet-music';
-  var BRANCH  = 'main';
-  var API     = 'https://api.github.com';
+  var UPLOAD_ENDPOINT = '/api/github-upload';
   var MAX_FILES = 25;
-  var MAX_FILE_BYTES = 50 * 1024 * 1024;
+  var MAX_FILE_BYTES = 15 * 1024 * 1024;
 
-  var token = '';
   var files = [];
   var uploading = false;
 
-  var $tokenInput = document.getElementById('gh-token');
-  var $toggleTokenBtn = document.getElementById('toggle-token');
-  var $saveTokenBtn = document.getElementById('save-token-btn');
-  var $forgetTokenBtn = document.getElementById('forget-token-btn');
-  var $authBlurb = document.getElementById('auth-blurb');
   var $dropZone = document.getElementById('drop-zone');
   var $fileInput = document.getElementById('file-input');
   var $fileList = document.getElementById('file-list');
@@ -263,67 +236,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   var $globalStatus = document.getElementById('global-status');
   var $overallProgress = document.getElementById('overall-progress');
   var $progressBar = document.getElementById('progress-bar');
-
-  $toggleTokenBtn.addEventListener('click', function () {
-    $tokenInput.type = $tokenInput.type === 'password' ? 'text' : 'password';
-  });
-
-  function setTokenUI(isReady) {
-    $authBlurb.innerHTML = isReady
-      ? '<strong>&#10003; Token verified for this session.</strong> Select your MP3 files below. The token is cleared when this page closes.'
-      : '<strong>GitHub Personal Access Token</strong> &mdash; needed to publish files to your repository. ' +
-        'It must have <strong>Contents: Read &amp; Write</strong> permission on <code>robusn14-hub/smooth-as-velvet-music</code>. ' +
-        'For safety, this page does not save the token.';
-    $saveTokenBtn.textContent = isReady ? 'Replace Token' : 'Verify Token';
-    $forgetTokenBtn.style.display = isReady ? '' : 'none';
-    $tokenInput.placeholder = isReady ? 'Token verified for this session' : 'github_pat_xxxxxxxxxxxxxxxxxxxx';
-  }
-
-  setTokenUI(false);
-
-  $saveTokenBtn.addEventListener('click', function () {
-    var t = $tokenInput.value.trim();
-    if (!t) {
-      if (token) {
-        showStatus('info', 'A token is already verified for this session. Paste a new value only if you want to replace it.');
-      } else {
-        showStatus('error', 'Please paste a GitHub PAT before continuing.');
-      }
-      return;
-    }
-    $saveTokenBtn.disabled = true;
-    showStatus('info', 'Verifying repository access...');
-    fetch(API + '/repos/' + REPO, {
-      headers: {
-        'Authorization': 'Bearer ' + t,
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      },
-      cache: 'no-store'
-    }).then(function (r) {
-      if (!r.ok) throw new Error(r.status === 401 ? 'The token was not accepted.' : 'Repository access failed (HTTP ' + r.status + ').');
-      return r.json();
-    }).then(function (repo) {
-      if (repo.permissions && repo.permissions.push === false) throw new Error('This token can read the repository but cannot upload files.');
-      token = t;
-      $tokenInput.value = '';
-      setTokenUI(true);
-      showStatus('success', 'Token verified. Each track uploads and saves on its own — one problem file will not stop the rest.');
-    }).catch(function (err) {
-      token = '';
-      setTokenUI(false);
-      showStatus('error', err.message || String(err));
-    }).finally(function () {
-      $saveTokenBtn.disabled = false;
-    });
-  });
-
-  $forgetTokenBtn.addEventListener('click', function () {
-    token = '';
-    $tokenInput.value = '';
-    setTokenUI(false);
-    showStatus('info', 'Token cleared from this session.');
-  });
 
   function showStatus(type, msg) {
     $globalStatus.className = type;
@@ -394,7 +306,7 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     } else if (accepted > 0 && rejected > 0) {
       showStatus('info', accepted + ' added, ' + rejected + ' skipped. Analyzing metadata...');
     } else if (rejected > 0) {
-      showStatus('error', 'All ' + rejected + ' files were rejected (duplicates, non-mp3, over 50MB, or over ' + MAX_FILES + '-file limit).');
+      showStatus('error', 'All ' + rejected + ' files were rejected (duplicates, non-mp3, over 15MB, or over ' + MAX_FILES + '-file limit).');
     }
 
     files.filter(function (x) { return x.durationSec === null; }).forEach(function (entry) {
@@ -776,24 +688,24 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     return track;
   }
 
-  function ghHeaders() {
-    return {
-      'Authorization': 'Bearer ' + token,
-      'Accept': 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-      'Content-Type': 'application/json'
-    };
-  }
+  // ---- Calls to the server-side helper ------------------------------------
+  // Every GitHub call now goes through /api/github-upload, a Netlify Edge
+  // Function that holds the GitHub token privately on the server. The
+  // browser never sees or handles the token at all.
 
-  function apiJson(path, options) {
-    options = options || {};
-    options.headers = ghHeaders();
-    return fetch(API + '/repos/' + REPO + path, options).then(function (r) {
-      if (r.ok) return r.status === 204 ? {} : r.json();
-      return r.json().catch(function () { return {}; }).then(function (e) {
-        var err = new Error(e.message || ('GitHub error ' + r.status));
-        err.status = r.status;
-        throw err;
+  function callUploadApi(body) {
+    return fetch(UPLOAD_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (data) {
+        if (!r.ok) {
+          var err = new Error((data && data.error) || ('Server error ' + r.status));
+          err.status = r.status;
+          throw err;
+        }
+        return data;
       });
     });
   }
@@ -811,59 +723,39 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
   }
 
   // ---- THE FIX -----------------------------------------------------------
-  // The old version built every file into one giant "all or nothing" commit.
-  // If even one file in the batch had a problem, the WHOLE batch was thrown
-  // away — nothing was saved, even tracks that had already succeeded.
-  //
-  // The functions below use GitHub's Contents API to save each audio file
-  // as its OWN independent commit. If one file has a problem, only that one
-  // file fails — everything else in the batch still goes through safely.
+  // Each audio file saves as its OWN independent commit through the server
+  // helper. If one file has a problem, only that one file fails —
+  // everything else in the batch still goes through safely.
   // -------------------------------------------------------------------------
 
   // Checks whether a file already exists at a path in the repo.
   // Returns its sha if found, or null if it does not exist yet.
   function getExistingFileSha(path) {
-    return apiJson('/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=' + BRANCH, {
-      method: 'GET',
-      cache: 'no-store'
-    }).then(function (info) {
-      return info && info.sha ? info.sha : null;
-    }).catch(function (err) {
-      if (err.status === 404) return null;
-      throw err;
+    return callUploadApi({ action: 'get', path: path }).then(function (info) {
+      return info && info.exists && info.sha ? info.sha : null;
     });
   }
 
-  // Saves ONE file as its own commit via the Contents API.
+  // Saves ONE file as its own commit via the server helper.
   // Pass existingSha when overwriting a file that is already there (required
   // by GitHub); leave it out when creating a brand new file.
   function putFileContents(path, base64Content, commitMessage, existingSha) {
-    var body = { message: commitMessage, content: base64Content, branch: BRANCH };
+    var body = { action: 'put', path: path, content: base64Content, message: commitMessage };
     if (existingSha) body.sha = existingSha;
-    return apiJson('/contents/' + path.split('/').map(encodeURIComponent).join('/'), {
-      method: 'PUT',
-      body: JSON.stringify(body)
-    });
+    return callUploadApi(body);
   }
 
   function fetchCatalog() {
-    var bust = '&_t=' + Date.now();
-    return fetch(API + '/repos/' + REPO + '/contents/tracks.json?ref=' + BRANCH + bust, {
-      headers: ghHeaders(),
-      cache: 'no-store'
-    }).then(function (r) {
-      if (r.status === 404) return { catalog: [], sha: null };
-      if (!r.ok) throw new Error('Catalog fetch failed: HTTP ' + r.status);
-      return r.json().then(function (j) {
-        var decoded = atob(j.content.replace(/\n/g, ''));
-        var bytes = new Uint8Array(decoded.length);
-        for (var i = 0; i < decoded.length; i++) bytes[i] = decoded.charCodeAt(i);
-        var text = new TextDecoder('utf-8').decode(bytes);
-        var parsed;
-        try { parsed = JSON.parse(text); } catch (e) { parsed = []; }
-        var catalog = Array.isArray(parsed) ? parsed : (parsed && parsed.tracks ? parsed.tracks : []);
-        return { catalog: catalog, sha: j.sha || null };
-      });
+    return callUploadApi({ action: 'get', path: 'tracks.json' }).then(function (info) {
+      if (!info || !info.exists) return { catalog: [], sha: null };
+      var decoded = atob(info.content.replace(/\n/g, ''));
+      var bytes = new Uint8Array(decoded.length);
+      for (var i = 0; i < decoded.length; i++) bytes[i] = decoded.charCodeAt(i);
+      var text = new TextDecoder('utf-8').decode(bytes);
+      var parsed;
+      try { parsed = JSON.parse(text); } catch (e) { parsed = []; }
+      var catalog = Array.isArray(parsed) ? parsed : (parsed && parsed.tracks ? parsed.tracks : []);
+      return { catalog: catalog, sha: info.sha || null };
     });
   }
 
@@ -874,7 +766,6 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
   $uploadAllBtn.addEventListener('click', function () {
     if (uploading) return;
-    if (!token) { showStatus('error', 'Set your GitHub PAT first.'); return; }
     if (files.length === 0) { showStatus('error', 'No files to upload.'); return; }
 
     var stillAnalyzing = files.filter(function (f) { return f.analysisState === 'analyzing'; }).length;
@@ -1026,7 +917,7 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
 
       next();
     }).catch(function (err) {
-      showStatus('error', 'Could not start the upload: ' + err.message + '. Check your token permissions and try again.');
+      showStatus('error', 'Could not start the upload: ' + err.message + '. Please try again in a moment.');
       uploading = false;
       $uploadAllBtn.disabled = false;
       $clearBtn.disabled = false;
