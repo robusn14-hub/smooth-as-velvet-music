@@ -514,5 +514,65 @@
     "key": "E min",
     "artist": "Langston Hinton",
     "sunoId": "273bb338-573e-43d2-a0f2-3b3d2d46470e"
+  },
+  {
+    "title": "Cross My Mine",
+    "length": "3:12",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Cross My Mine.mp3",
+    "added": "2026-08-27",
+    "bpm": 61,
+    "key": "F min",
+    "artist": "rpdrl730",
+    "sunoId": "a35a9044-cdd8-427f-8b42-024c0d41dd6c"
+  },
+  {
+    "title": "No Rush",
+    "length": "4:04",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/No Rush.mp3",
+    "added": "2026-08-27",
+    "bpm": 68,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "4c5f7162-e367-4130-a374-dcb4d9c1f531"
+  },
+  {
+    "title": "Steady Hands",
+    "length": "3:13",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Steady Hands.mp3",
+    "added": "2026-08-27",
+    "bpm": 102,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "fd549c74-b654-4a21-8cde-fd2d8a2695e9"
+  },
+  {
+    "title": "Where We Left Off",
+    "length": "3:44",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Where We Left Off.mp3",
+    "added": "2026-08-27",
+    "bpm": 88,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "ac2b6440-9ec0-4897-8ec4-05021e810468"
   }
 ]
