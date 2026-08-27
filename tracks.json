@@ -394,5 +394,20 @@
     "key": "A# min",
     "artist": "rpdrl730",
     "sunoId": "b35b797a-35df-45ae-86ba-41099176e3fd"
+  },
+  {
+    "title": "Mellow Days",
+    "length": "3:33",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Mellow Days.mp3",
+    "added": "2026-08-27",
+    "bpm": 74,
+    "key": "F min",
+    "artist": "rpdrl730",
+    "sunoId": "533d4640-53ea-426a-a200-717a84c70bb3"
   }
 ]
