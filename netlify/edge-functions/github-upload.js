@@ -14,6 +14,7 @@ const MAX_CONTENT_CHARS = 22 * 1024 * 1024;
 function isAllowedPath(path) {
   if (path === 'tracks.json') return true;
   if (/^tracks\/[^\/]+\.mp3$/i.test(path)) return true;
+  if (/^assets\/[^\/]+\.(jpg|jpeg|png|webp|svg)$/i.test(path)) return true;
   return false;
 }
 
