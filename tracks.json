@@ -424,5 +424,95 @@
     "key": "A maj",
     "artist": "Langston Hinton",
     "sunoId": "1c7e0d2b-a6fa-4bf6-8765-fc22b1e85125"
+  },
+  {
+    "title": "Blue Hour Confessions",
+    "length": "3:59",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Blue Hour Confessions.mp3",
+    "added": "2026-08-27",
+    "bpm": 66,
+    "key": "A# maj",
+    "artist": "Langston Hinton",
+    "sunoId": "28963ff3-32aa-4eec-b75d-34ad6ea8d3c8"
+  },
+  {
+    "title": "Brighter Days",
+    "length": "3:17",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Brighter Days.mp3",
+    "added": "2026-08-27",
+    "bpm": 64,
+    "key": "C min",
+    "artist": "Langston Hinton",
+    "sunoId": "ba3a339b-dfbf-4f1d-9edf-493ddcfb484b"
+  },
+  {
+    "title": "In the Same Breathe",
+    "length": "3:28",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/In the Same Breathe.mp3",
+    "added": "2026-08-27",
+    "bpm": 85,
+    "key": "C# min",
+    "artist": "Langston Hinton",
+    "sunoId": "1620174e-c000-4135-b6f7-b64c6db6ec19"
+  },
+  {
+    "title": "Overlapping Hearts",
+    "length": "3:28",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Overlapping Hearts.mp3",
+    "added": "2026-08-27",
+    "bpm": 118,
+    "key": "G maj",
+    "artist": "Langston Hinton",
+    "sunoId": "90c7c26b-b5f5-400b-8e32-b876ca73f5cc"
+  },
+  {
+    "title": "Say that Again",
+    "length": "3:42",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Say that Again.mp3",
+    "added": "2026-08-27",
+    "bpm": 71,
+    "key": "A# min",
+    "artist": "Langston Hinton",
+    "sunoId": "97a4634e-d503-4a11-a959-6062ce9cc0f3"
+  },
+  {
+    "title": "Second Wind",
+    "length": "3:04",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Second Wind.mp3",
+    "added": "2026-08-27",
+    "bpm": 99,
+    "key": "E min",
+    "artist": "Langston Hinton",
+    "sunoId": "273bb338-573e-43d2-a0f2-3b3d2d46470e"
   }
 ]
