@@ -409,5 +409,20 @@
     "key": "F min",
     "artist": "rpdrl730",
     "sunoId": "533d4640-53ea-426a-a200-717a84c70bb3"
+  },
+  {
+    "title": "Midnight Whispers",
+    "length": "3:54",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Midnight Whispers.mp3",
+    "added": "2026-08-27",
+    "bpm": 67,
+    "key": "A maj",
+    "artist": "rpdrl730",
+    "sunoId": "1c7e0d2b-a6fa-4bf6-8765-fc22b1e85125"
   }
 ]
