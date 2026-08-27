@@ -214,5 +214,185 @@
     "key": "A# min",
     "artist": "rpdrl730",
     "sunoId": "bee8b509-1631-47c2-bbdd-40fa81a7b952"
+  },
+  {
+    "title": "City Lights & Silence (0.94x)",
+    "length": "4:00",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/City Lights & Silence (0.94x).mp3",
+    "added": "2026-08-27",
+    "bpm": 66,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "d74713f4-0d89-4c00-bafd-8cb66e57b7d2"
+  },
+  {
+    "title": "Midnight Conversation (Remastered)",
+    "length": "3:44",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Midnight Conversation (Remastered).mp3",
+    "added": "2026-08-27",
+    "bpm": 66,
+    "key": "F maj",
+    "artist": "rpdrl730",
+    "sunoId": "325b1a43-9ae5-47cd-95d8-18be0346cbf8"
+  },
+  {
+    "title": "Sábanas Mojadas",
+    "length": "4:01",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Sábanas Mojadas.mp3",
+    "added": "2026-08-27",
+    "bpm": 96,
+    "key": "C# min",
+    "artist": "rpdrl730",
+    "sunoId": "c7f579d0-96f9-4cfb-860f-04407bf5f121"
+  },
+  {
+    "title": "My Passion",
+    "length": "3:20",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/my-passion.mp3",
+    "added": "2026-08-27",
+    "bpm": 90,
+    "key": "E maj",
+    "artist": "rpdrl730",
+    "sunoId": "e76d7a54-3ab2-41ff-82f9-86154b91329c"
+  },
+  {
+    "title": "Blue Saffron",
+    "length": "3:18",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Blue Saffron (1) (3).mp3",
+    "added": "2026-08-27",
+    "bpm": 89,
+    "key": "C maj",
+    "artist": "rpdrl730",
+    "sunoId": "bffd742e-9ecc-4db7-857a-571cd99037d0"
+  },
+  {
+    "title": "Blue Satin Stroll",
+    "length": "3:51",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Blue Satin Stroll (1).mp3",
+    "added": "2026-08-27",
+    "bpm": 93,
+    "key": "A min",
+    "artist": "rpdrl730",
+    "sunoId": "f5ad6ae9-c6cd-4e11-a816-48f28aacddcf"
+  },
+  {
+    "title": "Nights in Birmingham",
+    "length": "3:49",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Nights in Birmingham.mp3",
+    "added": "2026-08-27",
+    "bpm": 80,
+    "key": "D# maj",
+    "artist": "rpdrl730",
+    "sunoId": "7b7fe39d-334c-4e34-ac34-f4aa739c5429"
+  },
+  {
+    "title": "Tonya`s Groove",
+    "length": "3:28",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Tonya`s Groove.mp3",
+    "added": "2026-08-27",
+    "bpm": 87,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "1b36ec6c-36ae-45f0-8207-3ebfa7d43cea"
+  },
+  {
+    "title": "Cold Coffee Jacket",
+    "length": "3:48",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Cold Coffee Jacket.mp3",
+    "added": "2026-08-27",
+    "bpm": 80,
+    "key": "D# maj",
+    "artist": "rpdrl730",
+    "sunoId": "f851b1d8-1db5-4b85-96bd-8d6ebad5fde8"
+  },
+  {
+    "title": "Still in the Room",
+    "length": "3:09",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Still in the Room.mp3",
+    "added": "2026-08-27",
+    "bpm": 70,
+    "key": "G# maj",
+    "artist": "rpdrl730",
+    "sunoId": "1e711087-4465-4b6b-88be-f04d23b33fec"
+  },
+  {
+    "title": "Four Voices in G Minor",
+    "length": "2:48",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Four Voices in G Minor.mp3",
+    "added": "2026-08-27",
+    "bpm": 101,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "88522dce-2b2a-4ed4-a9f5-7a55e257e53a"
+  },
+  {
+    "title": "Forever Starts Tonight",
+    "length": "5:13",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Forever Starts Tonight.mp3",
+    "added": "2026-08-27",
+    "bpm": 108,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "b35b797a-35df-45ae-86ba-41099176e3fd"
   }
 ]
