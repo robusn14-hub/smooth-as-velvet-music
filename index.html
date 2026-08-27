@@ -137,8 +137,11 @@ h1 {
 .tags { margin: 14px 0 16px; display: flex; flex-wrap: wrap; gap: 8px; }
 .tag { font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(212,175,55,0.5); border-radius: 999px; padding: 3px 10px; }
 .track audio { width: 100%; margin-top: 6px; }
-.license-row { margin-top: 14px; }
-.license-row a { font-size: 12px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--gold); }
+.license-row { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.buy-btn { display: inline-block; padding: 9px 16px; border-radius: 6px; font-size: 12px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; text-decoration: none; }
+.buy-personal { background: var(--gold); color: var(--navy); }
+.buy-commercial { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+.license-questions { font-size: 11px; color: var(--muted); text-decoration: underline; width: 100%; }
 .catalog-empty { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 30px; }
 
 /* ── About band ── */
@@ -202,7 +205,7 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
       <a href="#home">Home</a>
       <a href="#bandcamp">Bandcamp</a>
       <a href="#catalog">Catalog</a>
-      <a href="radio.html">Smooth Jazz Bham Radio</a>
+      <a href='/radio'>Smooth Jazz Bham Radio</a>
       <a href="#licensing">Licensing</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -220,7 +223,7 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
       <p>Curated smooth jazz for refined spaces, thoughtful brands, and cinematic storytelling &mdash; original instrumentals crafted for hospitality, media, and brand storytelling.</p>
       <div class="actions">
         <a class="btn btn-primary"   href="#catalog">Listen to the Catalog</a>
-        <a class="btn btn-secondary" href="radio.html">Visit Smooth Jazz Bham Radio</a>
+        <a class='btn btn-secondary' href='/radio'>Visit Smooth Jazz Bham Radio</a>
       </div>
       <div class="live-player" style="margin-top:28px;">
         <label for="live-radio">&#9654; Listen Live — Smooth Jazz Bham Radio</label>
@@ -282,7 +285,7 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
         Your browser does not support the audio player.
       </audio>
       <div style="margin-top:18px;text-align:center;">
-        <a class="btn btn-primary" href="radio.html">Open the Radio Page</a>
+        <a class='btn btn-primary' href='/radio'>Open the Radio Page</a>
       </div>
     </div>
   </section>
@@ -313,7 +316,7 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
       <a href="#home">Home</a>
       <a href="#bandcamp">Bandcamp</a>
       <a href="#catalog">Catalog</a>
-      <a href="radio.html">Smooth Jazz Bham Radio</a>
+      <a href='/radio'>Smooth Jazz Bham Radio</a>
       <a href="#licensing">Licensing</a>
       <a href="mailto:licensing@smoothasvelvetmusic.com">Contact</a>
     </nav>
@@ -367,9 +370,9 @@ footer { color: var(--warm-white); background: var(--navy-deep); border-top: 3px
             + '</audio>';
     }
     html += '<div class="license-row">'
-          +   '<a href="mailto:licensing@smoothasvelvetmusic.com?subject=' + mailSub + '">'
-          +     'License or inquire about this track'
-          +   '</a>'
+          +   '<a class="buy-btn buy-personal" href="https://buy.stripe.com/test_bJe8wO2YGbr3eMy40R3ks00" target="_blank" rel="noopener">License — Personal ($15)</a>'
+          +   '<a class="buy-btn buy-commercial" href="https://buy.stripe.com/test_dRm00igPw2Ux33Q7d33ks01" target="_blank" rel="noopener">License — Commercial ($75)</a>'
+          +   '<a class="license-questions" href="mailto:licensing@smoothasvelvetmusic.com?subject=' + mailSub + '">Broadcast / brand licensing? Email us</a>'
           + '</div>';
     html += '</div>';
     return html;
