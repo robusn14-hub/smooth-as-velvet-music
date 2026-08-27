@@ -139,5 +139,80 @@
     "key": "E min",
     "artist": "rpdrl730",
     "sunoId": "94378fc8-1684-414f-9f38-3e7d15d42028"
+  },
+  {
+    "title": "Golden Hour Drive",
+    "length": "3:39",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Golden Hour Drive.mp3",
+    "added": "2026-08-27",
+    "bpm": 101,
+    "key": "C# min",
+    "artist": "rpdrl730",
+    "sunoId": "93d9057e-616a-4f7a-8324-b1060b84c50c"
+  },
+  {
+    "title": "Luxury Sunset Drive",
+    "length": "3:28",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Luxury Sunset Drive.mp3",
+    "added": "2026-08-27",
+    "bpm": 95,
+    "key": "D min",
+    "artist": "rpdrl730",
+    "sunoId": "ac349433-72a5-459c-a8b7-040115dc38ec"
+  },
+  {
+    "title": "Sunshine Fading",
+    "length": "3:27",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Sunshine Fading.mp3",
+    "added": "2026-08-27",
+    "bpm": 91,
+    "key": "C# min",
+    "artist": "rpdrl730",
+    "sunoId": "4b869934-7a9b-4512-85b5-675391771a24"
+  },
+  {
+    "title": "Sax Walk",
+    "length": "2:43",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Sax Walk.mp3",
+    "added": "2026-08-27",
+    "bpm": 92,
+    "key": "F min",
+    "artist": "rpdrl730",
+    "sunoId": "f688b041-1d14-41f1-9b89-7d9a1fd0e6d2"
+  },
+  {
+    "title": "Crosswinds",
+    "length": "3:33",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Crosswinds.mp3",
+    "added": "2026-08-27",
+    "bpm": 89,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "bee8b509-1631-47c2-bbdd-40fa81a7b952"
   }
 ]
