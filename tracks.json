@@ -1,4 +1,4 @@
-[ 
+[
   {
     "title": "Midnight Conversation",
     "length": "3:14",
@@ -19,5 +19,125 @@
     "key": "E maj",
     "artist": "rpdrl730",
     "sunoId": "04601aa7-9657-4b20-b17f-e4389d952240"
+  },
+  {
+    "title": "Midnight Drive",
+    "length": "3:36",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Midnight Drive.mp3",
+    "added": "2026-08-27",
+    "bpm": 97,
+    "key": "C# min",
+    "artist": "rpdrl730",
+    "sunoId": "62bc5e00-a407-4cc2-91ad-ed8bfe460c43"
+  },
+  {
+    "title": "Afternoon Conversation",
+    "length": "3:07",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Afternoon Conversation.mp3",
+    "added": "2026-08-27",
+    "bpm": 97,
+    "key": "A maj",
+    "artist": "rpdrl730",
+    "sunoId": "2d0e3a1f-cca2-4b4b-bf42-d877545cfd39"
+  },
+  {
+    "title": "Midnight Call and Response",
+    "length": "3:23",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Midnight Call and Response.mp3",
+    "added": "2026-08-27",
+    "bpm": 97,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "52a4cf24-a919-42e1-9ee3-2d6904bd0572"
+  },
+  {
+    "title": "Midnight Stroll",
+    "length": "0:52",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Midnight Stroll.mp3",
+    "added": "2026-08-27",
+    "bpm": 96,
+    "key": "F min",
+    "artist": "rpdrl730",
+    "sunoId": "4f6f1905-f9a2-4d99-8762-0f861536577a"
+  },
+  {
+    "title": "Metropolitan Soul",
+    "length": "3:28",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Metropolitan Soul.mp3",
+    "added": "2026-08-27",
+    "bpm": 64,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "a7eddb89-747a-4b57-b789-6faaf52786e8"
+  },
+  {
+    "title": "Love of my Life",
+    "length": "2:54",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Love of my Life.mp3",
+    "added": "2026-08-27",
+    "bpm": 78,
+    "key": "F min",
+    "artist": "rpdrl730",
+    "sunoId": "75fe2851-8435-4b7c-aea4-2380b8feeb73"
+  },
+  {
+    "title": "Just before Midnight",
+    "length": "3:59",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Just before Midnight.mp3",
+    "added": "2026-08-27",
+    "bpm": 88,
+    "key": "A# min",
+    "artist": "rpdrl730",
+    "sunoId": "cf93bbd2-ce62-47ce-a4ef-2db935b4a6df"
+  },
+  {
+    "title": "Love`s Highway",
+    "length": "3:47",
+    "mood": "Smooth jazz instrumental — description pending",
+    "tags": [
+      "smooth-jazz",
+      "instrumental"
+    ],
+    "audio": "tracks/Love`s Highway.mp3",
+    "added": "2026-08-27",
+    "bpm": 65,
+    "key": "E min",
+    "artist": "rpdrl730",
+    "sunoId": "94378fc8-1684-414f-9f38-3e7d15d42028"
   }
 ]
