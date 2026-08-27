@@ -683,7 +683,7 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     };
     if (entry.bpm && entry.bpm > 0) track.bpm = Math.round(entry.bpm);
     if (entry.keySig) track.key = entry.keySig;
-    if (entry.id3Artist) track.artist = entry.id3Artist;
+    track.artist = 'Langston Hinton';
     if (entry.sunoId) track.sunoId = entry.sunoId;
     return track;
   }
