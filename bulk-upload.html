@@ -308,7 +308,7 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       token = t;
       $tokenInput.value = '';
       setTokenUI(true);
-      showStatus('success', 'Token verified. Your batch will be published as one safe update.');
+      showStatus('success', 'Token verified. Each track uploads and saves on its own — one problem file will not stop the rest.');
     }).catch(function (err) {
       token = '';
       setTokenUI(false);
@@ -791,43 +791,9 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     return fetch(API + '/repos/' + REPO + path, options).then(function (r) {
       if (r.ok) return r.status === 204 ? {} : r.json();
       return r.json().catch(function () { return {}; }).then(function (e) {
-        throw new Error(e.message || ('GitHub error ' + r.status));
-      });
-    });
-  }
-
-  function createBlob(base64Content) {
-    return apiJson('/git/blobs', {
-      method: 'POST',
-      body: JSON.stringify({ content: base64Content, encoding: 'base64' })
-    });
-  }
-
-  function getBranchHead() {
-    return apiJson('/git/ref/heads/' + encodeURIComponent(BRANCH)).then(function (ref) {
-      return apiJson('/git/commits/' + ref.object.sha).then(function (commit) {
-        return { commitSha: ref.object.sha, treeSha: commit.tree.sha };
-      });
-    });
-  }
-
-  function publishTree(head, treeEntries, totalTracks) {
-    return apiJson('/git/trees', {
-      method: 'POST',
-      body: JSON.stringify({ base_tree: head.treeSha, tree: treeEntries })
-    }).then(function (tree) {
-      return apiJson('/git/commits', {
-        method: 'POST',
-        body: JSON.stringify({
-          message: 'Catalog: atomic bulk upload (' + totalTracks + ' tracks)',
-          tree: tree.sha,
-          parents: [head.commitSha]
-        })
-      });
-    }).then(function (commit) {
-      return apiJson('/git/refs/heads/' + encodeURIComponent(BRANCH), {
-        method: 'PATCH',
-        body: JSON.stringify({ sha: commit.sha, force: false })
+        var err = new Error(e.message || ('GitHub error ' + r.status));
+        err.status = r.status;
+        throw err;
       });
     });
   }
@@ -841,6 +807,42 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
       };
       reader.onerror = reject;
       reader.readAsDataURL(file);
+    });
+  }
+
+  // ---- THE FIX -----------------------------------------------------------
+  // The old version built every file into one giant "all or nothing" commit.
+  // If even one file in the batch had a problem, the WHOLE batch was thrown
+  // away — nothing was saved, even tracks that had already succeeded.
+  //
+  // The functions below use GitHub's Contents API to save each audio file
+  // as its OWN independent commit. If one file has a problem, only that one
+  // file fails — everything else in the batch still goes through safely.
+  // -------------------------------------------------------------------------
+
+  // Checks whether a file already exists at a path in the repo.
+  // Returns its sha if found, or null if it does not exist yet.
+  function getExistingFileSha(path) {
+    return apiJson('/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=' + BRANCH, {
+      method: 'GET',
+      cache: 'no-store'
+    }).then(function (info) {
+      return info && info.sha ? info.sha : null;
+    }).catch(function (err) {
+      if (err.status === 404) return null;
+      throw err;
+    });
+  }
+
+  // Saves ONE file as its own commit via the Contents API.
+  // Pass existingSha when overwriting a file that is already there (required
+  // by GitHub); leave it out when creating a brand new file.
+  function putFileContents(path, base64Content, commitMessage, existingSha) {
+    var body = { message: commitMessage, content: base64Content, branch: BRANCH };
+    if (existingSha) body.sha = existingSha;
+    return apiJson('/contents/' + path.split('/').map(encodeURIComponent).join('/'), {
+      method: 'PUT',
+      body: JSON.stringify(body)
     });
   }
 
@@ -889,16 +891,16 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
     renderFileList();
     hideStatus();
     setOverallProgress(0);
-    showStatus('info', 'Preparing one safe batch of ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '...');
+    showStatus('info', 'Uploading ' + files.length + ' file' + (files.length === 1 ? '' : 's') + ' one at a time. Each track saves on its own — if one has a problem, the rest still go through.');
 
-    Promise.all([fetchCatalog(), getBranchHead()]).then(function (initialState) {
-      var catalog = initialState[0].catalog;
-      var head = initialState[1];
+    fetchCatalog().then(function (initialState) {
+      var catalog = initialState.catalog;
+      var catalogSha = initialState.sha;
       var pending = files.slice();
-      var treeEntries = [];
       var added = 0;
       var skipped = 0;
-      var stopped = false;
+      var failed = 0;
+      var failedNames = [];
       $fcCatalog.textContent = ' - catalog currently: ' + catalog.length + ' tracks';
 
       function finalize() {
@@ -909,22 +911,19 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
         setTimeout(function () { setOverallProgress(0); }, 3000);
       }
 
-      function failBatch(err) {
-        if (stopped) return;
-        stopped = true;
-        setOverallProgress(0);
-        showStatus('error', 'Nothing was published. The batch stopped safely: ' + (err.message || String(err)) + '. Correct the problem and try again.');
-        finalize();
+      function shortError(err) {
+        var msg = (err && err.message) || String(err);
+        if (msg.length > 40) msg = msg.slice(0, 37) + '...';
+        return msg;
       }
 
       function next() {
-        if (stopped) return;
-        if (pending.length === 0) return commitBatch();
+        if (pending.length === 0) { afterAllFiles(); return; }
 
         var entry = pending.shift();
         var doneCount = files.length - pending.length - 1;
-        setOverallProgress(Math.round((doneCount / files.length) * 88));
-        updateFileStatus(entry, 'uploading', 'Preparing');
+        setOverallProgress(Math.round((doneCount / files.length) * 90));
+        updateFileStatus(entry, 'uploading', 'Uploading');
 
         var alreadyInCatalog = catalog.some(function (t) {
           if (!t || !t.audio) return false;
@@ -939,42 +938,95 @@ h1 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(32px,6vw,52p
           return;
         }
 
-        fileToBase64(entry.file).then(createBlob).then(function (blob) {
-          treeEntries.push({ path: 'tracks/' + entry.file.name, mode: '100644', type: 'blob', sha: blob.sha });
-          catalog.push(buildTrackEntry(entry));
-          updateFileStatus(entry, 'success', 'Ready');
-          added++;
+        var path = 'tracks/' + entry.file.name;
+
+        getExistingFileSha(path).then(function (existingSha) {
+          if (existingSha) {
+            // The audio file is already sitting in the repo (for example, a
+            // leftover from an old attempt) but was never added to the
+            // catalog list. Fix that instead of leaving it orphaned.
+            catalog.push(buildTrackEntry(entry));
+            updateFileStatus(entry, 'success', 'Already on server — catalogued');
+            added++;
+            next();
+            return;
+          }
+          return fileToBase64(entry.file).then(function (b64) {
+            return putFileContents(path, b64, 'Add track: ' + entry.file.name, null);
+          }).then(function () {
+            catalog.push(buildTrackEntry(entry));
+            updateFileStatus(entry, 'success', 'Uploaded');
+            added++;
+            next();
+          });
+        }).catch(function (err) {
+          // THE FIX IN ACTION: a problem with THIS ONE file no longer kills
+          // the whole batch. Mark just this file failed and keep going.
+          updateFileStatus(entry, 'error', shortError(err));
+          failed++;
+          failedNames.push(entry.file.name);
           next();
-        }).catch(failBatch);
+        });
       }
 
-      function commitBatch() {
+      function afterAllFiles() {
         if (added === 0) {
           setOverallProgress(100);
-          showStatus('info', 'All ' + skipped + ' selected file' + (skipped === 1 ? ' was' : 's were') + ' already in the catalog. Nothing was changed.');
+          var noneMsg;
+          if (failed > 0 && skipped > 0) {
+            noneMsg = 'Nothing new was added. ' + failed + ' failed, ' + skipped + ' already existed. No changes were made to the catalog.';
+          } else if (failed > 0) {
+            noneMsg = 'All ' + failed + ' file' + (failed === 1 ? '' : 's') + ' failed to upload: ' + failedNames.join(', ') + '. The catalog was not changed — nothing was lost, just try those files again.';
+          } else {
+            noneMsg = 'All ' + skipped + ' selected file' + (skipped === 1 ? ' was' : 's were') + ' already in the catalog. Nothing was changed.';
+          }
+          showStatus(failed > 0 && skipped === 0 ? 'error' : 'info', noneMsg);
           finalize();
           return;
         }
 
-        showStatus('info', 'Finalizing the audio files and catalog as one update...');
-        setOverallProgress(92);
-        createBlob(catalogBase64(catalog)).then(function (catalogBlob) {
-          treeEntries.push({ path: 'tracks.json', mode: '100644', type: 'blob', sha: catalogBlob.sha });
-          return publishTree(head, treeEntries, catalog.length);
-        }).then(function () {
-          setOverallProgress(100);
-          var msg = 'Bulk upload complete: ' + added + ' new track' + (added === 1 ? '' : 's') + ' added in one safe update.';
-          if (skipped) msg += ' ' + skipped + ' duplicate' + (skipped === 1 ? '' : 's') + ' skipped.';
-          msg += ' Catalog now has ' + catalog.length + ' tracks. The website will rebuild once.';
-          showStatus('success', msg);
-          $fcCatalog.textContent = ' - catalog now: ' + catalog.length + ' tracks';
-          finalize();
-        }).catch(failBatch);
+        showStatus('info', 'Saving the updated catalog list...');
+        setOverallProgress(95);
+        saveCatalog(0);
+      }
+
+      function saveCatalog(retryCount) {
+        putFileContents('tracks.json', catalogBase64(catalog), 'Catalog: add ' + added + ' track' + (added === 1 ? '' : 's'), catalogSha)
+          .then(function () {
+            setOverallProgress(100);
+            var msg = added + ' track' + (added === 1 ? '' : 's') + ' uploaded and saved to the catalog.';
+            if (skipped) msg += ' ' + skipped + ' skipped (already there).';
+            if (failed) msg += ' ' + failed + ' failed and were NOT lost — just re-select and upload them again: ' + failedNames.join(', ') + '.';
+            msg += ' Catalog now has ' + catalog.length + ' tracks. The website will rebuild shortly.';
+            showStatus(failed > 0 ? 'info' : 'success', msg);
+            $fcCatalog.textContent = ' - catalog now: ' + catalog.length + ' tracks';
+            finalize();
+          }).catch(function (err) {
+            if (retryCount < 1) {
+              // The catalog file may have changed since we started this batch.
+              // Re-fetch the latest version and try saving once more before
+              // giving up.
+              fetchCatalog().then(function (fresh) {
+                catalogSha = fresh.sha;
+                saveCatalog(retryCount + 1);
+              }).catch(function () {
+                catalogSaveFailed(err);
+              });
+            } else {
+              catalogSaveFailed(err);
+            }
+          });
+      }
+
+      function catalogSaveFailed(err) {
+        setOverallProgress(100);
+        showStatus('error', added + ' track' + (added === 1 ? '' : 's') + ' uploaded successfully, but saving the catalog list failed: ' + (err.message || String(err)) + '. Your audio files are safe on the server — just click Upload All again and they will be picked up into the catalog.');
+        finalize();
       }
 
       next();
     }).catch(function (err) {
-      showStatus('error', 'Could not begin the safe batch: ' + err.message + '. Check your token permissions and try again.');
+      showStatus('error', 'Could not start the upload: ' + err.message + '. Check your token permissions and try again.');
       uploading = false;
       $uploadAllBtn.disabled = false;
       $clearBtn.disabled = false;
